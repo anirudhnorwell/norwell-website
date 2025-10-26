@@ -32,42 +32,42 @@
         <h3>Premium Combo Sets</h3>
         <div class="image-gallery">
           <div class="image-item">
-            <img src="images/Combo/Main.jpg" alt="Main Combo Set" />
+            <img src="images/Combo/Main.jpg" alt="Main Combo Set" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Premium Combo</h4>
               <p>Complete steel product solution</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/Combo/Combo-Classic.jpg" alt="Classic Combo" />
+            <img src="images/Combo/Combo-Classic.jpg" alt="Classic Combo" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Classic Combo</h4>
               <p>Timeless design combination</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/Combo/Combo-Curvy.jpg" alt="Curvy Combo" />
+            <img src="images/Combo/Combo-Curvy.jpg" alt="Curvy Combo" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Curvy Combo</h4>
               <p>Ergonomic design set</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/Combo/Combo-Flora.jpg" alt="Flora Combo" />
+            <img src="images/Combo/Combo-Flora.jpg" alt="Flora Combo" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Flora Combo</h4>
               <p>Nature-inspired collection</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/Combo/Combo-Sports.jpg" alt="Sports Combo" />
+            <img src="images/Combo/Combo-Sports.jpg" alt="Sports Combo" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Sports Combo</h4>
               <p>Athletic performance set</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/Combo/Length.jpg" alt="Combo Dimensions" />
+            <img src="images/Combo/Length.jpg" alt="Combo Dimensions" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Size Specifications</h4>
               <p>Detailed measurements & dimensions</p>
@@ -143,6 +143,12 @@
       <p>&copy; 2025 Norwell. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Image Enlargement Modal -->
+  <div id="imageModal" class="image-modal">
+    <span class="image-close" onclick="closeImageModal()">&times;</span>
+    <img class="modal-image" id="modalImage">
+  </div>
 
   <script src="script.js"></script>
 </body>

@@ -50,6 +50,27 @@ function hideSubcategoryDetails() {
     }
 }
 
+// Image enlargement functions
+function enlargeImage(img) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    
+    if (modal && modalImg) {
+        modal.style.display = 'block';
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+}
+
 // Quote form handling
 function handleQuoteForm() {
     const form = document.getElementById('quoteForm');
@@ -80,8 +101,14 @@ function handleQuoteForm() {
 // Close modal when clicking outside of it
 window.onclick = function(event) {
     const modal = document.getElementById('queryModal');
+    const imageModal = document.getElementById('imageModal');
+    
     if (event.target === modal) {
         closeQuery();
+    }
+    
+    if (event.target === imageModal) {
+        closeImageModal();
     }
 }
 
@@ -90,6 +117,7 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeQuery();
         hideSubcategoryDetails();
+        closeImageModal();
     }
 });
 

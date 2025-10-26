@@ -34,28 +34,28 @@
         <h3>Premium Lunch Boxes</h3>
         <div class="image-gallery">
           <div class="image-item">
-            <img src="images/LunchBox/Main.jpg" alt="Main Lunch Box" />
+            <img src="images/LunchBox/Main.jpg" alt="Main Lunch Box" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Premium Design</h4>
               <p>Elegant stainless steel lunch box</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/LunchBox/Features.jpg" alt="Lunch Box Features" />
+            <img src="images/LunchBox/Features.jpg" alt="Lunch Box Features" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Features</h4>
               <p>Advanced functionality & design</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/LunchBox/Open.jpg" alt="Lunch Box Open View" />
+            <img src="images/LunchBox/Open.jpg" alt="Lunch Box Open View" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Interior Design</h4>
               <p>Spacious compartments & layout</p>
             </div>
           </div>
           <div class="image-item">
-            <img src="images/LunchBox/Length.jpg" alt="Lunch Box Dimensions" />
+            <img src="images/LunchBox/Length.jpg" alt="Lunch Box Dimensions" onclick="enlargeImage(this)" />
             <div class="image-info">
               <h4>Dimensions</h4>
               <p>Perfect size specifications</p>
@@ -140,6 +140,12 @@
       <p>&copy; 2025 Norwell. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Image Enlargement Modal -->
+  <div id="imageModal" class="image-modal">
+    <span class="image-close" onclick="closeImageModal()">&times;</span>
+    <img class="modal-image" id="modalImage">
+  </div>
 
   <script src="script.js"></script>
 </body>
