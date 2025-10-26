@@ -27,155 +27,211 @@
       <p>Premium stainless steel bottles for every lifestyle and need</p>
     </section>
 
-    <section class="subcategories">
-      
-      <!-- Classic Bottles -->
-      <div class="subcategory">
+    <section class="subcategory-selection">
+      <h3>Choose a Collection</h3>
+      <div class="subcategory-grid">
+        
+        <div class="subcategory-card" onclick="showSubcategoryDetails('classic')">
+          <div class="subcategory-image">
+            <img src="images/Bottles/Classic/Main.jpg" alt="Classic Bottles" />
+          </div>
+          <div class="subcategory-info">
+            <h4>Classic Collection</h4>
+            <p>Timeless steel bottle design</p>
+            <span class="view-btn">View Collection →</span>
+          </div>
+        </div>
+
+        <div class="subcategory-card" onclick="showSubcategoryDetails('curvy')">
+          <div class="subcategory-image">
+            <img src="images/Bottles/Curvy/Main.jpg" alt="Curvy Bottles" />
+          </div>
+          <div class="subcategory-info">
+            <h4>Curvy Collection</h4>
+            <p>Ergonomic curved steel bottle</p>
+            <span class="view-btn">View Collection →</span>
+          </div>
+        </div>
+
+        <div class="subcategory-card" onclick="showSubcategoryDetails('flora')">
+          <div class="subcategory-image">
+            <img src="images/Bottles/Flora/Main.jpg" alt="Flora Bottles" />
+          </div>
+          <div class="subcategory-info">
+            <h4>Flora Collection</h4>
+            <p>Nature-inspired bottle design</p>
+            <span class="view-btn">View Collection →</span>
+          </div>
+        </div>
+
+        <div class="subcategory-card" onclick="showSubcategoryDetails('sports')">
+          <div class="subcategory-image">
+            <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottles" />
+          </div>
+          <div class="subcategory-info">
+            <h4>Sports Collection</h4>
+            <p>Athletic performance bottle</p>
+            <span class="view-btn">View Collection →</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Hidden sections for each subcategory -->
+    <section id="classic-details" class="subcategory-details" style="display: none;">
+      <div class="details-header">
         <h3>Classic Collection</h3>
-        <div class="image-gallery">
-          <div class="image-item">
-            <img src="images/Bottles/Classic/Main.jpg" alt="Classic Bottle Main" />
-            <div class="image-info">
-              <h4>Classic Design</h4>
-              <p>Timeless steel bottle design</p>
-            </div>
+        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
+      </div>
+      <div class="image-gallery">
+        <div class="image-item">
+          <img src="images/Bottles/Classic/Main.jpg" alt="Classic Bottle Main" />
+          <div class="image-info">
+            <h4>Classic Design</h4>
+            <p>Timeless steel bottle design</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Classic/Features.jpg" alt="Classic Bottle Features" />
-            <div class="image-info">
-              <h4>Features</h4>
-              <p>Advanced bottle features</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Classic/Features.jpg" alt="Classic Bottle Features" />
+          <div class="image-info">
+            <h4>Features</h4>
+            <p>Advanced bottle features</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Classic/Hot Cold.jpg" alt="Classic Bottle Temperature" />
-            <div class="image-info">
-              <h4>Temperature Control</h4>
-              <p>Keeps hot & cold beverages</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Classic/Hot Cold.jpg" alt="Classic Bottle Temperature" />
+          <div class="image-info">
+            <h4>Temperature Control</h4>
+            <p>Keeps hot & cold beverages</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Classic/Length.jpg" alt="Classic Bottle Dimensions" />
-            <div class="image-info">
-              <h4>Dimensions</h4>
-              <p>Perfect size specifications</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Classic/Length.jpg" alt="Classic Bottle Dimensions" />
+          <div class="image-info">
+            <h4>Dimensions</h4>
+            <p>Perfect size specifications</p>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Curvy Bottles -->
-      <div class="subcategory">
+    <section id="curvy-details" class="subcategory-details" style="display: none;">
+      <div class="details-header">
         <h3>Curvy Collection</h3>
-        <div class="image-gallery">
-          <div class="image-item">
-            <img src="images/Bottles/Curvy/Main.jpg" alt="Curvy Bottle Main" />
-            <div class="image-info">
-              <h4>Curvy Design</h4>
-              <p>Ergonomic curved steel bottle</p>
-            </div>
+        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
+      </div>
+      <div class="image-gallery">
+        <div class="image-item">
+          <img src="images/Bottles/Curvy/Main.jpg" alt="Curvy Bottle Main" />
+          <div class="image-info">
+            <h4>Curvy Design</h4>
+            <p>Ergonomic curved steel bottle</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Curvy/Features.jpg" alt="Curvy Bottle Features" />
-            <div class="image-info">
-              <h4>Features</h4>
-              <p>Enhanced grip & functionality</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Curvy/Features.jpg" alt="Curvy Bottle Features" />
+          <div class="image-info">
+            <h4>Features</h4>
+            <p>Enhanced grip & functionality</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Curvy/Hot Cold.jpg" alt="Curvy Bottle Temperature" />
-            <div class="image-info">
-              <h4>Temperature Control</h4>
-              <p>Superior insulation technology</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Curvy/Hot Cold.jpg" alt="Curvy Bottle Temperature" />
+          <div class="image-info">
+            <h4>Temperature Control</h4>
+            <p>Superior insulation technology</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Curvy/Length.jpg" alt="Curvy Bottle Dimensions" />
-            <div class="image-info">
-              <h4>Dimensions</h4>
-              <p>Optimized proportions</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Curvy/Length.jpg" alt="Curvy Bottle Dimensions" />
+          <div class="image-info">
+            <h4>Dimensions</h4>
+            <p>Optimized proportions</p>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Flora Bottles -->
-      <div class="subcategory">
+    <section id="flora-details" class="subcategory-details" style="display: none;">
+      <div class="details-header">
         <h3>Flora Collection</h3>
-        <div class="image-gallery">
-          <div class="image-item">
-            <img src="images/Bottles/Flora/Main.jpg" alt="Flora Bottle Main" />
-            <div class="image-info">
-              <h4>Flora Design</h4>
-              <p>Nature-inspired bottle design</p>
-            </div>
+        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
+      </div>
+      <div class="image-gallery">
+        <div class="image-item">
+          <img src="images/Bottles/Flora/Main.jpg" alt="Flora Bottle Main" />
+          <div class="image-info">
+            <h4>Flora Design</h4>
+            <p>Nature-inspired bottle design</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Flora/Features.jpg" alt="Flora Bottle Features" />
-            <div class="image-info">
-              <h4>Features</h4>
-              <p>Artistic & functional design</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Flora/Features.jpg" alt="Flora Bottle Features" />
+          <div class="image-info">
+            <h4>Features</h4>
+            <p>Artistic & functional design</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Flora/Hot Cold.jpg" alt="Flora Bottle Temperature" />
-            <div class="image-info">
-              <h4>Temperature Control</h4>
-              <p>Maintains drink temperature</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Flora/Hot Cold.jpg" alt="Flora Bottle Temperature" />
+          <div class="image-info">
+            <h4>Temperature Control</h4>
+            <p>Maintains drink temperature</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Flora/Length.jpg" alt="Flora Bottle Dimensions" />
-            <div class="image-info">
-              <h4>Dimensions</h4>
-              <p>Elegant proportions</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Flora/Length.jpg" alt="Flora Bottle Dimensions" />
+          <div class="image-info">
+            <h4>Dimensions</h4>
+            <p>Elegant proportions</p>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Sports Bottles -->
-      <div class="subcategory">
+    <section id="sports-details" class="subcategory-details" style="display: none;">
+      <div class="details-header">
         <h3>Sports Collection</h3>
-        <div class="image-gallery">
-          <div class="image-item">
-            <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottle Main" />
-            <div class="image-info">
-              <h4>Sports Design</h4>
-              <p>Athletic performance bottle</p>
-            </div>
+        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
+      </div>
+      <div class="image-gallery">
+        <div class="image-item">
+          <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottle Main" />
+          <div class="image-info">
+            <h4>Sports Design</h4>
+            <p>Athletic performance bottle</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Sports/Features.jpg" alt="Sports Bottle Features" />
-            <div class="image-info">
-              <h4>Features</h4>
-              <p>Sport-specific functionality</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Sports/Features.jpg" alt="Sports Bottle Features" />
+          <div class="image-info">
+            <h4>Features</h4>
+            <p>Sport-specific functionality</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Sports/Hot Cold.jpg" alt="Sports Bottle Temperature" />
-            <div class="image-info">
-              <h4>Temperature Control</h4>
-              <p>Performance hydration</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Sports/Hot Cold.jpg" alt="Sports Bottle Temperature" />
+          <div class="image-info">
+            <h4>Temperature Control</h4>
+            <p>Performance hydration</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Sports/Length.jpg" alt="Sports Bottle Dimensions" />
-            <div class="image-info">
-              <h4>Dimensions</h4>
-              <p>Athletic sizing</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Sports/Length.jpg" alt="Sports Bottle Dimensions" />
+          <div class="image-info">
+            <h4>Dimensions</h4>
+            <p>Athletic sizing</p>
           </div>
-          <div class="image-item">
-            <img src="images/Bottles/Sports/Combo.jpg" alt="Sports Bottle Combo" />
-            <div class="image-info">
-              <h4>Combo Pack</h4>
-              <p>Complete sports solution</p>
-            </div>
+        </div>
+        <div class="image-item">
+          <img src="images/Bottles/Sports/Combo.jpg" alt="Sports Bottle Combo" />
+          <div class="image-info">
+            <h4>Combo Pack</h4>
+            <p>Complete sports solution</p>
           </div>
         </div>
       </div>
-
     </section>
   </main>
 
@@ -189,7 +245,7 @@
         <a href="https://wa.me/919999999999?text=Hi, I'm interested in your bottle collection" class="contact-btn whatsapp" target="_blank">
           WhatsApp
         </a>
-        <a href="mailto:info@norwell.co.in?subject=Inquiry about Bottles" class="contact-btn email">
+        <a href="mailto:support@norwell.com?subject=Inquiry about Bottles" class="contact-btn email">
           Email Us
         </a>
         <a href="tel:+919999999999" class="contact-btn phone">
@@ -208,7 +264,7 @@
       <div class="footer-section">
         <h4>Contact</h4>
         <p>WhatsApp: +91 99999 99999</p>
-        <p>Email: info@norwell.co.in</p>
+        <p>Email: support@norwell.com</p>
       </div>
       <div class="footer-section">
         <h4>Categories</h4>

@@ -17,6 +17,66 @@ function closeQuery() {
     }
 }
 
+// Subcategory navigation functions
+function showSubcategoryDetails(categoryId) {
+    // Hide the selection grid
+    const selectionSection = document.querySelector('.subcategory-selection');
+    if (selectionSection) {
+        selectionSection.style.display = 'none';
+    }
+    
+    // Show the specific category details
+    const detailsSection = document.getElementById(categoryId + '-details');
+    if (detailsSection) {
+        detailsSection.style.display = 'block';
+        // Smooth scroll to the details section
+        detailsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function hideSubcategoryDetails() {
+    // Hide all detail sections
+    const detailSections = document.querySelectorAll('.subcategory-details');
+    detailSections.forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Show the selection grid
+    const selectionSection = document.querySelector('.subcategory-selection');
+    if (selectionSection) {
+        selectionSection.style.display = 'block';
+        // Smooth scroll to the selection section
+        selectionSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Quote form handling
+function handleQuoteForm() {
+    const form = document.getElementById('quoteForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Create WhatsApp message
+            const message = `Hello Norwell,\n\nI'm interested in getting a quote for your products.\n\nContact Details:\nName: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nCompany: ${data.company || 'N/A'}\n\nProduct Interest: ${data.productInterest}\nQuantity: ${data.quantity || 'Not specified'}\n\nMessage: ${data.message || 'No additional message'}\n\nPlease provide me with a detailed quote.\n\nThank you!`;
+            
+            // Open WhatsApp with pre-filled message
+            const whatsappUrl = `https://wa.me/919999999999?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Close modal
+            closeQuery();
+            
+            // Show success message
+            alert('Thank you! Your quote request has been prepared. You will now be redirected to WhatsApp to send the message.');
+        });
+    }
+}
+
 // Close modal when clicking outside of it
 window.onclick = function(event) {
     const modal = document.getElementById('queryModal');
@@ -29,6 +89,7 @@ window.onclick = function(event) {
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeQuery();
+        hideSubcategoryDetails();
     }
 });
 
@@ -100,17 +161,21 @@ function initializeLazyLoading() {
 
 // Add loading state to images
 function addImageLoadingStates() {
-    const images = document.querySelectorAll('.image-item img');
+    const images = document.querySelectorAll('.image-item img, .subcategory-image img, .category-image img');
     
     images.forEach(img => {
         img.addEventListener('load', function() {
             this.style.opacity = '1';
+            this.classList.add('loaded');
         });
         
         img.addEventListener('error', function() {
             this.style.opacity = '0.5';
             this.alt = 'Image not available';
         });
+        
+        // Set initial opacity to 0
+        img.style.opacity = '0';
     });
 }
 
@@ -127,7 +192,7 @@ function initializeScrollAnimations() {
     });
 
     const animatedElements = document.querySelectorAll(
-        '.category-card, .feature, .subcategory'
+        '.category-card, .subcategory-card, .feature, .subcategory'
     );
     
     animatedElements.forEach(el => {
@@ -147,23 +212,9 @@ function initializeMobileNav() {
     }
 }
 
-// Search functionality (if needed in future)
-function initializeSearch() {
-    const searchInput = document.querySelector('.search-input');
-    const searchResults = document.querySelector('.search-results');
-    
-    if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            // Implement search logic here
-            console.log('Searching for:', query);
-        });
-    }
-}
-
 // Category card hover effects
 function initializeCategoryEffects() {
-    const categoryCards = document.querySelectorAll('.category-card');
+    const categoryCards = document.querySelectorAll('.category-card, .subcategory-card');
     
     categoryCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
@@ -176,45 +227,6 @@ function initializeCategoryEffects() {
     });
 }
 
-// Image gallery navigation arrows (optional enhancement)
-function addGalleryNavigation() {
-    const galleries = document.querySelectorAll('.image-gallery');
-    
-    galleries.forEach(gallery => {
-        const subcategory = gallery.closest('.subcategory');
-        
-        // Create navigation buttons
-        const prevBtn = document.createElement('button');
-        prevBtn.innerHTML = '‹';
-        prevBtn.className = 'gallery-nav prev';
-        
-        const nextBtn = document.createElement('button');
-        nextBtn.innerHTML = '›';
-        nextBtn.className = 'gallery-nav next';
-        
-        // Add event listeners
-        prevBtn.addEventListener('click', () => {
-            gallery.scrollBy({ left: -300, behavior: 'smooth' });
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            gallery.scrollBy({ left: 300, behavior: 'smooth' });
-        });
-        
-        // Insert navigation buttons
-        subcategory.style.position = 'relative';
-        subcategory.appendChild(prevBtn);
-        subcategory.appendChild(nextBtn);
-        
-        // Show/hide buttons based on scroll position
-        gallery.addEventListener('scroll', () => {
-            prevBtn.style.opacity = gallery.scrollLeft > 0 ? '1' : '0.3';
-            nextBtn.style.opacity = 
-                gallery.scrollLeft < gallery.scrollWidth - gallery.clientWidth ? '1' : '0.3';
-        });
-    });
-}
-
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeImageGalleries();
@@ -222,11 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
     addImageLoadingStates();
     initializeScrollAnimations();
     initializeMobileNav();
-    initializeSearch();
     initializeCategoryEffects();
-    
-    // Optional: Add gallery navigation arrows
-    // addGalleryNavigation();
+    handleQuoteForm();
     
     console.log('Norwell website initialized successfully!');
 });
@@ -234,10 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // Handle page visibility changes
 document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
-        // Page is hidden
         console.log('Page hidden');
     } else {
-        // Page is visible
         console.log('Page visible');
     }
 });
@@ -245,12 +252,10 @@ document.addEventListener('visibilitychange', function() {
 // Handle online/offline status
 window.addEventListener('online', function() {
     console.log('Connection restored');
-    // You could show a message to user about restored connection
 });
 
 window.addEventListener('offline', function() {
     console.log('Connection lost');
-    // You could show a message to user about lost connection
 });
 
 // Performance monitoring
