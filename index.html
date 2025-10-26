@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Norwell - Premium Steel Products</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1>Norwell</h1>
+      <p class="tagline">Premium Steel Products</p>
+      <button class="query-btn" onclick="openQuery()">Get Quote</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Our Product Categories</h2>
+      <p>Discover our range of premium steel products designed for your everyday needs</p>
+    </section>
+
+    <section class="categories">
+      <div class="category-grid">
+        
+        <div class="category-card" onclick="window.location.href='bottles.html'">
+          <div class="category-image">
+            <img src="images/Bottles/Classic/Main.jpg" alt="Steel Bottles" />
+          </div>
+          <div class="category-info">
+            <h3>Bottles</h3>
+            <p>Classic • Curvy • Flora • Sports</p>
+            <span class="explore-btn">Explore →</span>
+          </div>
+        </div>
+
+        <div class="category-card" onclick="window.location.href='dustbin.html'">
+          <div class="category-image">
+            <img src="images/Dustbin/Closed Pedal/Main.jpg" alt="Steel Dustbins" />
+          </div>
+          <div class="category-info">
+            <h3>Dustbins</h3>
+            <p>Closed Pedal • Perforated • Swing</p>
+            <span class="explore-btn">Explore →</span>
+          </div>
+        </div>
+
+        <div class="category-card" onclick="window.location.href='combo.html'">
+          <div class="category-image">
+            <img src="images/Combo/Main.jpg" alt="Combo Products" />
+          </div>
+          <div class="category-info">
+            <h3>Combo Sets</h3>
+            <p>Value packs & special combinations</p>
+            <span class="explore-btn">Explore →</span>
+          </div>
+        </div>
+
+        <div class="category-card" onclick="window.location.href='lunchbox.html'">
+          <div class="category-image">
+            <img src="images/LunchBox/Main.jpg" alt="Lunch Boxes" />
+          </div>
+          <div class="category-info">
+            <h3>Lunch Boxes</h3>
+            <p>Premium tiffin boxes & containers</p>
+            <span class="explore-btn">Explore →</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>Why Choose Norwell?</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <h4>Premium Quality</h4>
+          <p>High-grade stainless steel construction</p>
+        </div>
+        <div class="feature">
+          <h4>Leak Proof</h4>
+          <p>Advanced sealing technology</p>
+        </div>
+        <div class="feature">
+          <h4>Eco Friendly</h4>
+          <p>Sustainable and reusable products</p>
+        </div>
+        <div class="feature">
+          <h4>Durable</h4>
+          <p>Built to last for years</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Query Modal -->
+  <div id="queryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeQuery()">&times;</span>
+      <h3>Get a Quote</h3>
+      <p>Contact us for bulk orders, custom requirements, or general inquiries</p>
+      <div class="contact-options">
+        <a href="https://wa.me/919999999999" class="contact-btn whatsapp" target="_blank">
+          WhatsApp
+        </a>
+        <a href="mailto:info@norwell.co.in" class="contact-btn email">
+          Email Us
+        </a>
+        <a href="tel:+919999999999" class="contact-btn phone">
+          Call Now
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Norwell</h4>
+        <p>Premium steel products for your lifestyle</p>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>WhatsApp: +91 99999 99999</p>
+        <p>Email: info@norwell.co.in</p>
+      </div>
+      <div class="footer-section">
+        <h4>Categories</h4>
+        <a href="bottles.html">Bottles</a>
+        <a href="dustbin.html">Dustbins</a>
+        <a href="combo.html">Combos</a>
+        <a href="lunchbox.html">Lunch Boxes</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Norwell. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
