@@ -5,13 +5,18 @@ let slideIndex = 1;
 let slideTimer;
 
 // Initialize slideshow when page loads
+window.addEventListener('load', function() {
+    // Wait a bit for DOM to be fully ready
+    setTimeout(function() {
+        showSlides(slideIndex);
+        // Auto-advance slides every 4 seconds
+        slideTimer = setInterval(function() {
+            changeSlide(1);
+        }, 4000);
+    }, 100);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
-    showSlides(slideIndex);
-    // Auto-advance slides every 4 seconds
-    slideTimer = setInterval(function() {
-        changeSlide(1);
-    }, 4000);
-    
     // Initialize navigation
     initNavigation();
 });
@@ -41,7 +46,13 @@ function showSlides(n) {
     let slides = document.getElementsByClassName("slide");
     let dots = document.getElementsByClassName("dot");
     
-    if (!slides.length) return;
+    if (!slides || slides.length === 0) {
+        console.log("No slides found, retrying...");
+        setTimeout(function() {
+            showSlides(n);
+        }, 100);
+        return;
+    }
     
     if (n > slides.length) {slideIndex = 1}
     if (n < 1) {slideIndex = slides.length}
@@ -53,14 +64,19 @@ function showSlides(n) {
     }
     
     // Remove active class from all dots
-    for (let i = 0; i < dots.length; i++) {
-        dots[i].classList.remove("active");
+    if (dots) {
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.remove("active");
+        }
     }
     
     // Show current slide
-    slides[slideIndex-1].style.display = "flex";
-    slides[slideIndex-1].classList.add("active");
-    if (dots[slideIndex-1]) {
+    if (slides[slideIndex-1]) {
+        slides[slideIndex-1].style.display = "flex";
+        slides[slideIndex-1].classList.add("active");
+    }
+    
+    if (dots && dots[slideIndex-1]) {
         dots[slideIndex-1].classList.add("active");
     }
 }
