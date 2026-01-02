@@ -77,7 +77,7 @@ body {
 }
 
 .nav-item.dropdown:hover .dropdown-menu {
-  /* Removed hover-based display */
+  display: block;
 }
 
 .nav-item.dropdown.active .dropdown-menu {
@@ -594,7 +594,7 @@ section {
 .product-circle {
   width: 280px;
   height: 280px;
-  border-radius: 50%;
+  border-radius: 20px;
   background: linear-gradient(45deg, #C5E040, #a8c130);
   display: flex;
   align-items: center;
