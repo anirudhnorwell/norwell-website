@@ -1382,44 +1382,27 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 20px 0;
+  }
+  
   .navbar-container {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+    gap: 20px;
+    padding: 0 15px;
   }
   
   .main-logo {
-    height: 60px;
-  }
-  
-  .hero-title {
-    font-size: 2rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1rem;
-    padding: 0 10px;
-  }
-  
-  .hero-section {
-    padding: 50px 20px;
-  }
-  
-  .nav-right {
-    order: 3;
-    width: 100%;
-    justify-content: center;
+    height: 80px;
   }
   
   .nav-menu {
-    gap: 15px;
+    gap: 20px;
     flex-wrap: wrap;
-    justify-content: center;
   }
   
   .nav-link {
-    font-size: 0.95rem;
-    padding: 6px 12px;
+    font-size: 1rem;
+    padding: 8px 14px;
   }
   
   .dropdown-menu {
@@ -1430,35 +1413,27 @@ footer {
   }
   
   .slideshow-container {
-    height: 350px;
-    width: 95%;
+    height: calc(100vh - 140px);
+    width: 100%;
   }
   
   .slide img {
-    max-height: 350px;
+    max-height: calc(100vh - 140px);
   }
   
-  .prev, .next {
-    padding: 12px 16px;
-    font-size: 18px;
-    margin-top: -25px;
+  .about-title {
+    font-size: 2.5rem;
   }
   
-  .prev {
-    left: 10px;
+  .circles-container {
+    flex-direction: column;
+    gap: 20px;
   }
   
-  .next {
-    right: 10px;
-  }
-  
-  .dot {
-    height: 12px;
-    width: 12px;
-  }
-  
-  .slideshow-dots {
-    bottom: 5px;
+  .stat-circle {
+    margin: 0;
+    width: 250px;
+    height: 250px;
   }
   
   .home-image-container.fullscreen {
@@ -1512,25 +1487,27 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .logo h1 {
-    font-size: 1.5rem;
+  .navbar {
+    padding: 15px 0;
   }
   
-  .logo .tagline {
-    font-size: 0.65rem;
+  .navbar-container {
+    gap: 15px;
+    padding: 0 10px;
   }
   
-  .company-logo {
-    height: 35px;
+  .main-logo {
+    height: 60px;
   }
   
   .nav-menu {
     gap: 10px;
+    font-size: 0.9rem;
   }
   
   .nav-link {
     font-size: 0.85rem;
-    padding: 5px 10px;
+    padding: 6px 10px;
   }
   
   .dropdown-menu {
@@ -1539,35 +1516,39 @@ footer {
   
   .query-btn {
     padding: 8px 16px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
   
   .slideshow-container {
-    height: 60vh;
+    height: calc(100vh - 120px);
+    width: 100%;
   }
   
   .slide img {
-    max-height: 60vh;
-  }
-  
-  .prev, .next {
-    padding: 10px 12px;
-    font-size: 16px;
-    margin-top: -20px;
-  }
-  
-  .prev {
-    left: 5px;
-  }
-  
-  .next {
-    right: 5px;
+    max-height: calc(100vh - 120px);
   }
   
   .dot {
     height: 10px;
     width: 10px;
     margin: 0 3px;
+  }
+  
+  .about-title {
+    font-size: 1.8rem;
+  }
+  
+  .stat-circle {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .circle-content h3 {
+    font-size: 2rem;
+  }
+  
+  .circle-content p {
+    font-size: 0.95rem;
   }
   
   .image-overlay {
