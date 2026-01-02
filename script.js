@@ -1,5 +1,35 @@
 // script.js - Interactive functionality for Norwell website
 
+// Toggle dropdown on click
+function toggleDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropdown = event.target.closest('.dropdown');
+    dropdown.classList.toggle('active');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+// Scroll gallery function
+function scrollGallery(galleryId, direction) {
+    const gallery = document.getElementById(galleryId + '-gallery');
+    if (gallery) {
+        const scrollAmount = 300;
+        gallery.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+}
+
 // Scroll to Products Section
 function scrollToProducts() {
     const productsSection = document.getElementById('products');
