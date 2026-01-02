@@ -1441,26 +1441,29 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
-    padding: 20px 0;
+    padding: 15px 0;
   }
   
   .navbar-container {
-    gap: 20px;
-    padding: 0 15px;
+    gap: 15px;
+    padding: 0 10px;
+    flex-wrap: nowrap;
   }
   
   .main-logo {
-    height: 80px;
+    height: 60px;
   }
   
   .nav-menu {
-    gap: 20px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
   }
   
   .nav-link {
-    font-size: 1rem;
-    padding: 8px 14px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    white-space: nowrap;
   }
   
   .dropdown-menu {
@@ -1546,26 +1549,29 @@ footer {
 
 @media (max-width: 480px) {
   .navbar {
-    padding: 15px 0;
+    padding: 12px 0;
   }
   
   .navbar-container {
-    gap: 15px;
-    padding: 0 10px;
+    gap: 8px;
+    padding: 0 8px;
   }
   
   .main-logo {
-    height: 60px;
+    height: 50px;
   }
   
   .nav-menu {
-    gap: 10px;
+    gap: 5px;
     font-size: 0.9rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
   }
   
   .nav-link {
-    font-size: 0.85rem;
-    padding: 6px 10px;
+    font-size: 0.75rem;
+    padding: 5px 8px;
+    white-space: nowrap;
   }
   
   .dropdown-menu {
