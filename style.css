@@ -288,27 +288,33 @@ section {
 /* About Section */
 .about-section {
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  padding: 0;
+  min-height: 100vh;
+  display: block;
 }
 
-.about-section p {
-  text-align: center;
-  font-size: 1.1rem;
-  max-width: 800px;
-  margin: 0 auto 40px;
-  line-height: 1.8;
-}
-
-.about-image-container {
-  max-width: 900px;
-  margin: 0 auto;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 40px rgba(197, 224, 64, 0.2);
-}
-
-.about-image {
+.about-image-wrapper {
+  display: block;
   width: 100%;
-  height: auto;
+}
+
+.about-section .about-image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.about-section .about-image-container.fullscreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-section .about-image {
+  width: 100%;
+  height: 100%;
   display: block;
   object-fit: contain;
 }
@@ -797,22 +803,26 @@ section {
 }
 
 .submit-btn {
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  color: #C5E040;
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  color: #000;
   border: none;
   padding: 15px 30px;
-  border-radius: 25px;
-  font-weight: 600;
+  border-radius: 30px;
+  font-weight: 700;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
   margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(197, 224, 64, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  background: linear-gradient(45deg, #d4f050, #C5E040);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(197, 224, 64, 0.5);
 }
 
 .contact-divider {
