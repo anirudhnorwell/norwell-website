@@ -19,6 +19,9 @@ window.addEventListener('load', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize navigation
     initNavigation();
+    
+    // Initialize FAQ toggle functionality
+    initFAQ();
 });
 
 // Change slide by n
@@ -171,6 +174,18 @@ function initNavigation() {
             if (link.getAttribute('href') === '#' + current) {
                 link.classList.add('active');
             }
+        });
+    });
+}
+
+// FAQ toggle functionality
+function initFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Toggle active class
+            this.classList.toggle('active');
         });
     });
 }

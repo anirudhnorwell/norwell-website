@@ -111,12 +111,14 @@ body {
   color: #C5E040;
   text-decoration: none;
   transition: all 0.3s ease;
-  border-radius: 0;
+  border-radius: 5px;
 }
 
 .dropdown-menu a:hover {
-  background: rgba(197, 224, 64, 0.2);
-  padding-left: 25px;
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  color: #000;
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(197, 224, 64, 0.4);
 }
 
 .nav-link {
@@ -652,6 +654,7 @@ section {
   margin-bottom: 20px;
   border: 2px solid rgba(197, 224, 64, 0.1);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .faq-item:hover {
@@ -660,15 +663,55 @@ section {
   transform: translateX(5px);
 }
 
+.faq-item.active {
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(197, 224, 64, 0.5);
+}
+
+.faq-item.active h4 {
+  color: #000;
+}
+
+.faq-item.active p {
+  color: #000;
+}
+
 .faq-item h4 {
   font-size: 1.2rem;
   margin-bottom: 10px;
   color: #C5E040;
+  cursor: pointer;
+  position: relative;
+  padding-right: 30px;
+}
+
+.faq-item h4:after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active h4:after {
+  content: '−';
+  transform: rotate(180deg);
 }
 
 .faq-item p {
   opacity: 0.9;
   line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  margin: 0;
+}
+
+.faq-item.active p {
+  max-height: 500px;
+  margin-top: 10px;
+  opacity: 1;
 }
 
 /* Bottle/Dustbin Collection Sections */
