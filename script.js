@@ -1,5 +1,70 @@
 // script.js - Interactive functionality for Norwell website
 
+// Slideshow functionality
+let slideIndex = 1;
+let slideTimer;
+
+// Initialize slideshow when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    showSlides(slideIndex);
+    // Auto-advance slides every 4 seconds
+    slideTimer = setInterval(function() {
+        changeSlide(1);
+    }, 4000);
+    
+    // Initialize navigation
+    initNavigation();
+});
+
+// Change slide by n
+function changeSlide(n) {
+    clearInterval(slideTimer);
+    showSlides(slideIndex += n);
+    // Restart auto-advance
+    slideTimer = setInterval(function() {
+        changeSlide(1);
+    }, 4000);
+}
+
+// Show specific slide
+function currentSlide(n) {
+    clearInterval(slideTimer);
+    showSlides(slideIndex = n);
+    // Restart auto-advance
+    slideTimer = setInterval(function() {
+        changeSlide(1);
+    }, 4000);
+}
+
+// Display slides
+function showSlides(n) {
+    let slides = document.getElementsByClassName("slide");
+    let dots = document.getElementsByClassName("dot");
+    
+    if (!slides.length) return;
+    
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    
+    // Hide all slides
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("active");
+        slides[i].style.display = "none";
+    }
+    
+    // Remove active class from all dots
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+    }
+    
+    // Show current slide
+    slides[slideIndex-1].style.display = "flex";
+    slides[slideIndex-1].classList.add("active");
+    if (dots[slideIndex-1]) {
+        dots[slideIndex-1].classList.add("active");
+    }
+}
+
 // Toggle dropdown on click
 function toggleDropdown(event) {
     event.preventDefault();
@@ -42,7 +107,7 @@ function scrollToProducts() {
 }
 
 // Navigation functionality
-document.addEventListener('DOMContentLoaded', function() {
+function initNavigation() {
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
     
@@ -92,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}
 
 // Modal functionality
 function openQuery() {
