@@ -1156,9 +1156,31 @@ footer {
   gap: 30px;
 }
 
+.footer-logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.footer-address {
+  color: #ffffff;
+  opacity: 0.9;
+  line-height: 1.6;
+  margin: 0;
+}
+
 .footer-section h4 {
   margin-bottom: 15px;
-  color: #ff6b6b;
+  color: #C5E040;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.footer-section p {
+  color: #ffffff;
+  opacity: 0.9;
+  margin-bottom: 8px;
 }
 
 .footer-section a {
@@ -1166,11 +1188,16 @@ footer {
   color: #C5E040;
   text-decoration: none;
   margin-bottom: 8px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .footer-section a:hover {
-  color: #ff6b6b;
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  color: #000;
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(197, 224, 64, 0.4);
 }
 
 .footer-bottom {
