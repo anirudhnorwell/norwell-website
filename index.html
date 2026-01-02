@@ -7,88 +7,159 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="header-container">
-      <h1>Norwell</h1>
-      <p class="tagline">Premium Steel Products</p>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">
+        <h1>Norwell</h1>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a href="#products" class="nav-link">Products</a></li>
+        <li class="nav-item"><a href="#faq" class="nav-link">FAQ</a></li>
+      </ul>
       <button class="query-btn" onclick="openQuery()">Get Quote</button>
     </div>
-  </header>
+  </nav>
 
   <main>
-    <section class="hero">
-      <h2>Our Product Categories</h2>
-      <p>Discover our range of premium steel products designed for your everyday needs</p>
-    </section>
-
-    <section class="categories">
-      <div class="category-grid">
-        
-        <div class="category-card" onclick="window.location.href='bottles.html'">
-          <div class="category-image">
-            <img src="images/Bottles/Classic/Main.jpg" alt="Steel Bottles" />
-          </div>
-          <div class="category-info">
-            <h3>Bottles</h3>
-            <p>Classic • Curvy • Flora • Sports</p>
-            <span class="explore-btn">Explore →</span>
-          </div>
+    <!-- Home Section with Launch Images -->
+    <section id="home" class="home-section">
+      <div class="home-images">
+        <div class="home-image-container">
+          <img src="Home/SME.png" alt="Norwell Products" class="home-image" />
         </div>
-
-        <div class="category-card" onclick="window.location.href='dustbin.html'">
-          <div class="category-image">
-            <img src="images/Dustbin/Closed Pedal/Main.jpg" alt="Steel Dustbins" />
-          </div>
-          <div class="category-info">
-            <h3>Dustbins</h3>
-            <p>Closed Pedal • Perforated • Swing</p>
-            <span class="explore-btn">Explore →</span>
-          </div>
+        <div class="home-image-container">
+          <img src="Home/SME-2.png" alt="Norwell Products" class="home-image" />
         </div>
-
-        <div class="category-card" onclick="window.location.href='combo.html'">
-          <div class="category-image">
-            <img src="images/Combo/Main.jpg" alt="Combo Products" />
-          </div>
-          <div class="category-info">
-            <h3>Combo Sets</h3>
-            <p>Value packs & special combinations</p>
-            <span class="explore-btn">Explore →</span>
-          </div>
-        </div>
-
-        <div class="category-card" onclick="window.location.href='lunchbox.html'">
-          <div class="category-image">
-            <img src="images/LunchBox/Main.jpg" alt="Lunch Boxes" />
-          </div>
-          <div class="category-info">
-            <h3>Lunch Boxes</h3>
-            <p>Premium tiffin boxes & containers</p>
-            <span class="explore-btn">Explore →</span>
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <section class="features">
-      <h2>Why Choose Norwell?</h2>
-      <div class="features-grid">
-        <div class="feature">
-          <h4>Premium Quality</h4>
-          <p>High-grade stainless steel construction</p>
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="section-content">
+        <h2>About Norwell</h2>
+        <p>We are a leading manufacturer of premium steel products, committed to delivering quality and durability in every item we create. Our range includes bottles, dustbins, lunch boxes, and combo sets designed for modern lifestyles.</p>
+        <div class="features-grid">
+          <div class="feature">
+            <h4>Premium Quality</h4>
+            <p>High-grade stainless steel construction</p>
+          </div>
+          <div class="feature">
+            <h4>Leak Proof</h4>
+            <p>Advanced sealing technology</p>
+          </div>
+          <div class="feature">
+            <h4>Eco Friendly</h4>
+            <p>Sustainable and reusable products</p>
+          </div>
+          <div class="feature">
+            <h4>Durable</h4>
+            <p>Built to last for years</p>
+          </div>
         </div>
-        <div class="feature">
-          <h4>Leak Proof</h4>
-          <p>Advanced sealing technology</p>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="section-content">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <h4>Phone</h4>
+            <p><a href="tel:+919999999999">+91 99999 99999</a></p>
+          </div>
+          <div class="contact-item">
+            <h4>Email</h4>
+            <p><a href="mailto:support@norwell.com">support@norwell.com</a></p>
+          </div>
+          <div class="contact-item">
+            <h4>WhatsApp</h4>
+            <p><a href="https://wa.me/919999999999" target="_blank">Chat with us</a></p>
+          </div>
         </div>
-        <div class="feature">
-          <h4>Eco Friendly</h4>
-          <p>Sustainable and reusable products</p>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+      <div class="section-content">
+        <h2>Our Products</h2>
+        <p class="section-subtitle">Discover our range of premium steel products designed for your everyday needs</p>
+        <div class="category-grid">
+          
+          <div class="category-card" onclick="window.location.href='bottles.html'">
+            <div class="category-image">
+              <img src="images/Bottles/Classic/Main.jpg" alt="Steel Bottles" />
+            </div>
+            <div class="category-info">
+              <h3>Bottles</h3>
+              <p>Classic • Curvy • Flora • Sports</p>
+              <span class="explore-btn">Explore →</span>
+            </div>
+          </div>
+
+          <div class="category-card" onclick="window.location.href='dustbin.html'">
+            <div class="category-image">
+              <img src="images/Dustbin/Closed Pedal/Main.jpg" alt="Steel Dustbins" />
+            </div>
+            <div class="category-info">
+              <h3>Dustbins</h3>
+              <p>Closed Pedal • Perforated • Swing</p>
+              <span class="explore-btn">Explore →</span>
+            </div>
+          </div>
+
+          <div class="category-card" onclick="window.location.href='combo.html'">
+            <div class="category-image">
+              <img src="images/Combo/Main.jpg" alt="Combo Products" />
+            </div>
+            <div class="category-info">
+              <h3>Combo Sets</h3>
+              <p>Value packs & special combinations</p>
+              <span class="explore-btn">Explore →</span>
+            </div>
+          </div>
+
+          <div class="category-card" onclick="window.location.href='lunchbox.html'">
+            <div class="category-image">
+              <img src="images/LunchBox/Main.jpg" alt="Lunch Boxes" />
+            </div>
+            <div class="category-info">
+              <h3>Lunch Boxes</h3>
+              <p>Premium tiffin boxes & containers</p>
+              <span class="explore-btn">Explore →</span>
+            </div>
+          </div>
+
         </div>
-        <div class="feature">
-          <h4>Durable</h4>
-          <p>Built to last for years</p>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+      <div class="section-content">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h4>What materials are your products made from?</h4>
+            <p>All our products are made from high-grade stainless steel, ensuring durability and food safety.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Do you offer bulk orders?</h4>
+            <p>Yes, we specialize in bulk orders for businesses and organizations. Contact us for special pricing.</p>
+          </div>
+          <div class="faq-item">
+            <h4>What is the warranty on your products?</h4>
+            <p>We offer a comprehensive warranty on all our products. Contact us for specific warranty details.</p>
+          </div>
+          <div class="faq-item">
+            <h4>How can I place an order?</h4>
+            <p>You can click "Get Quote" button or contact us directly via phone, email, or WhatsApp.</p>
+          </div>
         </div>
       </div>
     </section>
