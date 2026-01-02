@@ -547,7 +547,65 @@ section {
 
 /* Products Section */
 .products-section {
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  background: #000000;
+  padding: 80px 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.products-squares-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.product-square {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 30px rgba(197, 224, 64, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.product-square:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  box-shadow: 0 12px 40px rgba(197, 224, 64, 0.6);
+}
+
+.square-content {
+  text-align: center;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-icon {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  filter: brightness(0);
+}
+
+.square-content h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
 }
 
 /* FAQ Section */
