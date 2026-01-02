@@ -1,5 +1,16 @@
 // script.js - Interactive functionality for Norwell website
 
+// Scroll to Products Section
+function scrollToProducts() {
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+        productsSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
 // Navigation functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for navigation links
