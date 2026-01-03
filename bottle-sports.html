@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sports Bottles - NORWELL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="logo-left"><img src="NW Logo.png" alt="Norwell Logo" class="main-logo" /></div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link" onclick="toggleDropdown(event)">Products ▾</a>
+          <div class="dropdown-menu">
+            <a href="bottles.html">Bottles</a><a href="dustbin.html">Dustbins</a><a href="combo.html">Combos</a><a href="lunchbox.html">Lunch Boxes</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+      <div class="nav-right"><button class="query-btn" onclick="openQuery()">Get Quote</button></div>
+    </div>
+  </nav>
+  <section class="bottle-detail-section">
+    <div class="bottle-detail-container">
+      <div class="bottle-image-side">
+        <div class="main-bottle-display"><img id="mainBottleImage" src="images/Bottles/Sports/Main.jpg" alt="Sports Bottle" /></div>
+        <div class="image-navigation">
+          <button class="nav-arrow left" onclick="changeBottleImage(-1)">‹</button>
+          <button class="nav-arrow right" onclick="changeBottleImage(1)">›</button>
+        </div>
+      </div>
+      <div class="bottle-message-side"><h1>Stay Hydrated in Style</h1></div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section"><img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" /><p>Keshav Puram, New Delhi 110035</p></div>
+      <div class="footer-section"><h4>Contact</h4><a href="tel:+919999999999">+91 99999 99999</a><a href="mailto:info@norwell.com">info@norwell.com</a><a href="https://wa.me/919999999999">WhatsApp</a></div>
+      <div class="footer-section"><h4>Categories</h4><a href="bottles.html">Bottles</a><a href="dustbin.html">Dustbins</a><a href="combo.html">Combos</a><a href="lunchbox.html">Lunch Boxes</a></div>
+    </div>
+  </footer>
+  <div id="queryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeQuery()">&times;</span><h2>Get a Quote</h2>
+      <form id="quoteForm">
+        <div class="form-group"><label for="fullName">Full Name *</label><input type="text" id="fullName" name="fullName" required /></div>
+        <div class="form-group"><label for="email">Email Address *</label><input type="email" id="email" name="email" required /></div>
+        <div class="form-group"><label for="phone">Phone Number *</label><input type="tel" id="phone" name="phone" required /></div>
+        <div class="form-group"><label for="company">Company Name</label><input type="text" id="company" name="company" /></div>
+        <div class="form-group"><label for="productInterest">Product of Interest *</label><select id="productInterest" name="productInterest" required><option value="">Select a product</option><option value="bottles">Bottles</option><option value="dustbins">Dustbins</option><option value="combos">Combos</option><option value="lunchboxes">Lunch Boxes</option></select></div>
+        <div class="form-group"><label for="quantity">Quantity Required</label><input type="number" id="quantity" name="quantity" min="1" /></div>
+        <div class="form-group"><label for="message">Additional Details</label><textarea id="message" name="message" rows="4"></textarea></div>
+        <button type="submit" class="submit-btn">Submit Quote Request</button>
+      </form>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const bottleImages = ['images/Bottles/Sports/Main.jpg','images/Bottles/Sports/Sports-1.jpg','images/Bottles/Sports/Sports-3.jpg','images/Bottles/Sports/Sports-4.jpg','images/Bottles/Sports/Sports-5.jpg','images/Bottles/Sports/SportBottleBox.jpeg'];
+    let currentImageIndex = 0;
+    function changeBottleImage(direction) {
+      currentImageIndex += direction;
+      if (currentImageIndex < 0) currentImageIndex = bottleImages.length - 1;
+      else if (currentImageIndex >= bottleImages.length) currentImageIndex = 0;
+      document.getElementById('mainBottleImage').src = bottleImages[currentImageIndex];
+    }
+  </script>
+</body>
+</html>

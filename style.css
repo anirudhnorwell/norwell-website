@@ -762,6 +762,8 @@ section {
   transition: all 0.3s ease;
   cursor: pointer;
   min-height: 300px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .bottle-category-box:hover {
@@ -778,6 +780,95 @@ section {
 .bottle-category-box h3 {
   font-size: 1.5rem;
   font-weight: 700;
+  color: #000;
+  margin: 0;
+  text-align: center;
+}
+
+/* Bottle Detail Page */
+.bottle-detail-section {
+  background: #000000;
+  min-height: calc(100vh - 150px);
+  padding: 120px 20px 60px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottle-detail-container {
+  display: flex;
+  gap: 60px;
+  max-width: 1400px;
+  width: 100%;
+  align-items: center;
+}
+
+.bottle-image-side {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-bottle-display {
+  width: 100%;
+  max-width: 600px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(197, 224, 64, 0.05);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(197, 224, 64, 0.2);
+}
+
+.main-bottle-display img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.image-navigation {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.nav-arrow {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  border: none;
+  font-size: 2rem;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(197, 224, 64, 0.4);
+}
+
+.nav-arrow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(197, 224, 64, 0.6);
+}
+
+.bottle-message-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottle-message-side h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #C5E040;
+  text-align: center;
+  text-shadow: 2px 2px 8px rgba(197, 224, 64, 0.3);
+  line-height: 1.2;
+}
   color: #000;
   margin: 0;
   text-align: center;
@@ -1782,6 +1873,25 @@ footer {
     font-size: 2rem;
   }
   
+  .bottle-detail-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .main-bottle-display {
+    height: 400px;
+  }
+  
+  .nav-arrow {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+  
+  .bottle-message-side h1 {
+    font-size: 2.5rem;
+  }
+  
   .slideshow-container {
     height: calc(100vh - 140px);
     width: 100%;
@@ -1932,6 +2042,21 @@ footer {
   
   .bottles-page-title {
     font-size: 1.5rem;
+  }
+  
+  .main-bottle-display {
+    height: 300px;
+    padding: 20px;
+  }
+  
+  .nav-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .bottle-message-side h1 {
+    font-size: 1.8rem;
   }
   
   .query-btn {
