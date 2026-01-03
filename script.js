@@ -203,10 +203,36 @@ function initFAQ() {
 // Mobile menu toggle functionality
 function toggleMobileMenu() {
     const navMenu = document.querySelector('.nav-menu');
+    const backdrop = document.querySelector('.mobile-menu-backdrop');
+    
     if (navMenu) {
         navMenu.classList.toggle('active');
     }
+    
+    if (backdrop) {
+        backdrop.classList.toggle('active');
+    }
+    
+    // Prevent body scroll when menu is open
+    if (navMenu && navMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
 }
+
+// Close mobile menu when clicking on the X button (::before pseudo-element)
+document.addEventListener('click', function(e) {
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu && navMenu.classList.contains('active')) {
+        const rect = navMenu.getBoundingClientRect();
+        // Check if click is in the top-right area where X button is
+        if (e.clientX > rect.right - 60 && e.clientX < rect.right - 10 && 
+            e.clientY > rect.top + 10 && e.clientY < rect.top + 60) {
+            toggleMobileMenu();
+        }
+    }
+});
 
 // Modal functionality
 function openQuery() {

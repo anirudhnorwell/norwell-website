@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
+
   <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="navbar-container">
@@ -18,7 +21,7 @@
       <div class="logo-left">
         <img src="NW Logo.png" alt="Norwell Logo" class="main-logo" />
       </div>
-      <ul class="nav-menu">
+      <ul class="nav-menu" onclick="event.target.classList.contains('nav-menu') && event.target.querySelector('.nav-menu::before') && toggleMobileMenu()">
         <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
         <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
@@ -40,26 +43,52 @@
   </nav>
 
   <main>
-    <!-- Home Section with Product Slideshow -->
+    <!-- Home Section with Continuous Slideshow -->
     <section id="home" class="home-section">
-      <div class="slideshow-container">
-        <div class="slide fade">
-          <img src="Home/3Bottles.png" alt="Bottles">
+      <div class="continuous-slideshow-section">
+        <div class="continuous-slideshow">
+          <div class="slideshow-track">
+            <img src="Home/BinOffice.png" alt="Product 1" />
+            <img src="Home/CurvyBottle.png" alt="Product 2" />
+            <img src="Home/CV Bl GymGirl.png" alt="Product 3" />
+            <img src="Home/CV Black Office.png" alt="Product 4" />
+            <img src="Home/Drinking ManClassic.png" alt="Product 5" />
+            <img src="Home/GymSports.png" alt="Product 6" />
+            <img src="Home/HometableSports.png" alt="Product 7" />
+            <img src="Home/KitchenBin.png" alt="Product 8" />
+            <img src="Home/LunchBoxBlack.png" alt="Product 9" />
+            <img src="Home/MandrinkingCurvy.jpeg" alt="Product 10" />
+            <img src="Home/ManHoldingSports.png" alt="Product 11" />
+            <img src="Home/Office Flora.png" alt="Product 12" />
+            <img src="Home/OfficeClassicBottle.png" alt="Product 13" />
+            <img src="Home/RoomBin.png" alt="Product 14" />
+            <img src="Home/Tiffin (Steel lid) Black-1.jpg" alt="Product 15" />
+            <img src="Home/Tiffin (Steel lid) Black-3.jpg" alt="Product 16" />
+            <img src="Home/Tiffin (Steel lid) Blue-1.jpg" alt="Product 17" />
+            <img src="Home/Tiffin (Steel lid) Blue-3.jpg" alt="Product 18" />
+            <img src="Home/Tiffin-3.jpg" alt="Product 19" />
+            <!-- Duplicate for seamless loop -->
+            <img src="Home/BinOffice.png" alt="Product 1" />
+            <img src="Home/CurvyBottle.png" alt="Product 2" />
+            <img src="Home/CV Bl GymGirl.png" alt="Product 3" />
+            <img src="Home/CV Black Office.png" alt="Product 4" />
+            <img src="Home/Drinking ManClassic.png" alt="Product 5" />
+            <img src="Home/GymSports.png" alt="Product 6" />
+            <img src="Home/HometableSports.png" alt="Product 7" />
+            <img src="Home/KitchenBin.png" alt="Product 8" />
+            <img src="Home/LunchBoxBlack.png" alt="Product 9" />
+            <img src="Home/MandrinkingCurvy.jpeg" alt="Product 10" />
+            <img src="Home/ManHoldingSports.png" alt="Product 11" />
+            <img src="Home/Office Flora.png" alt="Product 12" />
+            <img src="Home/OfficeClassicBottle.png" alt="Product 13" />
+            <img src="Home/RoomBin.png" alt="Product 14" />
+            <img src="Home/Tiffin (Steel lid) Black-1.jpg" alt="Product 15" />
+            <img src="Home/Tiffin (Steel lid) Black-3.jpg" alt="Product 16" />
+            <img src="Home/Tiffin (Steel lid) Blue-1.jpg" alt="Product 17" />
+            <img src="Home/Tiffin (Steel lid) Blue-3.jpg" alt="Product 18" />
+            <img src="Home/Tiffin-3.jpg" alt="Product 19" />
+          </div>
         </div>
-        <div class="slide fade">
-          <img src="Home/Bin3.png" alt="Dustbin">
-        </div>
-        <div class="slide fade">
-          <img src="Home/Sports3.png" alt="Sports Bottle">
-        </div>
-        
-      </div>
-      
-      <!-- Dots/indicators -->
-      <div class="slideshow-dots">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
       </div>
     </section>
 
