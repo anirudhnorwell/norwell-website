@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Steel Dustbins - NORWELL</title>
+  <title>Swing Dustbin - NORWELL</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -42,49 +42,19 @@
     </div>
   </nav>
 
-  <!-- Continuous Scrolling Slideshow -->
-  <section class="continuous-slideshow-section">
-    <div class="continuous-slideshow">
-      <div class="slideshow-track">
-        <img src="images/Dustbin/DustbinPerforated/Main.png" alt="Dustbin 1" />
-        <img src="images/Dustbin/DustbinPerforated/Kitchen.png" alt="Dustbin 2" />
-        <img src="images/Dustbin/DustbinPerforated/Office.png" alt="Dustbin 3" />
-        <img src="images/Dustbin/DustbinPerforated/Room.png" alt="Dustbin 4" />
-        <img src="images/Dustbin/DustbinPerfWithPeddal/Main.png" alt="Dustbin 5" />
-        <img src="images/Dustbin/DustbinSmoothwithpeddal/Main.jpg" alt="Dustbin 6" />
-        <img src="images/Dustbin/Swing/Main.png" alt="Dustbin 7" />
-        <!-- Duplicate for seamless loop -->
-        <img src="images/Dustbin/DustbinPerforated/Main.png" alt="Dustbin 1" />
-        <img src="images/Dustbin/DustbinPerforated/Kitchen.png" alt="Dustbin 2" />
-        <img src="images/Dustbin/DustbinPerforated/Office.png" alt="Dustbin 3" />
-        <img src="images/Dustbin/DustbinPerforated/Room.png" alt="Dustbin 4" />
-        <img src="images/Dustbin/DustbinPerfWithPeddal/Main.png" alt="Dustbin 5" />
-        <img src="images/Dustbin/DustbinSmoothwithpeddal/Main.jpg" alt="Dustbin 6" />
-        <img src="images/Dustbin/Swing/Main.png" alt="Dustbin 7" />
+  <!-- Bottle Detail Section -->
+  <section class="bottle-detail-section">
+    <div class="bottle-detail-container">
+      <div class="main-bottle-display">
+        <img id="mainBottleImage" src="images/Dustbin/Swing/Main.png" alt="Swing Dustbin" />
+        <div class="image-navigation">
+          <button class="nav-arrow" onclick="changeBottleImage(-1)">‹</button>
+          <button class="nav-arrow" onclick="changeBottleImage(1)">›</button>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Dustbin Categories Section -->
-  <section class="bottle-categories-section">
-    <h2 class="bottles-page-title">Stainless Steel Dustbins</h2>
-    <div class="bottle-categories-container">
-      <a href="dustbin-perforated.html" class="bottle-category-box">
-        <img src="images/Dustbin/DustbinPerforated/Main.png" alt="Perforated Dustbin" class="category-icon" />
-        <h3>Perforated</h3>
-      </a>
-      <a href="dustbin-perfpedal.html" class="bottle-category-box">
-        <img src="images/Dustbin/DustbinPerfWithPeddal/Main.png" alt="Perforated With Pedal" class="category-icon" />
-        <h3>Perforated With Pedal</h3>
-      </a>
-      <a href="dustbin-smoothpedal.html" class="bottle-category-box">
-        <img src="images/Dustbin/DustbinSmoothwithpeddal/Main.jpg" alt="Smooth With Pedal" class="category-icon" />
-        <h3>Smooth With Pedal</h3>
-      </a>
-      <a href="dustbin-swing.html" class="bottle-category-box">
-        <img src="images/Dustbin/Swing/Main.png" alt="Swing Dustbin" class="category-icon" />
-        <h3>Swing</h3>
-      </a>
+      <div class="bottle-message-side">
+        <h1>Discover Effortless Waste Disposal with Our Premium Swing Top Stainless Steel Dustbin, designed for convenience and everyday use. Made from food-grade, rust-resistant steel, its innovative swing lid mechanism allows for easy one-handed operation while keeping waste concealed. The sleek design prevents odors and maintains a clean, modern appearance in any setting. Durable and easy to maintain, this dustbin is perfect for high-traffic areas, kitchens, offices, and public spaces where style meets functionality.</h1>
+      </div>
     </div>
   </section>
 
@@ -168,5 +138,18 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    const bottleImages = [
+      'images/Dustbin/Swing/Main.png'
+    ];
+    let currentImageIndex = 0;
+
+    function changeBottleImage(direction) {
+      currentImageIndex += direction;
+      if (currentImageIndex < 0) currentImageIndex = bottleImages.length - 1;
+      if (currentImageIndex >= bottleImages.length) currentImageIndex = 0;
+      document.getElementById('mainBottleImage').src = bottleImages[currentImageIndex];
+    }
+  </script>
 </body>
 </html>

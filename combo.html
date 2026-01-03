@@ -7,130 +7,94 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="page-header">
-    <div class="nav-container">
-      <h1>NORWELL</h1>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="bottles.html">Bottles</a>
-        <a href="dustbin.html">Dustbins</a>
-        <a href="combo.html" class="active">Combos</a>
-        <a href="lunchbox.html">Lunch Boxes</a>
-      </nav>
-      <button class="query-btn" onclick="openQuery()">Get Quote</button>
-    </div>
-  </header>
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
 
-  <main>
-    <section class="page-hero">
-      <h2>Combo Sets Collection</h2>
-      <p>Value-packed combinations of our premium steel products</p>
-    </section>
-
-    <section class="subcategories">
-      <div class="subcategory">
-        <h3>Premium Combo Sets</h3>
-        <div class="image-gallery">
-          <div class="image-item">
-            <img src="images/Combo/Main.jpg" alt="Main Combo Set" onclick="enlargeImage(this)" />
-            <div class="image-info">
-              <h4>Premium Combo</h4>
-              <p>Complete steel product solution</p>
-            </div>
-          </div>
-          <div class="image-item">
-            <img src="images/Combo/Combo-Classic.jpg" alt="Classic Combo" onclick="enlargeImage(this)" />
-            <div class="image-info">
-              <h4>Classic Combo</h4>
-              <p>Timeless design combination</p>
-            </div>
-          </div>
-          <div class="image-item">
-            <img src="images/Combo/Combo-Curvy.jpg" alt="Curvy Combo" onclick="enlargeImage(this)" />
-            <div class="image-info">
-              <h4>Curvy Combo</h4>
-              <p>Ergonomic design set</p>
-            </div>
-          </div>
-          <div class="image-item">
-            <img src="images/Combo/Combo-Flora.jpg" alt="Flora Combo" onclick="enlargeImage(this)" />
-            <div class="image-info">
-              <h4>Flora Combo</h4>
-              <p>Nature-inspired collection</p>
-            </div>
-          </div>
-          <div class="image-item">
-            <img src="images/Combo/Combo-Sports.jpg" alt="Sports Combo" onclick="enlargeImage(this)" />
-            <div class="image-info">
-              <h4>Sports Combo</h4>
-              <p>Athletic performance set</p>
-            </div>
-          </div>
-          <div class="image-item">
-            <img src="images/Combo/Length.jpg" alt="Combo Dimensions" onclick="enlargeImage(this)" />
-            <div class="image-info">
-              <h4>Size Specifications</h4>
-              <p>Detailed measurements & dimensions</p>
-            </div>
-          </div>
-        </div>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="logo-left">
+        <img src="NW Logo.png" alt="Norwell Logo" class="main-logo" />
       </div>
-    </section>
-
-    <section class="features">
-      <h2>Combo Set Benefits</h2>
-      <div class="features-grid">
-        <div class="feature">
-          <h4>Best Value</h4>
-          <p>Save more with combo packages</p>
-        </div>
-        <div class="feature">
-          <h4>Coordinated Design</h4>
-          <p>Perfectly matched products</p>
-        </div>
-        <div class="feature">
-          <h4>Complete Solution</h4>
-          <p>Everything you need in one package</p>
-        </div>
-        <div class="feature">
-          <h4>Gift Ready</h4>
-          <p>Perfect for gifting occasions</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Query Modal -->
-  <div id="queryModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeQuery()">&times;</span>
-      <h3>Get a Quote - Combo Sets</h3>
-      <p>Contact us for bulk orders, custom requirements, or general inquiries about our combo collections</p>
-      <div class="contact-options">
-        <a href="https://wa.me/919999999999?text=Hi, I'm interested in your combo sets" class="contact-btn whatsapp" target="_blank">
-          WhatsApp
-        </a>
-        <a href="mailto:support@norwell.com?subject=Inquiry about Combo Sets" class="contact-btn email">
-          Email Us
-        </a>
-        <a href="tel:+919999999999" class="contact-btn phone">
-          Call Now
-        </a>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link" onclick="toggleDropdown(event)">Products ▾</a>
+          <div class="dropdown-menu">
+            <a href="bottles.html">Bottles</a>
+            <a href="dustbin.html">Dustbins</a>
+            <a href="combo.html">Combos</a>
+            <a href="lunchbox.html">Lunch Boxes</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="query-btn" onclick="openQuery()">Get Quote</button>
       </div>
     </div>
-  </div>
+  </nav>
 
+  <!-- Continuous Scrolling Slideshow -->
+  <section class="continuous-slideshow-section">
+    <div class="continuous-slideshow">
+      <div class="slideshow-track">
+        <img src="images/Combo/Main.jpg" alt="Combo 1" />
+        <img src="images/Combo/Combo-Classic.jpg" alt="Combo 2" />
+        <img src="images/Combo/Combo-Curvy.jpg" alt="Combo 3" />
+        <img src="images/Combo/Combo-Flora.jpg" alt="Combo 4" />
+        <img src="images/Combo/Combo-Sports.jpg" alt="Combo 5" />
+        <!-- Duplicate for seamless loop -->
+        <img src="images/Combo/Main.jpg" alt="Combo 1" />
+        <img src="images/Combo/Combo-Classic.jpg" alt="Combo 2" />
+        <img src="images/Combo/Combo-Curvy.jpg" alt="Combo 3" />
+        <img src="images/Combo/Combo-Flora.jpg" alt="Combo 4" />
+        <img src="images/Combo/Combo-Sports.jpg" alt="Combo 5" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Combo Section -->
+  <section class="bottle-detail-section">
+    <h2 class="bottles-page-title">Premium Combo Sets</h2>
+    <div class="bottle-detail-container">
+      <div class="main-bottle-display">
+        <img id="mainComboImage" src="images/Combo/Main.jpg" alt="Combo Set" />
+        <div class="image-navigation">
+          <button class="nav-arrow" onclick="changeComboImage(-1)">‹</button>
+          <button class="nav-arrow" onclick="changeComboImage(1)">›</button>
+        </div>
+      </div>
+      <div class="bottle-message-side">
+        <h1>Complete Your Kitchen with Premium Steel Combo Sets</h1>
+        <p style="margin-top: 30px; font-size: 1.2rem; line-height: 1.8; color: #ddd;">
+          Discover our thoughtfully curated combo sets featuring the perfect combination of bottles, lunch boxes, and accessories. Each set is designed to provide maximum value while maintaining our signature quality and style. Perfect for families, offices, or as premium gifts, these combos include our best-selling products at special bundle prices.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
     <div class="footer-content">
       <div class="footer-section">
-        <h4>Norwell</h4>
-        <p>Premium steel products for your lifestyle</p>
+        <img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" />
+        <p class="footer-address">Keshav Puram,<br> New Delhi 110035</p>
       </div>
+      
       <div class="footer-section">
         <h4>Contact</h4>
         <p>WhatsApp: +91 99999 99999</p>
-        <p>Email: support@norwell.com</p>
+        <p>Email: info@norwell.com</p>
       </div>
+      
       <div class="footer-section">
         <h4>Categories</h4>
         <a href="bottles.html">Bottles</a>
@@ -144,12 +108,76 @@
     </div>
   </footer>
 
-  <!-- Image Enlargement Modal -->
-  <div id="imageModal" class="image-modal">
-    <span class="image-close" onclick="closeImageModal()">&times;</span>
-    <img class="modal-image" id="modalImage">
+  <!-- Query Modal -->
+  <div id="queryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeQuery()">&times;</span>
+      <h2>Get a Quote</h2>
+      <form id="quoteForm">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company Name</label>
+          <input type="text" id="company" name="company" />
+        </div>
+        
+        <div class="form-group">
+          <label for="productInterest">Product of Interest *</label>
+          <select id="productInterest" name="productInterest" required>
+            <option value="">Select a product</option>
+            <option value="bottles">Bottles</option>
+            <option value="dustbins">Dustbins</option>
+            <option value="combos">Combos</option>
+            <option value="lunchboxes">Lunch Boxes</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="quantity">Quantity Required</label>
+          <input type="number" id="quantity" name="quantity" min="1" />
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Additional Details</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Submit Quote Request</button>
+      </form>
+    </div>
   </div>
 
   <script src="script.js"></script>
+  <script>
+    const comboImages = [
+      'images/Combo/Main.jpg',
+      'images/Combo/Combo-Classic.jpg',
+      'images/Combo/Combo-Curvy.jpg',
+      'images/Combo/Combo-Flora.jpg',
+      'images/Combo/Combo-Sports.jpg',
+      'images/Combo/Length.jpg'
+    ];
+    let currentComboIndex = 0;
+
+    function changeComboImage(direction) {
+      currentComboIndex += direction;
+      if (currentComboIndex < 0) currentComboIndex = comboImages.length - 1;
+      if (currentComboIndex >= comboImages.length) currentComboIndex = 0;
+      document.getElementById('mainComboImage').src = comboImages[currentComboIndex];
+    }
+  </script>
 </body>
 </html>

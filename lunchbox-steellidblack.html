@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Steel Dustbins - NORWELL</title>
+  <title>Steel Lid Black - NORWELL</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -42,49 +42,19 @@
     </div>
   </nav>
 
-  <!-- Continuous Scrolling Slideshow -->
-  <section class="continuous-slideshow-section">
-    <div class="continuous-slideshow">
-      <div class="slideshow-track">
-        <img src="images/Dustbin/DustbinPerforated/Main.png" alt="Dustbin 1" />
-        <img src="images/Dustbin/DustbinPerforated/Kitchen.png" alt="Dustbin 2" />
-        <img src="images/Dustbin/DustbinPerforated/Office.png" alt="Dustbin 3" />
-        <img src="images/Dustbin/DustbinPerforated/Room.png" alt="Dustbin 4" />
-        <img src="images/Dustbin/DustbinPerfWithPeddal/Main.png" alt="Dustbin 5" />
-        <img src="images/Dustbin/DustbinSmoothwithpeddal/Main.jpg" alt="Dustbin 6" />
-        <img src="images/Dustbin/Swing/Main.png" alt="Dustbin 7" />
-        <!-- Duplicate for seamless loop -->
-        <img src="images/Dustbin/DustbinPerforated/Main.png" alt="Dustbin 1" />
-        <img src="images/Dustbin/DustbinPerforated/Kitchen.png" alt="Dustbin 2" />
-        <img src="images/Dustbin/DustbinPerforated/Office.png" alt="Dustbin 3" />
-        <img src="images/Dustbin/DustbinPerforated/Room.png" alt="Dustbin 4" />
-        <img src="images/Dustbin/DustbinPerfWithPeddal/Main.png" alt="Dustbin 5" />
-        <img src="images/Dustbin/DustbinSmoothwithpeddal/Main.jpg" alt="Dustbin 6" />
-        <img src="images/Dustbin/Swing/Main.png" alt="Dustbin 7" />
+  <!-- Bottle Detail Section -->
+  <section class="bottle-detail-section">
+    <div class="bottle-detail-container">
+      <div class="main-bottle-display">
+        <img id="mainBottleImage" src="images/LunchBox/TiffinSteellidBlack/Main.jpg" alt="Steel Lid Black" />
+        <div class="image-navigation">
+          <button class="nav-arrow" onclick="changeBottleImage(-1)">‹</button>
+          <button class="nav-arrow" onclick="changeBottleImage(1)">›</button>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Dustbin Categories Section -->
-  <section class="bottle-categories-section">
-    <h2 class="bottles-page-title">Stainless Steel Dustbins</h2>
-    <div class="bottle-categories-container">
-      <a href="dustbin-perforated.html" class="bottle-category-box">
-        <img src="images/Dustbin/DustbinPerforated/Main.png" alt="Perforated Dustbin" class="category-icon" />
-        <h3>Perforated</h3>
-      </a>
-      <a href="dustbin-perfpedal.html" class="bottle-category-box">
-        <img src="images/Dustbin/DustbinPerfWithPeddal/Main.png" alt="Perforated With Pedal" class="category-icon" />
-        <h3>Perforated With Pedal</h3>
-      </a>
-      <a href="dustbin-smoothpedal.html" class="bottle-category-box">
-        <img src="images/Dustbin/DustbinSmoothwithpeddal/Main.jpg" alt="Smooth With Pedal" class="category-icon" />
-        <h3>Smooth With Pedal</h3>
-      </a>
-      <a href="dustbin-swing.html" class="bottle-category-box">
-        <img src="images/Dustbin/Swing/Main.png" alt="Swing Dustbin" class="category-icon" />
-        <h3>Swing</h3>
-      </a>
+      <div class="bottle-message-side">
+        <h1>Experience Modern Elegance with Our Premium Steel Lid Black Lunch Box, designed for style-conscious individuals and everyday use. Made from food-grade, rust-resistant stainless steel with a sophisticated black steel lid, it combines durability with contemporary aesthetics. The secure locking mechanism ensures leak-proof transportation, while the multi-compartment design keeps your meals organized and fresh. Easy to clean and microwave-safe (after removing lid), this lunch box is perfect for professionals, students, and travelers seeking a blend of functionality and modern design.</h1>
+      </div>
     </div>
   </section>
 
@@ -168,5 +138,21 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    const bottleImages = [
+      'images/LunchBox/TiffinSteellidBlack/Main.jpg',
+      'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-2.jpg',
+      'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-3.jpg',
+      'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-4.jpg'
+    ];
+    let currentImageIndex = 0;
+
+    function changeBottleImage(direction) {
+      currentImageIndex += direction;
+      if (currentImageIndex < 0) currentImageIndex = bottleImages.length - 1;
+      if (currentImageIndex >= bottleImages.length) currentImageIndex = 0;
+      document.getElementById('mainBottleImage').src = bottleImages[currentImageIndex];
+    }
+  </script>
 </body>
 </html>
