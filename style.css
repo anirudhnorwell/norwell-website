@@ -813,14 +813,14 @@ section {
 
 .main-bottle-display {
   width: 100%;
-  max-width: 600px;
-  height: 600px;
+  max-width: 500px;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(197, 224, 64, 0.05);
   border-radius: 20px;
-  padding: 40px;
+  padding: 30px;
   box-shadow: 0 8px 30px rgba(197, 224, 64, 0.2);
 }
 
@@ -862,12 +862,13 @@ section {
 }
 
 .bottle-message-side h1 {
-  font-size: 4rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 400;
   color: #C5E040;
-  text-align: center;
+  text-align: left;
   text-shadow: 2px 2px 8px rgba(197, 224, 64, 0.3);
-  line-height: 1.2;
+  line-height: 1.6;
+  max-width: 600px;
 }
   color: #000;
   margin: 0;
