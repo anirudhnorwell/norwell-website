@@ -46,6 +46,29 @@ body {
   flex-shrink: 0;
 }
 
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+}
+
+.mobile-menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #C5E040;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle:hover span {
+  background: #d4f050;
+}
+
 .main-logo {
   height: 100px;
   width: auto;
@@ -635,6 +658,100 @@ section {
   font-weight: 700;
   color: #000;
   margin: 0;
+}
+
+/* Bottles Page - Continuous Slideshow */
+.continuous-slideshow-section {
+  background: #000000;
+  padding: 100px 0 20px 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.continuous-slideshow {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slideshow-track {
+  display: flex;
+  animation: scroll 40s linear infinite;
+  width: max-content;
+}
+
+.slideshow-track img {
+  height: 300px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 15px;
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.slideshow-track:hover {
+  animation-play-state: paused;
+}
+
+/* Bottle Categories Section */
+.bottle-categories-section {
+  background: #000000;
+  padding: 60px 20px;
+  min-height: calc(100vh - 400px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottle-categories-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.bottle-category-box {
+  border-radius: 20px;
+  background: linear-gradient(45deg, #C5E040, #a8c130);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  box-shadow: 0 8px 30px rgba(197, 224, 64, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 300px;
+}
+
+.bottle-category-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(197, 224, 64, 0.6);
+}
+
+.bottle-category-box .category-icon {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.bottle-category-box h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+  text-align: center;
 }
 
 /* FAQ Section */
@@ -1552,6 +1669,17 @@ footer {
     gap: 15px;
     padding: 0 10px;
     flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+    order: -1;
+  }
+  
+  .logo-left {
+    flex: 1;
+    justify-content: center;
   }
   
   .main-logo {
@@ -1559,21 +1687,49 @@ footer {
   }
   
   .nav-menu {
-    gap: 10px;
-    flex-wrap: nowrap;
+    position: fixed;
+    top: 90px;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.98);
+    flex-direction: column;
+    gap: 0;
+    padding: 20px 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-bottom: 2px solid rgba(197, 224, 64, 0.2);
+    z-index: 999;
+  }
+  
+  .nav-menu.active {
+    max-height: 500px;
+  }
+  
+  .nav-item {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(197, 224, 64, 0.1);
   }
   
   .nav-link {
-    font-size: 0.85rem;
-    padding: 6px 10px;
-    white-space: nowrap;
+    font-size: 1rem;
+    padding: 15px;
+    display: block;
+    width: 100%;
   }
   
   .dropdown-menu {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 200px;
+    position: static;
+    transform: none;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  .nav-right {
+    order: 1;
   }
   
   .slideshow-container {
@@ -1624,6 +1780,29 @@ footer {
   }
   
   .product-circle .circle-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .slideshow-track img {
+    height: 200px;
+  }
+  
+  .bottle-categories-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  
+  .bottle-category-box {
+    min-height: 250px;
+    padding: 25px;
+  }
+  
+  .bottle-category-box .category-icon {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .bottle-category-box h3 {
     font-size: 1.3rem;
   }
   
@@ -1692,20 +1871,12 @@ footer {
   }
   
   .nav-menu {
-    gap: 5px;
-    font-size: 0.9rem;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    top: 75px;
   }
   
   .nav-link {
-    font-size: 0.75rem;
-    padding: 5px 8px;
-    white-space: nowrap;
-  }
-  
-  .dropdown-menu {
-    min-width: 150px;
+    font-size: 0.95rem;
+    padding: 12px;
   }
   
   .query-btn {
@@ -1764,6 +1935,29 @@ footer {
   }
   
   .product-circle .circle-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .slideshow-track img {
+    height: 150px;
+  }
+  
+  .bottle-categories-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .bottle-category-box {
+    min-height: 220px;
+    padding: 20px;
+  }
+  
+  .bottle-category-box .category-icon {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .bottle-category-box h3 {
     font-size: 1.2rem;
   }
   

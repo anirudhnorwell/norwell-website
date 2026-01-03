@@ -7,25 +7,108 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="page-header">
-    <div class="nav-container">
-      <h1>NORWELL</h1>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="bottles.html" class="active">Bottles</a>
-        <a href="dustbin.html">Dustbins</a>
-        <a href="combo.html">Combos</a>
-        <a href="lunchbox.html">Lunch Boxes</a>
-      </nav>
-      <button class="query-btn" onclick="openQuery()">Get Quote</button>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="logo-left">
+        <img src="NW Logo.png" alt="Norwell Logo" class="main-logo" />
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link" onclick="toggleDropdown(event)">Products ▾</a>
+          <div class="dropdown-menu">
+            <a href="bottles.html">Bottles</a>
+            <a href="dustbin.html">Dustbins</a>
+            <a href="combo.html">Combos</a>
+            <a href="lunchbox.html">Lunch Boxes</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="index.html#faq" class="nav-link">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="query-btn" onclick="openQuery()">Get Quote</button>
+      </div>
     </div>
-  </header>
+  </nav>
+
+  <!-- Continuous Scrolling Slideshow -->
+  <section class="continuous-slideshow-section">
+    <div class="continuous-slideshow">
+      <div class="slideshow-track">
+        <img src="images/Bottles/Slideshow/Cl+GymSp.png" alt="Bottles 1" />
+        <img src="images/Bottles/Slideshow/CurvyFeatures.jpg" alt="Bottles 2" />
+        <img src="images/Bottles/Slideshow/CV Bl GymGirl.png" alt="Bottles 3" />
+        <img src="images/Bottles/Slideshow/CV Black Office.png" alt="Bottles 4" />
+        <img src="images/Bottles/Slideshow/GymGirlCurvyBottle.png" alt="Bottles 5" />
+        <img src="images/Bottles/Slideshow/HoldinhinHandClassic.png" alt="Bottles 6" />
+        <img src="images/Bottles/Slideshow/Hometable.png" alt="Bottles 7" />
+        <img src="images/Bottles/Slideshow/InHand.png" alt="Bottles 8" />
+        <img src="images/Bottles/Slideshow/InHandCUrvyBottle.png" alt="Bottles 9" />
+        <img src="images/Bottles/Slideshow/InHandSports.png" alt="Bottles 10" />
+        <img src="images/Bottles/Slideshow/Man HoldingCB.png" alt="Bottles 11" />
+        <img src="images/Bottles/Slideshow/Office.png" alt="Bottles 12" />
+        <img src="images/Bottles/Slideshow/OfficeBottleclassic.png" alt="Bottles 13" />
+        <img src="images/Bottles/Slideshow/OfficeCurvy.png" alt="Bottles 14" />
+        <img src="images/Bottles/Slideshow/OfficeTableSports.png" alt="Bottles 15" />
+        <!-- Duplicate for seamless loop -->
+        <img src="images/Bottles/Slideshow/Cl+GymSp.png" alt="Bottles 1" />
+        <img src="images/Bottles/Slideshow/CurvyFeatures.jpg" alt="Bottles 2" />
+        <img src="images/Bottles/Slideshow/CV Bl GymGirl.png" alt="Bottles 3" />
+        <img src="images/Bottles/Slideshow/CV Black Office.png" alt="Bottles 4" />
+        <img src="images/Bottles/Slideshow/GymGirlCurvyBottle.png" alt="Bottles 5" />
+        <img src="images/Bottles/Slideshow/HoldinhinHandClassic.png" alt="Bottles 6" />
+        <img src="images/Bottles/Slideshow/Hometable.png" alt="Bottles 7" />
+        <img src="images/Bottles/Slideshow/InHand.png" alt="Bottles 8" />
+        <img src="images/Bottles/Slideshow/InHandCUrvyBottle.png" alt="Bottles 9" />
+        <img src="images/Bottles/Slideshow/InHandSports.png" alt="Bottles 10" />
+        <img src="images/Bottles/Slideshow/Man HoldingCB.png" alt="Bottles 11" />
+        <img src="images/Bottles/Slideshow/Office.png" alt="Bottles 12" />
+        <img src="images/Bottles/Slideshow/OfficeBottleclassic.png" alt="Bottles 13" />
+        <img src="images/Bottles/Slideshow/OfficeCurvy.png" alt="Bottles 14" />
+        <img src="images/Bottles/Slideshow/OfficeTableSports.png" alt="Bottles 15" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottle Categories Section -->
+  <section class="bottle-categories-section">
+    <div class="bottle-categories-container">
+      <div class="bottle-category-box">
+        <img src="images/Bottles/Classic/Main.jpg" alt="Classic Bottles" class="category-icon" />
+        <h3>Classic</h3>
+      </div>
+      <div class="bottle-category-box">
+        <img src="images/Bottles/Curvy/Main.jpg" alt="Curvy Bottles" class="category-icon" />
+        <h3>Curvy</h3>
+      </div>
+      <div class="bottle-category-box">
+        <img src="images/Bottles/Curvy Black/Main.png" alt="Curvy Black Bottles" class="category-icon" />
+        <h3>Curvy Black</h3>
+      </div>
+      <div class="bottle-category-box">
+        <img src="images/Bottles/FloraBlackLogo/Main.jpg" alt="Flora Black Logo Bottles" class="category-icon" />
+        <h3>Flora Black Logo</h3>
+      </div>
+      <div class="bottle-category-box">
+        <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottles" class="category-icon" />
+        <h3>Sports</h3>
+      </div>
+      <div class="bottle-category-box">
+        <img src="images/Bottles/SportsBlackCap/Main.png" alt="Sports Black Cap Bottles" class="category-icon" />
+        <h3>Sports Black Cap</h3>
+      </div>
+    </div>
+  </section>
 
   <main>
-    <section class="page-hero">
-      <h2>Steel Bottles Collection</h2>
-      <p>Premium stainless steel bottles for every lifestyle and need</p>
-    </section>
 
     <!-- Classic Collection -->
     <section class="bottle-collection">
@@ -129,167 +212,87 @@
     </section>
 
   </main>
-          </div>
-          <div class="subcategory-info">
-            <h4>Curvy Collection</h4>
-            <p>Ergonomic curved steel bottle</p>
-            <span class="view-btn">View Details →</span>
-          </div>
-        </div>
 
-        <div class="subcategory-card" onclick="showSubcategoryDetails('flora')">
-          <div class="subcategory-image">
-            <img src="images/Bottles/Flora/Main.jpg" alt="Flora Bottles" onclick="enlargeImage(this)" />
-          </div>
-          <div class="subcategory-info">
-            <h4>Flora Collection</h4>
-            <p>Nature-inspired bottle design</p>
-            <span class="view-btn">View Details →</span>
-          </div>
-        </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" />
+        <p>Keshav Puram, New Delhi 110035</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <a href="tel:+919999999999">+91 99999 99999</a>
+        <a href="mailto:info@norwell.com">info@norwell.com</a>
+        <a href="https://wa.me/919999999999">WhatsApp</a>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Categories</h4>
+        <a href="bottles.html">Bottles</a>
+        <a href="dustbin.html">Dustbins</a>
+        <a href="combo.html">Combos</a>
+        <a href="lunchbox.html">Lunch Boxes</a>
+      </div>
+    </div>
+  </footer>
 
-        <div class="subcategory-card" onclick="showSubcategoryDetails('sports')">
-          <div class="subcategory-image">
-            <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottles" onclick="enlargeImage(this)" />
-          </div>
-          <div class="subcategory-info">
-            <h4>Sports Collection</h4>
-            <p>Athletic performance bottle</p>
-            <span class="view-btn">View Details →</span>
-          </div>
+  <!-- Query Modal -->
+  <div id="queryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeQuery()">&times;</span>
+      <h2>Get a Quote</h2>
+      <form id="quoteForm">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" required />
         </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company Name</label>
+          <input type="text" id="company" name="company" />
+        </div>
+        
+        <div class="form-group">
+          <label for="productInterest">Product of Interest *</label>
+          <select id="productInterest" name="productInterest" required>
+            <option value="">Select a product</option>
+            <option value="bottles">Bottles</option>
+            <option value="dustbins">Dustbins</option>
+            <option value="combos">Combos</option>
+            <option value="lunchboxes">Lunch Boxes</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="quantity">Quantity Required</label>
+          <input type="number" id="quantity" name="quantity" min="1" />
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Additional Details</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Submit Quote Request</button>
+      </form>
+    </div>
+  </div>
 
-      </div>
-    </section>
-
-    <!-- Hidden sections for each subcategory -->
-    <section id="classic-details" class="subcategory-details" style="display: none;">
-      <div class="details-header">
-        <h3>Classic Collection</h3>
-        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
-      </div>
-      <div class="image-gallery">
-        <div class="image-item">
-          <img src="images/Bottles/Classic/Main.jpg" alt="Classic Bottle Main" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Classic Design</h4>
-            <p>Timeless steel bottle design</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Classic/Features.jpg" alt="Classic Bottle Features" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Features</h4>
-            <p>Advanced bottle features</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Classic/Hot Cold.jpg" alt="Classic Bottle Temperature" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Temperature Control</h4>
-            <p>Keeps hot & cold beverages</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Classic/Length.jpg" alt="Classic Bottle Dimensions" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Dimensions</h4>
-            <p>Perfect size specifications</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="curvy-details" class="subcategory-details" style="display: none;">
-      <div class="details-header">
-        <h3>Curvy Collection</h3>
-        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
-      </div>
-      <div class="image-gallery">
-        <div class="image-item">
-          <img src="images/Bottles/Curvy/Main.jpg" alt="Curvy Bottle Main" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Curvy Design</h4>
-            <p>Ergonomic curved steel bottle</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Curvy/Features.jpg" alt="Curvy Bottle Features" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Features</h4>
-            <p>Enhanced grip & functionality</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Curvy/Hot Cold.jpg" alt="Curvy Bottle Temperature" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Temperature Control</h4>
-            <p>Superior insulation technology</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Curvy/Length.jpg" alt="Curvy Bottle Dimensions" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Dimensions</h4>
-            <p>Optimized proportions</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="flora-details" class="subcategory-details" style="display: none;">
-      <div class="details-header">
-        <h3>Flora Collection</h3>
-        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
-      </div>
-      <div class="image-gallery">
-        <div class="image-item">
-          <img src="images/Bottles/Flora/Main.jpg" alt="Flora Bottle Main" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Flora Design</h4>
-            <p>Nature-inspired bottle design</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Flora/Features.jpg" alt="Flora Bottle Features" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Features</h4>
-            <p>Artistic & functional design</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Flora/Hot Cold.jpg" alt="Flora Bottle Temperature" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Temperature Control</h4>
-            <p>Maintains drink temperature</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Flora/Length.jpg" alt="Flora Bottle Dimensions" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Dimensions</h4>
-            <p>Elegant proportions</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="sports-details" class="subcategory-details" style="display: none;">
-      <div class="details-header">
-        <h3>Sports Collection</h3>
-        <button class="back-btn" onclick="hideSubcategoryDetails()">← Back to Collections</button>
-      </div>
-      <div class="image-gallery">
-        <div class="image-item">
-          <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottle Main" onclick="enlargeImage(this)" />
-          <div class="image-info">
-            <h4>Sports Design</h4>
-            <p>Athletic performance bottle</p>
-          </div>
-        </div>
-        <div class="image-item">
-          <img src="images/Bottles/Sports/Features.jpg" alt="Sports Bottle Features" onclick="enlargeImage(this)" />
-          <div class="image-info">
+  <script src="script.js"></script>
+</body>
+</html>
             <h4>Features</h4>
             <p>Sport-specific functionality</p>
           </div>
