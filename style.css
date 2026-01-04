@@ -681,7 +681,7 @@ section {
 /* Bottles Page - Continuous Slideshow */
 .continuous-slideshow-section {
   background: #000000;
-  padding: 100px 0 20px 0;
+  padding: 80px 0 20px 0;
   overflow: hidden;
   width: 100%;
 }
@@ -1945,7 +1945,7 @@ footer {
   }
   
   .slideshow-track img {
-    height: 200px;
+    height: 250px;
   }
   
   .bottle-categories-container {
@@ -2120,7 +2120,11 @@ footer {
   }
   
   .slideshow-track img {
-    height: 150px;
+    height: 200px;
+  }
+  
+  .continuous-slideshow-section {
+    padding: 70px 0 15px 0;
   }
   
   .bottle-categories-container {
