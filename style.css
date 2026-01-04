@@ -699,7 +699,7 @@ section {
 }
 
 .slideshow-track img {
-  height: 450px;
+  height: 380px;
   width: auto;
   object-fit: contain;
   margin: 0 15px;
