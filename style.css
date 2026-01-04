@@ -699,7 +699,7 @@ section {
 }
 
 .slideshow-track img {
-  height: 300px;
+  height: 450px;
   width: auto;
   object-fit: contain;
   margin: 0 15px;
@@ -1945,7 +1945,7 @@ footer {
   }
   
   .slideshow-track img {
-    height: 250px;
+    height: 350px;
   }
   
   .bottle-categories-container {
@@ -2120,7 +2120,7 @@ footer {
   }
   
   .slideshow-track img {
-    height: 200px;
+    height: 280px;
   }
   
   .continuous-slideshow-section {
