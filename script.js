@@ -134,8 +134,15 @@ function initNavigation() {
         link.addEventListener('click', function(e) {
             // Close mobile menu when a link is clicked
             const navMenu = document.querySelector('.nav-menu');
+            const backdrop = document.querySelector('.mobile-menu-backdrop');
+            
             if (navMenu && navMenu.classList.contains('active')) {
                 navMenu.classList.remove('active');
+                // Also remove backdrop and restore body scroll
+                if (backdrop) {
+                    backdrop.classList.remove('active');
+                }
+                document.body.style.overflow = 'auto';
             }
             
             // Only handle smooth scrolling for hash links
