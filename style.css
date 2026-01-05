@@ -770,23 +770,16 @@ section {
   width: 100%;
 }
 
-.bottle-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
 .bottle-category-box {
-  width: 180px;
-  height: 180px;
+  width: 150px;
+  height: 150px;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(197, 224, 64, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.4s ease;
   cursor: pointer;
@@ -823,15 +816,6 @@ section {
 
 .bottle-category-box:hover .category-icon {
   filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 10px rgba(197, 224, 64, 0.5));
-}
-
-.bottle-label {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #C5E040;
-  text-align: center;
-  margin: 0;
-  letter-spacing: 0.5px;
 }
 
 /* Bottle Detail Page */
@@ -1989,8 +1973,8 @@ footer {
   }
   
   .bottle-category-box {
-    width: 160px;
-    height: 160px;
+    width: 130px;
+    height: 130px;
   }
   
   .home-image-container.fullscreen {
@@ -2145,8 +2129,8 @@ footer {
   }
   
   .bottle-category-box {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
   }
   
   .image-overlay {
