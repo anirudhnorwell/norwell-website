@@ -770,6 +770,13 @@ section {
   width: 100%;
 }
 
+.bottle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .bottle-category-box {
   width: 150px;
   height: 150px;
@@ -816,6 +823,15 @@ section {
 
 .bottle-category-box:hover .category-icon {
   filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 10px rgba(197, 224, 64, 0.5));
+}
+
+.bottle-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #C5E040;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
 /* Bottle Detail Page */
