@@ -634,6 +634,13 @@ section {
   margin: 0 auto;
 }
 
+.product-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
 .product-circle {
   width: 200px;
   height: 200px;
@@ -678,6 +685,16 @@ section {
 
 .product-circle:hover .product-icon {
   filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 10px rgba(197, 224, 64, 0.5));
+}
+
+.product-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #C5E040;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
 }
 
 /* Bottles Page - Continuous Slideshow */
