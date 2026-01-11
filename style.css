@@ -834,6 +834,13 @@ section {
   letter-spacing: 0.5px;
 }
 
+/* Larger boxes for dustbin and lunchbox pages (fewer items) */
+.dustbin-page .bottle-category-box,
+.lunchbox-page .bottle-category-box {
+  width: 200px;
+  height: 200px;
+}
+
 /* Bottle Detail Page */
 .bottle-detail-section {
   background: #000000;

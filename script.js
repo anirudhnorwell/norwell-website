@@ -327,7 +327,7 @@ function handleQuoteForm() {
             const message = `Hello Norwell,\n\nI'm interested in getting a quote for your products.\n\nContact Details:\nName: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nCompany: ${data.company || 'N/A'}\n\nProduct Interest: ${data.productInterest}\nQuantity: ${data.quantity || 'Not specified'}\n\nMessage: ${data.message || 'No additional message'}\n\nPlease provide me with a detailed quote.\n\nThank you!`;
             
             // Open WhatsApp with pre-filled message
-            const whatsappUrl = `https://wa.me/919999999999?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://wa.me/919999809260?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
             
             // Close modal
