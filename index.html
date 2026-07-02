@@ -9,30 +9,21 @@
   <meta name="author" content="NORWELL" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://norwell.co.in/" />
-  
-  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="NORWELL - Premium Stainless Steel Bottles, Dustbins & Lunch Boxes" />
   <meta property="og:description" content="Premium food-grade stainless steel products including water bottles, dustbins, and lunch boxes. Rust-resistant, eco-friendly, and durable." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://norwell.co.in/" />
   <meta property="og:image" content="https://norwell.co.in/NW%20Logo.png" />
-  
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="NORWELL - Premium Stainless Steel Products" />
   <meta name="twitter:description" content="Premium stainless steel bottles, dustbins, and lunch boxes. Food-grade, rust-resistant, eco-friendly." />
-  
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="NW Logo.png" />
   <link rel="apple-touch-icon" href="NW Logo.png" />
-  
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Mobile Menu Backdrop -->
   <div class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
 
-  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="navbar-container">
       <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
@@ -41,21 +32,16 @@
         <span></span>
       </button>
       <div class="logo-left">
-        <img src="NW Logo.png" alt="Norwell Logo" class="main-logo" />
+        <a href="#home"><img src="NW Logo.png" alt="Norwell Logo" class="main-logo" /></a>
       </div>
-      <ul class="nav-menu" onclick="event.target.classList.contains('nav-menu') && event.target.querySelector('.nav-menu::before') && toggleMobileMenu()">
+      <ul class="nav-menu">
         <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
         <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-        <li class="nav-item dropdown">
-          <a href="#products" class="nav-link" onclick="toggleDropdown(event)">Products</a>
-          <ul class="dropdown-menu">
-            <li><a href="bottles.html">Bottles</a></li>
-            <li><a href="combo.html">Combo</a></li>
-            <li><a href="dustbin.html">Dustbin</a></li>
-            <li><a href="lunchbox.html">Lunch Box</a></li>
-          </ul>
-        </li>
+        <li class="nav-item"><a href="bottles.html" class="nav-link">Bottles</a></li>
+        <li class="nav-item"><a href="lunchbox.html" class="nav-link">Lunch Boxes</a></li>
+        <li class="nav-item"><a href="dustbin.html" class="nav-link">Dustbins</a></li>
+        <li class="nav-item"><a href="combo.html" class="nav-link">Combos</a></li>
         <li class="nav-item"><a href="#faq" class="nav-link">FAQ</a></li>
       </ul>
       <div class="nav-right">
@@ -65,58 +51,113 @@
   </nav>
 
   <main>
-    <!-- Home Section with Continuous Slideshow -->
-    <section id="home" class="home-section">
-      <div class="continuous-slideshow-section">
-        <div class="continuous-slideshow">
-          <div class="slideshow-track">
-            <img src="Home/BinOffice.png" alt="Product 1" />
-            <img src="Home/CurvyBottle.png" alt="Product 2" />
-            <img src="Home/CV Bl GymGirl.png" alt="Product 3" />
-            <img src="Home/CV Black Office.png" alt="Product 4" />
-            <img src="Home/Drinking ManClassic.png" alt="Product 5" />
-            <img src="Home/GymSports.png" alt="Product 6" />
-            <img src="Home/HometableSports.png" alt="Product 7" />
-            <img src="Home/KitchenBin.png" alt="Product 8" />
-            <img src="Home/LunchBoxBlack.png" alt="Product 9" />
-            <img src="Home/MandrinkingCurvy.jpeg" alt="Product 10" />
-            <img src="Home/ManHoldingSports.png" alt="Product 11" />
-            <img src="Home/Office Flora.png" alt="Product 12" />
-            <img src="Home/OfficeClassicBottle.png" alt="Product 13" />
-            <img src="Home/RoomBin.png" alt="Product 14" />
-            <img src="Home/Tiffin (Steel lid) Black-1.jpg" alt="Product 15" />
-            <img src="Home/Tiffin (Steel lid) Black-3.jpg" alt="Product 16" />
-            <img src="Home/Tiffin (Steel lid) Blue-1.jpg" alt="Product 17" />
-            <img src="Home/Tiffin (Steel lid) Blue-3.jpg" alt="Product 18" />
-            <img src="Home/Tiffin-3.jpg" alt="Product 19" />
-            <!-- Duplicate for seamless loop -->
-            <img src="Home/BinOffice.png" alt="Product 1" />
-            <img src="Home/CurvyBottle.png" alt="Product 2" />
-            <img src="Home/CV Bl GymGirl.png" alt="Product 3" />
-            <img src="Home/CV Black Office.png" alt="Product 4" />
-            <img src="Home/Drinking ManClassic.png" alt="Product 5" />
-            <img src="Home/GymSports.png" alt="Product 6" />
-            <img src="Home/HometableSports.png" alt="Product 7" />
-            <img src="Home/KitchenBin.png" alt="Product 8" />
-            <img src="Home/LunchBoxBlack.png" alt="Product 9" />
-            <img src="Home/MandrinkingCurvy.jpeg" alt="Product 10" />
-            <img src="Home/ManHoldingSports.png" alt="Product 11" />
-            <img src="Home/Office Flora.png" alt="Product 12" />
-            <img src="Home/OfficeClassicBottle.png" alt="Product 13" />
-            <img src="Home/RoomBin.png" alt="Product 14" />
-            <img src="Home/Tiffin (Steel lid) Black-1.jpg" alt="Product 15" />
-            <img src="Home/Tiffin (Steel lid) Black-3.jpg" alt="Product 16" />
-            <img src="Home/Tiffin (Steel lid) Blue-1.jpg" alt="Product 17" />
-            <img src="Home/Tiffin (Steel lid) Blue-3.jpg" alt="Product 18" />
-            <img src="Home/Tiffin-3.jpg" alt="Product 19" />
+    <!-- Hero -->
+    <section id="home" class="hero-section">
+      <div class="hero-content">
+        <span class="section-badge">Premium Stainless Steel</span>
+        <h1 class="hero-title">Built Tough.<br><span>Built to Last.</span></h1>
+        <p class="hero-desc">Discover food-grade stainless steel bottles, dustbins, and lunch boxes — crafted for modern homes, offices, and on-the-go lifestyles.</p>
+        <div class="hero-actions">
+          <a href="#products" class="btn-primary">Shop Collection</a>
+          <button class="btn-outline" onclick="openQuery()">Get a Quote</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>1000+</strong>
+            <span>Happy Customers</span>
           </div>
+          <div class="hero-stat">
+            <strong>50+</strong>
+            <span>Product Designs</span>
+          </div>
+          <div class="hero-stat">
+            <strong>99.9%</strong>
+            <span>Pure Steel</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-image-frame">
+          <img src="images/Bottles/CurvyBSC/Open .jpg" alt="Norwell Premium Steel Bottle" />
+        </div>
+        <div class="hero-float-card">
+          <span class="dot"></span>
+          <p>Food-Grade · Rust-Free · Eco-Friendly</p>
         </div>
       </div>
     </section>
 
-    <!-- About Section -->
+    <!-- Trust Strip -->
+    <div class="trust-strip">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">🛡️</div>
+          <div>
+            <h4>Food-Grade Steel</h4>
+            <p>100% safe for daily use</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">♻️</div>
+          <div>
+            <h4>Eco-Friendly</h4>
+            <p>Sustainable & reusable</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">💪</div>
+          <div>
+            <h4>Rust-Resistant</h4>
+            <p>Built for years of use</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">📦</div>
+          <div>
+            <h4>Bulk Orders</h4>
+            <p>Wholesale pricing available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <section id="products" class="products-section">
+      <span class="section-badge" style="display:block;text-align:center;">Shop by Category</span>
+      <h2 class="products-title">Strong. Stylish. Stainless.</h2>
+      <p class="products-subtitle">Premium steel products for every corner of your life</p>
+      <div class="products-circles-container">
+        <div class="product-item" onclick="window.location.href='bottles.html'">
+          <div class="product-circle">
+            <img src="MainProducts/Bottles.png" alt="Bottles" class="product-icon">
+          </div>
+          <p class="product-label">Water Bottles</p>
+        </div>
+        <div class="product-item" onclick="window.location.href='dustbin.html'">
+          <div class="product-circle">
+            <img src="MainProducts/Dustbins.png" alt="Dustbins" class="product-icon">
+          </div>
+          <p class="product-label">Dustbins</p>
+        </div>
+        <div class="product-item" onclick="window.location.href='lunchbox.html'">
+          <div class="product-circle">
+            <img src="MainProducts/Lunch Box.jpg" alt="Lunch Box" class="product-icon">
+          </div>
+          <p class="product-label">Lunch Boxes</p>
+        </div>
+        <div class="product-item" onclick="window.location.href='combo.html'">
+          <div class="product-circle">
+            <img src="MainProducts/Combo.jpg" alt="Combo" class="product-icon">
+          </div>
+          <p class="product-label">Combo Sets</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
     <section id="about" class="about-section">
-      <h2 class="about-title">Built Tough. Built to Last.</h2>
+      <span class="section-badge" style="display:block;text-align:center;">Why Norwell</span>
+      <h2 class="about-title">Trusted by Thousands Across India</h2>
       <div class="circles-container">
         <div class="stat-circle">
           <div class="circle-content">
@@ -126,8 +167,8 @@
         </div>
         <div class="stat-circle">
           <div class="circle-content">
-            <h3>5+ Years</h3>
-            <p>Strong</p>
+            <h3>5+</h3>
+            <p>Years of Excellence</p>
           </div>
         </div>
         <div class="stat-circle">
@@ -138,23 +179,25 @@
         </div>
         <div class="stat-circle">
           <div class="circle-content">
-            <h3>5 Star</h3>
-            <p>Reviews</p>
+            <h3>5★</h3>
+            <p>Customer Reviews</p>
           </div>
         </div>
         <div class="stat-circle">
           <div class="circle-content">
             <h3>50+</h3>
-            <p>Designs</p>
+            <p>Unique Designs</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact -->
     <section id="contact" class="contact-section">
       <div class="section-content">
+        <span class="section-badge" style="display:block;text-align:center;">Get in Touch</span>
         <h2>Contact Us</h2>
+        <p class="section-subtitle" style="text-align:center;margin:0 auto 0;">We'd love to hear from you — reach out for quotes, bulk orders, or any questions.</p>
         <div class="contact-info">
           <a href="tel:+919999809260" class="contact-item">
             <h4>Phone</h4>
@@ -172,43 +215,11 @@
       </div>
     </section>
 
-    <!-- Products Section -->
-    <section id="products" class="products-section">
-      <h2 class="products-title">Strong. Stylish. Stainless — for Every Category.</h2>
-      <div class="products-circles-container">
-        <div class="product-item">
-          <div class="product-circle" onclick="window.location.href='bottles.html'">
-            <img src="MainProducts/Bottles.png" alt="Bottles" class="product-icon">
-          </div>
-          <p class="product-label">Bottles</p>
-        </div>
-        <div class="product-item">
-          <div class="product-circle" onclick="window.location.href='dustbin.html'">
-            <img src="MainProducts/Dustbins.png" alt="Dustbins" class="product-icon">
-          </div>
-          <p class="product-label">Dustbins</p>
-        </div>
-        <div class="product-item">
-          <div class="product-circle" onclick="window.location.href='combo.html'">
-            <img src="MainProducts/Combo.jpg" alt="Combo" class="product-icon">
-          </div>
-          <p class="product-label">Combo</p>
-        </div>
-        <div class="product-item">
-          <div class="product-circle" onclick="window.location.href='lunchbox.html'">
-            <img src="MainProducts/Lunch Box.jpg" alt="Lunch Box" class="product-icon">
-          </div>
-          <p class="product-label">Lunch Box</p>
-        </div>
-      </div>
-    </section>
-      </div>
-    </section>
-
-    <!-- FAQ Section -->
+    <!-- FAQ -->
     <section id="faq" class="faq-section">
       <div class="section-content">
-        <h2>Frequently Asked Questions</h2>
+        <span class="section-badge" style="display:block;text-align:center;">Support</span>
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.75rem,3vw,2.5rem);font-weight:800;color:var(--primary);text-align:center;">Frequently Asked Questions</h2>
         <div class="faq-list">
           <div class="faq-item">
             <h4>What materials are your products made from?</h4>
@@ -224,41 +235,35 @@
           </div>
           <div class="faq-item">
             <h4>How can I place an order?</h4>
-            <p>You can click "Get Quote" button or contact us directly via phone, email, or WhatsApp.</p>
+            <p>Click the "Get Quote" button or contact us directly via phone, email, or WhatsApp.</p>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Query Modal -->
   <div id="queryModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeQuery()">&times;</span>
       <h3>Get a Quote</h3>
       <p>Fill out the form below and we'll get back to you with a personalized quote</p>
-      
       <form id="quoteForm" class="quote-form">
         <div class="form-group">
           <label for="fullName">Full Name *</label>
           <input type="text" id="fullName" name="fullName" required>
         </div>
-        
         <div class="form-group">
           <label for="email">Email Address *</label>
           <input type="email" id="email" name="email" required>
         </div>
-        
         <div class="form-group">
           <label for="phone">Phone Number *</label>
           <input type="tel" id="phone" name="phone" required>
         </div>
-        
         <div class="form-group">
           <label for="company">Company/Organization</label>
           <input type="text" id="company" name="company">
         </div>
-        
         <div class="form-group">
           <label for="productInterest">Product Interest *</label>
           <select id="productInterest" name="productInterest" required>
@@ -270,30 +275,21 @@
             <option value="multiple">Multiple Categories</option>
           </select>
         </div>
-        
         <div class="form-group">
           <label for="quantity">Estimated Quantity</label>
           <input type="number" id="quantity" name="quantity" min="1" placeholder="e.g., 100">
         </div>
-        
         <div class="form-group">
           <label for="message">Additional Requirements/Message</label>
           <textarea id="message" name="message" rows="4" placeholder="Tell us about your specific requirements..."></textarea>
         </div>
-        
         <div class="form-actions">
           <button type="submit" class="submit-btn">Submit Quote Request</button>
           <div class="contact-divider">or contact us directly</div>
           <div class="contact-options">
-            <a href="https://wa.me/919999809260" class="contact-btn whatsapp" target="_blank">
-              WhatsApp
-            </a>
-            <a href="mailto:support@norwell.com" class="contact-btn email">
-              Email Us
-            </a>
-            <a href="tel:+919999809260" class="contact-btn phone">
-              Call Now
-            </a>
+            <a href="https://wa.me/919999809260" class="contact-btn whatsapp" target="_blank">WhatsApp</a>
+            <a href="mailto:support@norwell.com" class="contact-btn email">Email Us</a>
+            <a href="tel:+919999809260" class="contact-btn phone">Call Now</a>
           </div>
         </div>
       </form>

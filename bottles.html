@@ -12,203 +12,50 @@
   <link rel="apple-touch-icon" href="NW Logo.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <!-- Mobile Menu Backdrop -->
+<body data-page="bottles">
   <div class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
-
-  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="navbar-container">
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="logo-left">
-        <img src="NW Logo.png" alt="Norwell Logo" class="main-logo" />
-      </div>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu"><span></span><span></span><span></span></button>
+      <div class="logo-left"><a href="index.html"><img src="NW Logo.png" alt="Norwell Logo" class="main-logo" /></a></div>
       <ul class="nav-menu">
         <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
         <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
         <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link" onclick="toggleDropdown(event)">Products ▾</a>
-          <div class="dropdown-menu">
-            <a href="bottles.html">Bottles</a>
-            <a href="dustbin.html">Dustbins</a>
-            <a href="combo.html">Combos</a>
-            <a href="lunchbox.html">Lunch Boxes</a>
-          </div>
-        </li>
+        <li class="nav-item"><a href="bottles.html" class="nav-link">Bottles</a></li>
+        <li class="nav-item"><a href="lunchbox.html" class="nav-link">Lunch Boxes</a></li>
+        <li class="nav-item"><a href="dustbin.html" class="nav-link">Dustbins</a></li>
+        <li class="nav-item"><a href="combo.html" class="nav-link">Combos</a></li>
         <li class="nav-item"><a href="index.html#faq" class="nav-link">FAQ</a></li>
       </ul>
-      <div class="nav-right">
-        <button class="query-btn" onclick="openQuery()">Get Quote</button>
-      </div>
+      <div class="nav-right"><button class="query-btn" onclick="openQuery()">Get Quote</button></div>
     </div>
   </nav>
-
-  <!-- Continuous Scrolling Slideshow -->
-  <section class="continuous-slideshow-section">
-    <div class="continuous-slideshow">
-      <div class="slideshow-track">
-        <img src="images/Bottles/Slideshow/Cl+GymSp.png" alt="Bottles 1" />
-        <img src="images/Bottles/Slideshow/CurvyFeatures.jpg" alt="Bottles 2" />
-        <img src="images/Bottles/Slideshow/CV Bl GymGirl.png" alt="Bottles 3" />
-        <img src="images/Bottles/Slideshow/CV Black Office.png" alt="Bottles 4" />
-        <img src="images/Bottles/Slideshow/GymGirlCurvyBottle.png" alt="Bottles 5" />
-        <img src="images/Bottles/Slideshow/HoldinhinHandClassic.png" alt="Bottles 6" />
-        <img src="images/Bottles/Slideshow/Hometable.png" alt="Bottles 7" />
-        <img src="images/Bottles/Slideshow/InHand.png" alt="Bottles 8" />
-        <img src="images/Bottles/Slideshow/InHandCUrvyBottle.png" alt="Bottles 9" />
-        <img src="images/Bottles/Slideshow/InHandSports.png" alt="Bottles 10" />
-        <img src="images/Bottles/Slideshow/Man HoldingCB.png" alt="Bottles 11" />
-        <img src="images/Bottles/Slideshow/Office.png" alt="Bottles 12" />
-        <img src="images/Bottles/Slideshow/OfficeBottleclassic.png" alt="Bottles 13" />
-        <img src="images/Bottles/Slideshow/OfficeCurvy.png" alt="Bottles 14" />
-        <img src="images/Bottles/Slideshow/OfficeTableSports.png" alt="Bottles 15" />
-        <!-- Duplicate for seamless loop -->
-        <img src="images/Bottles/Slideshow/Cl+GymSp.png" alt="Bottles 1" />
-        <img src="images/Bottles/Slideshow/CurvyFeatures.jpg" alt="Bottles 2" />
-        <img src="images/Bottles/Slideshow/CV Bl GymGirl.png" alt="Bottles 3" />
-        <img src="images/Bottles/Slideshow/CV Black Office.png" alt="Bottles 4" />
-        <img src="images/Bottles/Slideshow/GymGirlCurvyBottle.png" alt="Bottles 5" />
-        <img src="images/Bottles/Slideshow/HoldinhinHandClassic.png" alt="Bottles 6" />
-        <img src="images/Bottles/Slideshow/Hometable.png" alt="Bottles 7" />
-        <img src="images/Bottles/Slideshow/InHand.png" alt="Bottles 8" />
-        <img src="images/Bottles/Slideshow/InHandCUrvyBottle.png" alt="Bottles 9" />
-        <img src="images/Bottles/Slideshow/InHandSports.png" alt="Bottles 10" />
-        <img src="images/Bottles/Slideshow/Man HoldingCB.png" alt="Bottles 11" />
-        <img src="images/Bottles/Slideshow/Office.png" alt="Bottles 12" />
-        <img src="images/Bottles/Slideshow/OfficeBottleclassic.png" alt="Bottles 13" />
-        <img src="images/Bottles/Slideshow/OfficeCurvy.png" alt="Bottles 14" />
-        <img src="images/Bottles/Slideshow/OfficeTableSports.png" alt="Bottles 15" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottle Categories Section -->
-  <section class="bottle-categories-section">
-    <h2 class="bottles-page-title">Featured Bottles from Our Range</h2>
-    <div class="bottle-categories-container">
-      <div class="bottle-item">
-        <a href="bottle-classic.html" class="bottle-category-box">
-          <img src="images/Bottles/Classic/Main.jpg" alt="Classic Bottles" class="category-icon" />
-        </a>
-        <p class="bottle-label">Classic</p>
-      </div>
-      <div class="bottle-item">
-        <a href="bottle-curvy.html" class="bottle-category-box">
-          <img src="images/Bottles/Curvy/Main.jpg" alt="Curvy Bottles" class="category-icon" />
-        </a>
-        <p class="bottle-label">Curvy</p>
-      </div>
-      <div class="bottle-item">
-        <a href="bottle-curvyblack.html" class="bottle-category-box">
-          <img src="images/Bottles/Curvy Black/Main.png" alt="Curvy Black Bottles" class="category-icon" />
-        </a>
-        <p class="bottle-label">Curvy-B</p>
-      </div>
-      <div class="bottle-item">
-        <a href="bottle-flora.html" class="bottle-category-box">
-          <img src="images/Bottles/FloraBlackLogo/Main.jpg" alt="Flora Bottles" class="category-icon" />
-        </a>
-        <p class="bottle-label">Flora</p>
-      </div>
-      <div class="bottle-item">
-        <a href="bottle-sports.html" class="bottle-category-box">
-          <img src="images/Bottles/Sports/Main.jpg" alt="Sports Bottles" class="category-icon" />
-        </a>
-        <p class="bottle-label">Sports</p>
-      </div>
-      <div class="bottle-item">
-        <a href="bottle-sportsblack.html" class="bottle-category-box">
-          <img src="images/Bottles/SportsBlackCap/Main.png" alt="Sports-P Bottles" class="category-icon" />
-        </a>
-        <p class="bottle-label">Sports-P</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
+  <main id="pageRoot" class="product-page"></main>
   <footer>
     <div class="footer-content">
-      <div class="footer-section">
-        <img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" />
-        <p class="footer-address">Keshav Puram,<br> New Delhi 110035</p>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <p>WhatsApp: +91-9999809260 / +91-9650415584</p>
-        <p>Email: support@norwell.com</p>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Categories</h4>
-        <a href="bottles.html">Bottles</a>
-        <a href="dustbin.html">Dustbins</a>
-        <a href="combo.html">Combos</a>
-        <a href="lunchbox.html">Lunch Boxes</a>
-      </div>
+      <div class="footer-section"><img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" /><p class="footer-address">Keshav Puram,<br> New Delhi 110035</p></div>
+      <div class="footer-section"><h4>Contact</h4><p>WhatsApp: +91-9999809260 / +91-9650415584</p><p>Email: support@norwell.com</p></div>
+      <div class="footer-section"><h4>Categories</h4><a href="bottles.html">Bottles</a><a href="dustbin.html">Dustbins</a><a href="combo.html">Combos</a><a href="lunchbox.html">Lunch Boxes</a></div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Norwell. All rights reserved.</p>
-    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Norwell. All rights reserved.</p></div>
   </footer>
-
-  <!-- Query Modal -->
   <div id="queryModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeQuery()">&times;</span>
       <h2>Get a Quote</h2>
       <form id="quoteForm">
-        <div class="form-group">
-          <label for="fullName">Full Name *</label>
-          <input type="text" id="fullName" name="fullName" required />
-        </div>
-        
-        <div class="form-group">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        
-        <div class="form-group">
-          <label for="phone">Phone Number *</label>
-          <input type="tel" id="phone" name="phone" required />
-        </div>
-        
-        <div class="form-group">
-          <label for="company">Company Name</label>
-          <input type="text" id="company" name="company" />
-        </div>
-        
-        <div class="form-group">
-          <label for="productInterest">Product of Interest *</label>
-          <select id="productInterest" name="productInterest" required>
-            <option value="">Select a product</option>
-            <option value="bottles">Bottles</option>
-            <option value="dustbins">Dustbins</option>
-            <option value="combos">Combos</option>
-            <option value="lunchboxes">Lunch Boxes</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="quantity">Quantity Required</label>
-          <input type="number" id="quantity" name="quantity" min="1" />
-        </div>
-        
-        <div class="form-group">
-          <label for="message">Additional Details</label>
-          <textarea id="message" name="message" rows="4"></textarea>
-        </div>
-        
+        <div class="form-group"><label for="fullName">Full Name *</label><input type="text" id="fullName" name="fullName" required /></div>
+        <div class="form-group"><label for="email">Email Address *</label><input type="email" id="email" name="email" required /></div>
+        <div class="form-group"><label for="phone">Phone Number *</label><input type="tel" id="phone" name="phone" required /></div>
+        <div class="form-group"><label for="company">Company Name</label><input type="text" id="company" name="company" /></div>
+        <div class="form-group"><label for="productInterest">Product of Interest *</label><select id="productInterest" name="productInterest" required><option value="">Select a product</option><option value="bottles">Bottles</option><option value="dustbins">Dustbins</option><option value="combos">Combos</option><option value="lunchboxes">Lunch Boxes</option></select></div>
+        <div class="form-group"><label for="quantity">Quantity Required</label><input type="number" id="quantity" name="quantity" min="1" /></div>
+        <div class="form-group"><label for="message">Additional Details</label><textarea id="message" name="message" rows="4"></textarea></div>
         <button type="submit" class="submit-btn">Submit Quote Request</button>
       </form>
     </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
