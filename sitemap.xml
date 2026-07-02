@@ -44,7 +44,13 @@
   </url>
   <url>
     <loc>https://norwell.co.in/bottle-curvyblack.html</loc>
-    <lastmod>2026-01-18</lastmod>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://norwell.co.in/bottle-curvybsc.html</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

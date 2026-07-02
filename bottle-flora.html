@@ -1,86 +1,46 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flora Black Logo Steel Bottle | Designer Water Bottle - NORWELL</title>
-  <meta name="description" content="Buy Flora Black Logo stainless steel water bottle - designer look, food-grade, leak-proof. Stylish steel bottle with unique design in India." />
-  <meta name="keywords" content="steel bottle, designer steel bottle, stainless steel bottle, water bottle steel, flora steel bottle, Norwell steel bottles, Norwell flora bottle, Norwell water bottles, flora steel bottle, designer water bottle, black logo bottle, stainless steel flora bottle, stylish water bottle, unique design bottle India" />
+  <title>Flora Stainless Steel Water Bottle - NORWELL</title>
+  <meta name="description" content="Buy Flora stainless steel water bottle with elegant floral design." />
   <meta name="robots" content="index, follow" />
   <link rel="icon" type="image/png" href="NW Logo.png" />
-  <link rel="apple-touch-icon" href="NW Logo.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-product="flora">
   <div class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
   <nav class="navbar">
     <div class="navbar-container">
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="logo-left"><img src="NW Logo.png" alt="Norwell Logo" class="main-logo" /></div>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu"><span></span><span></span><span></span></button>
+      <div class="logo-left"><a href="index.html"><img src="NW Logo.png" alt="Norwell Logo" class="main-logo" /></a></div>
       <ul class="nav-menu">
         <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
         <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
         <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
         <li class="nav-item dropdown">
-          <a href="#" class="nav-link" onclick="toggleDropdown(event)">Products ▾</a>
-          <div class="dropdown-menu">
-            <a href="bottles.html">Bottles</a><a href="dustbin.html">Dustbins</a><a href="combo.html">Combos</a><a href="lunchbox.html">Lunch Boxes</a>
-          </div>
+          <a href="#" class="nav-link" onclick="toggleDropdown(event)">Products</a>
+          <ul class="dropdown-menu">
+            <li><a href="bottles.html">Bottles</a></li>
+            <li><a href="dustbin.html">Dustbins</a></li>
+            <li><a href="combo.html">Combos</a></li>
+            <li><a href="lunchbox.html">Lunch Boxes</a></li>
+          </ul>
         </li>
         <li class="nav-item"><a href="index.html#faq" class="nav-link">FAQ</a></li>
       </ul>
       <div class="nav-right"><button class="query-btn" onclick="openQuery()">Get Quote</button></div>
     </div>
   </nav>
-  <section class="bottle-detail-section">
-    <div class="bottle-detail-container">
-      <div class="bottle-image-side">
-        <div class="main-bottle-display"><img id="mainBottleImage" src="images/Bottles/FloraBlackLogo/Main.jpg" alt="Flora Black Logo Bottle" /></div>
-        <div class="image-navigation">
-          <button class="nav-arrow left" onclick="changeBottleImage(-1)">‹</button>
-          <button class="nav-arrow right" onclick="changeBottleImage(1)">›</button>
-        </div>
-      </div>
-      <div class="bottle-message-side">
-        <ul>
-          <li>Food-grade stainless steel construction</li>
-          <li>Rust-resistant and durable</li>
-          <li>Leak-proof cap design</li>
-          <li>Ergonomic and sleek design</li>
-          <li>Perfect for gym, travel, office, or outdoor use</li>
-          <li>Easy to clean and maintain</li>
-          <li>Eco-friendly and sustainable</li>
-          <li>Fits in most bags and car holders</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <main id="productPageRoot" class="product-page"></main>
   <footer>
     <div class="footer-content">
-      <div class="footer-section">
-        <img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" />
-        <p class="footer-address">Keshav Puram,<br> New Delhi 110035</p>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <p>WhatsApp: +91-9999809260 / +91-9650415584</p>
-        <p>Email: support@norwell.com</p>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Categories</h4>
-        <a href="bottles.html">Bottles</a>
-        <a href="dustbin.html">Dustbins</a>
-        <a href="combo.html">Combos</a>
-        <a href="lunchbox.html">Lunch Boxes</a>
-      </div>
+      <div class="footer-section"><img src="NW Logo.png" alt="Norwell Logo" class="footer-logo" /><p class="footer-address">Keshav Puram,<br> New Delhi 110035</p></div>
+      <div class="footer-section"><h4>Contact</h4><p>WhatsApp: +91-9999809260 / +91-9650415584</p><p>Email: support@norwell.com</p></div>
+      <div class="footer-section"><h4>Categories</h4><a href="bottles.html">Bottles</a><a href="dustbin.html">Dustbins</a><a href="combo.html">Combos</a><a href="lunchbox.html">Lunch Boxes</a></div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Norwell. All rights reserved.</p>
-    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Norwell. All rights reserved.</p></div>
   </footer>
   <div id="queryModal" class="modal">
     <div class="modal-content">
@@ -98,15 +58,5 @@
     </div>
   </div>
   <script src="script.js"></script>
-  <script>
-    const bottleImages = ['images/Bottles/FloraBlackLogo/Main.jpg','images/Bottles/FloraBlackLogo/Flora-1.jpg','images/Bottles/FloraBlackLogo/Flora-3.jpg','images/Bottles/FloraBlackLogo/Flora-4.jpg','images/Bottles/FloraBlackLogo/Flora-5.jpg','images/Bottles/FloraBlackLogo/Box.png','images/Bottles/FloraBlackLogo/Office.png'];
-    let currentImageIndex = 0;
-    function changeBottleImage(direction) {
-      currentImageIndex += direction;
-      if (currentImageIndex < 0) currentImageIndex = bottleImages.length - 1;
-      else if (currentImageIndex >= bottleImages.length) currentImageIndex = 0;
-      document.getElementById('mainBottleImage').src = bottleImages[currentImageIndex];
-    }
-  </script>
 </body>
 </html>
