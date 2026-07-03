@@ -114,16 +114,16 @@ var PRODUCT_REGISTRY = {
         badge: 'Popular',
         accent: 'splash-blue',
         interest: 'bottles',
-        heroImage: 'images/Bottles/Classic/Drinking Man.png',
+        heroImage: 'images/Bottles/Fridge Bottles/Classic/Drinking Man.png',
         images: [
-            'images/Bottles/Classic/Main.jpg',
-            'images/Bottles/Classic/Classic-1.jpg',
-            'images/Bottles/Classic/Classic-3.jpg',
-            'images/Bottles/Classic/Classic-4.jpg',
-            'images/Bottles/Classic/Classic-5.jpg',
-            'images/Bottles/Classic/Drinking Man.png',
-            'images/Bottles/Classic/HoldinhinHand.png',
-            'images/Bottles/Classic/OfficeBottle.png'
+            'images/Bottles/Fridge Bottles/Classic/Main.jpg',
+            'images/Bottles/Fridge Bottles/Classic/Classic-1.jpg',
+            'images/Bottles/Fridge Bottles/Classic/Classic-3.jpg',
+            'images/Bottles/Fridge Bottles/Classic/Classic-4.jpg',
+            'images/Bottles/Fridge Bottles/Classic/Classic-5.jpg',
+            'images/Bottles/Fridge Bottles/Classic/Drinking Man.png',
+            'images/Bottles/Fridge Bottles/Classic/HoldinhinHand.png',
+            'images/Bottles/Fridge Bottles/Classic/OfficeBottle.png'
         ]
     },
     curvy: {
@@ -135,14 +135,14 @@ var PRODUCT_REGISTRY = {
         parentLabel: 'Bottles',
         accent: 'splash-teal',
         interest: 'bottles',
-        heroImage: 'images/Bottles/Curvy/Curvy-4.jpg',
+        heroImage: 'images/Bottles/Fridge Bottles/Curvy/Curvy-4.jpg',
         images: [
-            'images/Bottles/Curvy/Main.jpg',
-            'images/Bottles/Curvy/Curvy-1.jpg',
-            'images/Bottles/Curvy/Curvy-3.jpg',
-            'images/Bottles/Curvy/Curvy-4.jpg',
-            'images/Bottles/Curvy/Curvy-5.jpg',
-            'images/Bottles/Curvy/Box.jpg'
+            'images/Bottles/Fridge Bottles/Curvy/Main.jpg',
+            'images/Bottles/Fridge Bottles/Curvy/Curvy-1.jpg',
+            'images/Bottles/Fridge Bottles/Curvy/Curvy-3.jpg',
+            'images/Bottles/Fridge Bottles/Curvy/Curvy-4.jpg',
+            'images/Bottles/Fridge Bottles/Curvy/Curvy-5.jpg',
+            'images/Bottles/Fridge Bottles/Curvy/Box.jpg'
         ]
     },
     curvyblack: {
@@ -155,14 +155,13 @@ var PRODUCT_REGISTRY = {
         badge: 'Premium',
         accent: 'splash-dark',
         interest: 'bottles',
-        heroImage: 'images/Bottles/CurvyB/CV Bl GymGirl.png',
+        heroImage: 'images/Bottles/Gym Bottles/CurvyB/CV Bl GymGirl.png',
         images: [
-            'images/Bottles/CurvyB/Main.png',
-            'images/Bottles/CurvyB/Curvy-4-Dimension.png',
-            'images/Bottles/CurvyB/CV Bl GymGirl.png',
-            'images/Bottles/CurvyB/CV Black Office.png',
-            'images/Bottles/CurvyB/Man Holding.png',
-            'images/Bottles/CurvyB/Package.png'
+            'images/Bottles/Gym Bottles/CurvyB/Main.png',
+            'images/Bottles/Gym Bottles/CurvyB/Curvy-4-Dimension.png',
+            'images/Bottles/Gym Bottles/CurvyB/CV Bl GymGirl.png',
+            'images/Bottles/Gym Bottles/CurvyB/In Gym.png',
+            'images/Bottles/Gym Bottles/CurvyB/Package.png'
         ]
     },
     curvybsc: {
@@ -175,17 +174,17 @@ var PRODUCT_REGISTRY = {
         badge: 'New',
         accent: 'splash-teal',
         interest: 'bottles',
-        heroImage: 'images/Bottles/CurvyBSC/Open .jpg',
+        heroImage: 'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
         images: [
-            'images/Bottles/CurvyBSC/Main.jpeg',
-            'images/Bottles/CurvyBSC/Open .jpg',
-            'images/Bottles/CurvyBSC/Features.jpg',
-            'images/Bottles/CurvyBSC/FeaturesFamily.jpg',
-            'images/Bottles/CurvyBSC/Dimension.jpg',
-            'images/Bottles/CurvyBSC/In hand curvy bottle.jpeg',
-            'images/Bottles/CurvyBSC/Office CurvyBottle.jpeg',
-            'images/Bottles/CurvyBSC/Package.png',
-            'images/Bottles/CurvyBSC/PackageImage.jpg'
+            'images/Bottles/Fridge Bottles/CurvyBSC/Main.jpeg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/Features.jpg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/FeaturesFamily.jpg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/Dimension.jpg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/In hand curvy bottle.jpeg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/Office CurvyBottle.jpeg',
+            'images/Bottles/Fridge Bottles/CurvyBSC/Package.png',
+            'images/Bottles/Fridge Bottles/CurvyBSC/PackageImage.jpg'
         ]
     },
     flora: {
@@ -197,15 +196,15 @@ var PRODUCT_REGISTRY = {
         parentLabel: 'Bottles',
         accent: 'splash-pink',
         interest: 'bottles',
-        heroImage: 'images/Bottles/FloraBlackLogo/Office.png',
+        heroImage: 'images/Bottles/Fridge Bottles/Flora/Office.png',
         images: [
-            'images/Bottles/FloraBlackLogo/Main.jpg',
-            'images/Bottles/FloraBlackLogo/Flora-1.jpg',
-            'images/Bottles/FloraBlackLogo/Flora-3.jpg',
-            'images/Bottles/FloraBlackLogo/Flora-4.jpg',
-            'images/Bottles/FloraBlackLogo/Flora-5.jpg',
-            'images/Bottles/FloraBlackLogo/Box.png',
-            'images/Bottles/FloraBlackLogo/Office.png'
+            'images/Bottles/Fridge Bottles/Flora/Main.jpg',
+            'images/Bottles/Fridge Bottles/Flora/Flora-1.jpg',
+            'images/Bottles/Fridge Bottles/Flora/Flora-3.jpg',
+            'images/Bottles/Fridge Bottles/Flora/Flora-4.jpg',
+            'images/Bottles/Fridge Bottles/Flora/Flora-5.jpg',
+            'images/Bottles/Fridge Bottles/Flora/Box.png',
+            'images/Bottles/Fridge Bottles/Flora/Office.png'
         ]
     },
     sports: {
@@ -218,14 +217,14 @@ var PRODUCT_REGISTRY = {
         badge: 'Gym',
         accent: 'splash-aqua',
         interest: 'bottles',
-        heroImage: 'images/Bottles/Sports/SportBottleBox.jpeg',
+        heroImage: 'images/Bottles/Fridge Bottles/Sports/SportBottleBox.jpeg',
         images: [
-            'images/Bottles/Sports/Main.jpg',
-            'images/Bottles/Sports/Sports-1.jpg',
-            'images/Bottles/Sports/Sports-3.jpg',
-            'images/Bottles/Sports/Sports-4.jpg',
-            'images/Bottles/Sports/Sports-5.jpg',
-            'images/Bottles/Sports/SportBottleBox.jpeg'
+            'images/Bottles/Fridge Bottles/Sports/Main.jpg',
+            'images/Bottles/Fridge Bottles/Sports/Sports-1.jpg',
+            'images/Bottles/Fridge Bottles/Sports/Sports-3.jpg',
+            'images/Bottles/Fridge Bottles/Sports/Sports-4.jpg',
+            'images/Bottles/Fridge Bottles/Sports/Sports-5.jpg',
+            'images/Bottles/Fridge Bottles/Sports/SportBottleBox.jpeg'
         ]
     },
     sportsblack: {
@@ -237,15 +236,15 @@ var PRODUCT_REGISTRY = {
         parentLabel: 'Bottles',
         accent: 'splash-indigo',
         interest: 'bottles',
-        heroImage: 'images/Bottles/SportsBlackCap/Gym.png',
+        heroImage: 'images/Bottles/Sipper Bottles/SportsBlackCap/Gym.png',
         images: [
-            'images/Bottles/SportsBlackCap/Main.png',
-            'images/Bottles/SportsBlackCap/Gym.png',
-            'images/Bottles/SportsBlackCap/Hometable.png',
-            'images/Bottles/SportsBlackCap/InHand.png',
-            'images/Bottles/SportsBlackCap/Office.png',
-            'images/Bottles/SportsBlackCap/Package.png',
-            'images/Bottles/SportsBlackCap/SportsBlackCapDimen.png'
+            'images/Bottles/Sipper Bottles/SportsBlackCap/Main.png',
+            'images/Bottles/Sipper Bottles/SportsBlackCap/Gym.png',
+            'images/Bottles/Sipper Bottles/SportsBlackCap/Hometable.png',
+            'images/Bottles/Sipper Bottles/SportsBlackCap/InHand.png',
+            'images/Bottles/Sipper Bottles/SportsBlackCap/Office.png',
+            'images/Bottles/Sipper Bottles/SportsBlackCap/Package.png',
+            'images/Bottles/Sipper Bottles/SportsBlackCap/SportsBlackCapDimen.png'
         ]
     },
     'dustbin-perforated': {
@@ -466,7 +465,7 @@ var PRODUCT_REGISTRY = {
 
 var PAGE_DATA = {
     bottles: {
-        heroImage: 'images/Bottles/CurvyBSC/Open .jpg',
+        heroImage: 'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
         heroTitle: 'Modern Stainless Steel Bottles',
         heroSubtitle: 'Browse fridge, gym, hot & cold, sipper and travel bottles in a futuristic premium layout.',
         heroDescription: 'Select a category and explore each bottle with responsive zoom visuals, thumbnails, and fast quote tools.',
@@ -490,10 +489,11 @@ var PAGE_DATA = {
                             'Lightweight yet durable',
                             'Easy to clean and maintain'
                         ],
+                        thumbnail: 'images/Bottles/Fridge Bottles/Classic/Thumbnail.png',
                         images: [
-                            'images/Bottles/Classic/Main.jpg',
-                            'images/Bottles/Classic/Drinking Man.png',
-                            'images/Bottles/Classic/OfficeBottle.png'
+                            'images/Bottles/Fridge Bottles/Classic/Main.jpg',
+                            'images/Bottles/Fridge Bottles/Classic/Drinking Man.png',
+                            'images/Bottles/Fridge Bottles/Classic/HoldinhinHand.png'
                         ],
                         interest: 'bottles'
                     },
@@ -510,10 +510,32 @@ var PAGE_DATA = {
                             'Travel-friendly shape',
                             'Food-safe and odor resistant'
                         ],
+                        thumbnail: 'images/Bottles/Fridge Bottles/Curvy/Thumbnail.jpg',
                         images: [
-                            'images/Bottles/Curvy/Main.jpg',
-                            'images/Bottles/Curvy/Curvy-4.jpg',
-                            'images/Bottles/Curvy/Curvy-5.jpg'
+                            'images/Bottles/Fridge Bottles/Curvy/Main.jpg',
+                            'images/Bottles/Fridge Bottles/Curvy/Curvy-4.jpg',
+                            'images/Bottles/Fridge Bottles/Curvy/Curvy-5.jpg'
+                        ],
+                        interest: 'bottles'
+                    },
+                    {
+                        id: 'curvybsc',
+                        title: 'CurvyBSC Sports Bottle',
+                        subtitle: 'Premium bottle for active chilled hydration.',
+                        description: 'A dynamic curvy bottle built for performance and fridge-friendly storage with premium steel durability.',
+                        usage: 'Great for gym bags, travel, and chilled daily use.',
+                        features: [
+                            'Premium stainless construction',
+                            'Sports-cap ready',
+                            'Sleek curved body',
+                            'Easy to carry',
+                            'Temperature-stable steel'
+                        ],
+                        thumbnail: 'images/Bottles/Fridge Bottles/CurvyBSC/Thumbnail.jpg',
+                        images: [
+                            'images/Bottles/Fridge Bottles/CurvyBSC/Main.jpeg',
+                            'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
+                            'images/Bottles/Fridge Bottles/CurvyBSC/Features.jpg'
                         ],
                         interest: 'bottles'
                     },
@@ -530,10 +552,32 @@ var PAGE_DATA = {
                             'Easy to clean',
                             'Everyday durability'
                         ],
+                        thumbnail: 'images/Bottles/Fridge Bottles/Flora/Thumbnail.jpg',
                         images: [
-                            'images/Bottles/FloraBlackLogo/Main.jpg',
-                            'images/Bottles/FloraBlackLogo/Office.png',
-                            'images/Bottles/FloraBlackLogo/Flora-4.jpg'
+                            'images/Bottles/Fridge Bottles/Flora/Main.jpg',
+                            'images/Bottles/Fridge Bottles/Flora/Office.png',
+                            'images/Bottles/Fridge Bottles/Flora/Flora-4.jpg'
+                        ],
+                        interest: 'bottles'
+                    },
+                    {
+                        id: 'sports',
+                        title: 'Sports Stainless Bottle',
+                        subtitle: 'Performance-ready hydration for workouts.',
+                        description: 'Rugged bottle with a functional cap designed to keep your drink secure during training and outdoor activity.',
+                        usage: 'Best suited for gym bags, outdoor training, and sweat sessions.',
+                        features: [
+                            'Durable sports cap',
+                            'Leak-resistant seal',
+                            'Easy grip texture',
+                            'Food-grade stainless steel',
+                            'Quick refill access'
+                        ],
+                        thumbnail: 'images/Bottles/Fridge Bottles/Sports/Thumbnail.jpg',
+                        images: [
+                            'images/Bottles/Fridge Bottles/Sports/Main.jpg',
+                            'images/Bottles/Fridge Bottles/Sports/Sports-4.jpg',
+                            'images/Bottles/Fridge Bottles/Sports/Sports-5.jpg'
                         ],
                         interest: 'bottles'
                     }
@@ -546,9 +590,9 @@ var PAGE_DATA = {
                 products: [
                     {
                         id: 'sports',
-                        title: 'Sports Steel Bottle',
-                        subtitle: 'Performance-ready hydration for workouts.',
-                        description: 'Rugged bottle with a functional cap designed to keep your drink secure during training and outdoor activity.',
+                        title: 'Sports Black Cap Bottle',
+                        subtitle: 'Performance bottle with a solid cap.',
+                        description: 'Built for active days, this bottle combines a robust cap and sleek steel body for dependable hydration.',
                         usage: 'Best suited for gym bags, outdoor training, and sweat sessions.',
                         features: [
                             'Durable sports cap',
@@ -557,10 +601,13 @@ var PAGE_DATA = {
                             'Food-grade stainless steel',
                             'Quick refill access'
                         ],
+                        thumbnail: 'images/Bottles/Gym Bottles/SportsBlackCap/Thumbnail.png',
                         images: [
-                            'images/Bottles/Sports/Main.jpg',
-                            'images/Bottles/Sports/Sports-4.jpg',
-                            'images/Bottles/Sports/Sports-5.jpg'
+                            'images/Bottles/Gym Bottles/SportsBlackCap/Main.png',
+                            'images/Bottles/Gym Bottles/SportsBlackCap/Gym.png',
+                            'images/Bottles/Gym Bottles/SportsBlackCap/Hometable.png',
+                            'images/Bottles/Gym Bottles/SportsBlackCap/InHand.png',
+                            'images/Bottles/Gym Bottles/SportsBlackCap/Package.png'
                         ],
                         interest: 'bottles'
                     },
@@ -577,10 +624,11 @@ var PAGE_DATA = {
                             'Rust-free steel',
                             'Easy to hold'
                         ],
+                        thumbnail: 'images/Bottles/Gym Bottles/CurvyB/Thumbnail.png',
                         images: [
-                            'images/Bottles/CurvyB/CV Bl GymGirl.png',
-                            'images/Bottles/CurvyB/CV Black Office.png',
-                            'images/Bottles/CurvyB/Man Holding.png'
+                            'images/Bottles/Gym Bottles/CurvyB/Main.png',
+                            'images/Bottles/Gym Bottles/CurvyB/CV Bl GymGirl.png',
+                            'images/Bottles/Gym Bottles/CurvyB/Man Holding.png'
                         ],
                         interest: 'bottles'
                     }
@@ -588,7 +636,7 @@ var PAGE_DATA = {
             },
             {
                 id: 'hotcold',
-                label: 'Hot & Cold',
+                label: 'Hot and Cold Bottles',
                 description: 'Insulated bottles built to hold hot or cold beverages with premium corrosion resistance.',
                 products: [
                     {
@@ -604,6 +652,7 @@ var PAGE_DATA = {
                             'Food-grade stainless steel',
                             'Durable design'
                         ],
+                        thumbnail: 'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_30_33 PM.png',
                         images: [
                             'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_30_33 PM.png',
                             'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_43_49 PM.png',
@@ -624,10 +673,11 @@ var PAGE_DATA = {
                             'Rust-resistant steel',
                             'Ideal for beverages on the go'
                         ],
+                        thumbnail: 'images/Bottles/Travel Bottles/DualCore-Green/Thumbnail.png',
                         images: [
-                            'images/Bottles/Travel Bottles/Dual Core-Military Green.png',
-                            'images/Bottles/Travel Bottles/DualCore-Delta.png',
-                            'images/Bottles/Travel Bottles/DualCOre-NavyBlue.png'
+                            'images/Bottles/Travel Bottles/DualCore-Green/Thumbnail.png',
+                            'images/Bottles/Travel Bottles/DualCore-Black/Thumbnail.png',
+                            'images/Bottles/Travel Bottles/DualCore-NavyBlue/DualCOre-NavyBlue.png'
                         ],
                         interest: 'bottles'
                     }
@@ -651,6 +701,7 @@ var PAGE_DATA = {
                             'Leak-resistant design',
                             'Modern finish'
                         ],
+                        thumbnail: 'images/Bottles/Sipper Bottles/CurvyB/Thumbnail.png',
                         images: [
                             'images/Bottles/Sipper Bottles/CurvyB/Main.png',
                             'images/Bottles/Sipper Bottles/CurvyB/Curvy-4-Dimension.png',
@@ -671,6 +722,7 @@ var PAGE_DATA = {
                             'Comfort grip',
                             'Easy to clean'
                         ],
+                        thumbnail: 'images/Bottles/Sipper Bottles/SportsBlackCap/Thumbnail.png',
                         images: [
                             'images/Bottles/Sipper Bottles/SportsBlackCap/Main.png',
                             'images/Bottles/Sipper Bottles/SportsBlackCap/Gym.png',
@@ -698,9 +750,10 @@ var PAGE_DATA = {
                             'Leak-resistant cap',
                             'Comfort grip'
                         ],
+                        thumbnail: 'images/Bottles/Travel Bottles/ClimatePro-Black/Thumbnail.png',
                         images: [
-                            'images/Bottles/Travel Bottles/ClimatePro-Black.png',
-                            'images/Bottles/Travel Bottles/ClimatePro-Crocodile.png',
+                            'images/Bottles/Travel Bottles/ClimatePro-Black/Thumbnail.png',
+                            'images/Bottles/Travel Bottles/ClimatePro-CrocodilePattern/Thumbnail.png',
                             'images/Bottles/Travel Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_59_11 PM.png'
                         ],
                         interest: 'bottles'
@@ -1007,10 +1060,8 @@ function normalizeImagePath(src) {
         .replace(/^images\/Bottles\/Classic\//, 'images/Bottles/Fridge Bottles/Classic/')
         .replace(/^images\/Bottles\/Curvy\//, 'images/Bottles/Fridge Bottles/Curvy/')
         .replace(/^images\/Bottles\/CurvyBSC\//, 'images/Bottles/Fridge Bottles/CurvyBSC/')
-        .replace(/^images\/Bottles\/FloraBlackLogo\//, 'images/Bottles/Fridge Bottles/FloraBlackLogo/')
-        .replace(/^images\/Bottles\/Sports\//, 'images/Bottles/Fridge Bottles/Sports/')
-        .replace(/^images\/Bottles\/CurvyB\//, 'images/Bottles/Gym Bottles/CurvyB/')
-        .replace(/^images\/Bottles\/SportsBlackCap\//, 'images/Bottles/Gym Bottles/SportsBlackCap/');
+        .replace(/^images\/Bottles\/FloraBlackLogo\//, 'images/Bottles/Fridge Bottles/Flora/')
+        .replace(/^images\/Bottles\/Sports\//, 'images/Bottles/Fridge Bottles/Sports/');
 }
 
 function renderCollectionPage(pageKey) {
@@ -1112,9 +1163,10 @@ function setCollectionCategory(categoryId) {
     var productGrid = document.getElementById('categoryProducts');
     if (!productGrid) return;
     productGrid.innerHTML = category.products.map(function(product, index) {
+        var thumb = normalizeImagePath(product.thumbnail || product.images[0]);
         return '<article class="product-card' + (index === 0 ? ' active' : '') + '" onclick="selectProduct(\'' + product.id + '\')">' +
             '<div class="product-card-image">' +
-                '<img src="' + normalizeImagePath(product.images[0]) + '" alt="' + product.title + '" />' +
+                '<img src="' + thumb + '" alt="' + product.title + '" />' +
             '</div>' +
             '<div class="product-card-body">' +
                 '<h3>' + product.title + '</h3>' +
@@ -1527,7 +1579,7 @@ function initTopCategoryDropdown() {
         const categories = [
             { label: 'Fridge Bottles', hash: 'fridge' },
             { label: 'Gym Bottles', hash: 'gym' },
-            { label: 'Hot & Cold', hash: 'hotcold' },
+            { label: 'Hot and Cold Bottles', hash: 'hotcold' },
             { label: 'Sipper Bottles', hash: 'sipper' },
             { label: 'Travel Bottles', hash: 'travel' }
         ];
