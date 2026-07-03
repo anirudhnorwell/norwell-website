@@ -1001,6 +1001,18 @@ function findPageData(pageKey) {
     return PAGE_DATA[pageKey] || null;
 }
 
+function normalizeImagePath(src) {
+    if (!src || typeof src !== 'string') return src;
+    return src
+        .replace(/^images\/Bottles\/Classic\//, 'images/Bottles/Fridge Bottles/Classic/')
+        .replace(/^images\/Bottles\/Curvy\//, 'images/Bottles/Fridge Bottles/Curvy/')
+        .replace(/^images\/Bottles\/CurvyBSC\//, 'images/Bottles/Fridge Bottles/CurvyBSC/')
+        .replace(/^images\/Bottles\/FloraBlackLogo\//, 'images/Bottles/Fridge Bottles/FloraBlackLogo/')
+        .replace(/^images\/Bottles\/Sports\//, 'images/Bottles/Fridge Bottles/Sports/')
+        .replace(/^images\/Bottles\/CurvyB\//, 'images/Bottles/Gym Bottles/CurvyB/')
+        .replace(/^images\/Bottles\/SportsBlackCap\//, 'images/Bottles/Gym Bottles/SportsBlackCap/');
+}
+
 function renderCollectionPage(pageKey) {
     var page = findPageData(pageKey);
     var root = document.getElementById('pageRoot');
@@ -1012,8 +1024,13 @@ function renderCollectionPage(pageKey) {
         productId: page.categories[0].products[0].id
     };
 
+    var requestedCategory = window.location.hash ? window.location.hash.substring(1) : '';
+    if (requestedCategory && page.categories.some(function(category) { return category.id === requestedCategory; })) {
+        window.currentPageState.categoryId = requestedCategory;
+    }
+
     root.innerHTML =
-        '<section class="product-hero-banner" style="background-image:url(\'' + page.heroImage + '\')">' +
+        '<section class="product-hero-banner" style="background-image:url(\'' + normalizeImagePath(page.heroImage) + '\')">' +
             '<div class="product-hero-gradient"></div>' +
             '<div class="product-hero-grid"></div>' +
             '<div class="product-hero-inner">' +
@@ -1097,7 +1114,7 @@ function setCollectionCategory(categoryId) {
     productGrid.innerHTML = category.products.map(function(product, index) {
         return '<article class="product-card' + (index === 0 ? ' active' : '') + '" onclick="selectProduct(\'' + product.id + '\')">' +
             '<div class="product-card-image">' +
-                '<img src="' + product.images[0] + '" alt="' + product.title + '" />' +
+                '<img src="' + normalizeImagePath(product.images[0]) + '" alt="' + product.title + '" />' +
             '</div>' +
             '<div class="product-card-body">' +
                 '<h3>' + product.title + '</h3>' +
@@ -1107,6 +1124,9 @@ function setCollectionCategory(categoryId) {
     }).join('');
 
     selectProduct(window.currentPageState.productId);
+    if (window.history && typeof window.history.replaceState === 'function') {
+        window.history.replaceState(null, '', 'bottles.html#' + categoryId);
+    }
 }
 
 function selectProduct(productId) {
@@ -1121,6 +1141,10 @@ function selectProduct(productId) {
     document.querySelectorAll('.product-card').forEach(function(card) {
         card.classList.toggle('active', card.getAttribute('onclick').includes('\'' + productId + '\''));
     });
+
+    var normalizedImages = product.images.map(normalizeImagePath);
+    window.bottleImages = normalizedImages.slice();
+    window.currentImageIndex = 0;
 
     var title = document.getElementById('productTitle');
     var description = document.getElementById('productDescription');
@@ -1140,7 +1164,7 @@ function selectProduct(productId) {
         whatsappLink.href = 'https://wa.me/919999809260?text=' + encodeURIComponent('Hello Norwell, I am interested in the ' + product.title + ' (' + page.heroTitle + '). Please share a quote.');
     }
 
-    window.bottleImages = product.images.slice();
+    window.bottleImages = normalizedImages.slice();
     window.currentImageIndex = 0;
     setProductImage(0);
     setQuoteInterest(product.interest || window.currentPageState.pageKey);
@@ -1169,9 +1193,9 @@ function renderProductPage(config) {
     var root = document.getElementById('productPageRoot');
     if (!root || !config) return;
 
-    var images = config.images || [];
+    var images = (config.images || []).map(normalizeImagePath);
     var features = config.features || DEFAULT_BOTTLE_FEATURES;
-    var hero = config.heroImage || (images.length ? images[0] : '');
+    var hero = normalizeImagePath(config.heroImage || (images.length ? images[0] : ''));
     var parentLink = config.categoryLink || 'index.html';
     var parentLabel = config.parentLabel || 'Products';
     var badgeHtml = config.badge ? '<span class="product-hero-badge">' + config.badge + '</span>' : '';
@@ -1412,6 +1436,8 @@ function scrollToProducts() {
 
 // Navigation functionality
 function initNavigation() {
+    initTopCategoryDropdown();
+
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
     
@@ -1478,6 +1504,42 @@ function initNavigation() {
             }
         });
     });
+}
+
+function initTopCategoryDropdown() {
+    const navMenu = document.querySelector('.nav-menu');
+    if (!navMenu) return;
+
+    const bottleAnchor = navMenu.querySelector('a[href^="bottles.html"]');
+    if (!bottleAnchor) return;
+
+    const bottleItem = bottleAnchor.closest('li');
+    if (!bottleItem) return;
+
+    if (!bottleItem.classList.contains('dropdown')) {
+        bottleItem.classList.add('dropdown');
+        bottleAnchor.href = 'bottles.html#fridge';
+        bottleAnchor.addEventListener('click', function(event) {
+            event.preventDefault();
+            bottleItem.classList.toggle('active');
+        });
+
+        const categories = [
+            { label: 'Fridge Bottles', hash: 'fridge' },
+            { label: 'Gym Bottles', hash: 'gym' },
+            { label: 'Hot & Cold', hash: 'hotcold' },
+            { label: 'Sipper Bottles', hash: 'sipper' },
+            { label: 'Travel Bottles', hash: 'travel' }
+        ];
+
+        const dropdownMenu = document.createElement('ul');
+        dropdownMenu.className = 'dropdown-menu';
+        dropdownMenu.innerHTML = categories.map(function(category) {
+            return '<li><a href="bottles.html#' + category.hash + '">' + category.label + '</a></li>';
+        }).join('');
+
+        bottleItem.appendChild(dropdownMenu);
+    }
 }
 
 // FAQ toggle functionality
