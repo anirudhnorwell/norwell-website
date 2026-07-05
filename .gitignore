@@ -1,0 +1,31 @@
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore temporary files
+*.tmp
+*.temp
+~*
+
+# Ignore node modules if added later
+node_modules/
+
+# Ignore logs
+*.log
+logs/
+
+# Keep images but ignore large files
+*.psd
+*.ai
+*.sketch
