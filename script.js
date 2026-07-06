@@ -1697,16 +1697,85 @@ function hideSubcategoryDetails() {
     }
 }
 
-// Image enlargement functions
+// Image enlargement functions with zoom and thumbnail navigation
 function enlargeImage(img) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     
     if (modal && modalImg) {
+        // Get all images from the same gallery
+        const gallery = img.closest('.product-gallery-panel');
+        let images = [];
+        let currentIndex = 0;
+        
+        if (gallery) {
+            const thumbnails = gallery.querySelectorAll('.thumbnail-btn img');
+            const mainImg = gallery.querySelector('#mainBottleImage');
+            if (mainImg) images.push(mainImg.src);
+            thumbnails.forEach(thumb => {
+                if (thumb.src && !images.includes(thumb.src)) {
+                    images.push(thumb.src);
+                }
+            });
+            currentIndex = images.indexOf(img.src);
+            if (currentIndex === -1 && mainImg) currentIndex = 0;
+        } else {
+            images = [img.src];
+            currentIndex = 0;
+        }
+        
+        window.modalImages = images;
+        window.modalCurrentIndex = currentIndex;
+        
         modal.style.display = 'block';
-        modalImg.src = img.src;
+        modalImg.src = images[currentIndex];
         modalImg.alt = img.alt;
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        modalImg.classList.remove('zoomed');
+        document.body.style.overflow = 'hidden';
+        
+        // Build modal thumbnails
+        buildModalThumbnails(images, currentIndex);
+    }
+}
+
+function buildModalThumbnails(images, currentIndex) {
+    const container = document.getElementById('modalThumbnails');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    images.forEach((src, index) => {
+        const thumb = document.createElement('img');
+        thumb.src = src;
+        thumb.className = 'modal-thumbnail' + (index === currentIndex ? ' active' : '');
+        thumb.onclick = function() {
+            setModalImage(index);
+        };
+        container.appendChild(thumb);
+    });
+}
+
+function setModalImage(index) {
+    const modalImg = document.getElementById('modalImage');
+    if (!modalImg || !window.modalImages) return;
+    
+    if (index < 0) index = window.modalImages.length - 1;
+    if (index >= window.modalImages.length) index = 0;
+    
+    window.modalCurrentIndex = index;
+    modalImg.src = window.modalImages[index];
+    modalImg.classList.remove('zoomed');
+    
+    // Update thumbnail active state
+    const thumbnails = document.querySelectorAll('.modal-thumbnail');
+    thumbnails.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+    });
+}
+
+function toggleImageZoom() {
+    const modalImg = document.getElementById('modalImage');
+    if (modalImg) {
+        modalImg.classList.toggle('zoomed');
     }
 }
 
@@ -1714,7 +1783,9 @@ function closeImageModal() {
     const modal = document.getElementById('imageModal');
     if (modal) {
         modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restore scrolling
+        document.body.style.overflow = 'auto';
+        window.modalImages = null;
+        window.modalCurrentIndex = 0;
     }
 }
 
@@ -2078,13 +2149,8 @@ function escapeHtml(value) {
 }
 
 function renderMissingAssets(messages) {
-    if (!messages.length) return '';
-    return '<div class="missing-assets">' +
-        '<h3>Missing assets detected</h3>' +
-        '<ul>' + messages.map(function(message) {
-            return '<li>' + escapeHtml(message) + '</li>';
-        }).join('') + '</ul>' +
-    '</div>';
+    // Hide missing assets messages as requested
+    return '';
 }
 
 function findPageData(pageKey) {
@@ -2276,6 +2342,15 @@ function renderProductPage(config) {
     buildThumbnailStrip('productThumbnails', gallery, function(index) {
         setProductImage(index + 1);
     });
+
+    // Add click handler to main image for modal
+    var mainImg = document.getElementById('mainBottleImage');
+    if (mainImg) {
+        mainImg.style.cursor = 'pointer';
+        mainImg.addEventListener('click', function() {
+            enlargeImage(this);
+        });
+    }
 
     var interest = document.getElementById('productInterest');
     if (interest) interest.value = product.pageKey === 'lunchboxes' ? 'lunchboxes' : product.pageKey;

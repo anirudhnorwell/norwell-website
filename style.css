@@ -3,24 +3,30 @@
 
 :root {
   --black: #000000;
-  --bg: #050510;
-  --bg-card: #0a0a1a;
-  --bg-elevated: #0f0f25;
+  --white: #ffffff;
+  --bg: #0a1a2f;
+  --bg-card: #0d2847;
+  --bg-elevated: #15365f;
   --primary: #00D4FF;
   --primary-dark: #0099CC;
   --primary-light: #00E5FF;
   --primary-glow: rgba(0, 212, 255, 0.3);
-  --text: #E0E0FF;
-  --text-muted: rgba(224, 224, 255, 0.6);
-  --white: #ffffff;
-  --border: rgba(0, 212, 255, 0.15);
-  --border-hover: rgba(0, 212, 255, 0.4);
+  --lime: #C5E040;
+  --lime-dark: #9DB830;
+  --lime-glow: rgba(197, 224, 64, 0.3);
+  --navy: #1e3a5f;
+  --navy-dark: #152a45;
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --text-dark: #0a1a2f;
+  --border: rgba(0, 212, 255, 0.2);
+  --border-hover: rgba(0, 212, 255, 0.5);
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-xl: 32px;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 48px rgba(0, 212, 255, 0.15);
   --font-display: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
   --font-body: 'Inter', 'Segoe UI', sans-serif;
@@ -157,21 +163,10 @@ a {
   position: relative;
 }
 
-.nav-item.dropdown:hover .dropdown-menu,
-.nav-item.dropdown.active .dropdown-menu {
-  display: block;
-  animation: fadeDown 0.25s ease;
-}
-
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   background: var(--bg-elevated);
@@ -182,6 +177,28 @@ a {
   list-style: none;
   box-shadow: var(--shadow-md);
   z-index: 1001;
+  margin-top: 4px;
+}
+
+.nav-item.dropdown {
+  position: relative;
+}
+
+.nav-item.dropdown > .nav-link {
+  position: relative;
+  z-index: 1002;
+}
+
+.nav-item.dropdown:hover .dropdown-menu,
+.nav-item.dropdown:focus-within .dropdown-menu,
+.nav-item.dropdown.active .dropdown-menu {
+  display: block;
+  animation: fadeDown 0.25s ease;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown-menu li {
@@ -1855,12 +1872,20 @@ footer {
   margin: auto;
   display: block;
   max-width: 90%;
-  max-height: 90%;
+  max-height: 80%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: var(--radius-md);
+  cursor: zoom-in;
+}
+
+.modal-image.zoomed {
+  cursor: zoom-out;
+  transform: translate(-50%, -50%) scale(1.5);
+  max-width: none;
+  max-height: none;
 }
 
 .image-close {
@@ -1871,6 +1896,69 @@ footer {
   font-size: 36px;
   cursor: pointer;
   z-index: 10000;
+}
+
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--primary);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10001;
+  transition: all var(--transition);
+}
+
+.modal-nav:hover {
+  background: var(--primary);
+  color: var(--black);
+}
+
+.modal-nav.prev {
+  left: 20px;
+}
+
+.modal-nav.next {
+  right: 20px;
+}
+
+.modal-thumbnails {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10001;
+  max-width: 80%;
+  overflow-x: auto;
+  padding: 10px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.modal-thumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  cursor: pointer;
+  object-fit: cover;
+  transition: all var(--transition);
+}
+
+.modal-thumbnail:hover,
+.modal-thumbnail.active {
+  border-color: var(--primary);
+  transform: scale(1.1);
 }
 
 .animate-in {
