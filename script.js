@@ -19,21 +19,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Product card reveal animations
     initProductCards();
 
-    // Render collection pages for bottles, lunch boxes, dustbins, and combos
-    var pageKey = document.body.getAttribute('data-page');
-    if (pageKey && getCatalogPage(pageKey)) {
-        renderCollectionPage(pageKey);
-    } else {
-        var productKey = document.body.getAttribute('data-product');
-        if (productKey && PRODUCT_REGISTRY[productKey]) {
-            window.productConfig = PRODUCT_REGISTRY[productKey];
-            renderProductPage(window.productConfig);
-        } else if (window.productConfig) {
-            renderProductPage(window.productConfig);
+    // Wait for asset manifest to be available before rendering
+    function tryRender() {
+        var pageKey = document.body.getAttribute('data-page');
+        if (pageKey && getCatalogPage(pageKey)) {
+            renderCollectionPage(pageKey);
+        } else if (pageKey) {
+            // Manifest not loaded yet, retry
+            console.log('Manifest not loaded yet, retrying...');
+            setTimeout(tryRender, 100);
         } else {
-            enhanceProductDetailPages();
+            var productKey = document.body.getAttribute('data-product');
+            if (productKey && PRODUCT_REGISTRY[productKey]) {
+                window.productConfig = PRODUCT_REGISTRY[productKey];
+                renderProductPage(window.productConfig);
+            } else if (window.productConfig) {
+                renderProductPage(window.productConfig);
+            } else {
+                enhanceProductDetailPages();
+            }
         }
     }
+    
+    tryRender();
 });
 
 window.addEventListener('hashchange', function() {
@@ -2041,17 +2049,22 @@ var PRODUCT_PAGE_ALIASES = {
 };
 
 function getCatalogManifest() {
+    console.log('Getting catalog manifest:', window.NORWELL_ASSET_MANIFEST);
     return window.NORWELL_ASSET_MANIFEST || { pages: [] };
 }
 
 function getCatalogPages() {
-    return getCatalogManifest().pages || [];
+    var pages = getCatalogManifest().pages || [];
+    console.log('Catalog pages:', pages);
+    return pages;
 }
 
 function getCatalogPage(pageKey) {
-    return getCatalogPages().find(function(page) {
+    var page = getCatalogPages().find(function(page) {
         return page.key === pageKey;
     }) || null;
+    console.log('Found page for key', pageKey, ':', page);
+    return page;
 }
 
 function getAllCatalogProducts() {
@@ -2201,7 +2214,12 @@ function findPageHero(page) {
 function renderCollectionPage(pageKey) {
     var page = getCatalogPage(pageKey);
     var root = document.getElementById('pageRoot');
-    if (!page || !root) return;
+    if (!page || !root) {
+        console.error('Page not found or root element missing:', pageKey, page, root);
+        return;
+    }
+
+    console.log('Rendering page:', pageKey, 'with categories:', page.categories);
 
     var pageLinks = {
         bottles: 'bottles.html',
@@ -2227,6 +2245,9 @@ function renderCollectionPage(pageKey) {
     var selectedCategory = (page.categories || []).find(function(category) {
         return category.id === requestedCategory;
     }) || page.categories[0];
+    
+    console.log('Selected category:', selectedCategory);
+    
     if (!selectedCategory) {
         root.innerHTML = '<section class="shop-section"><div class="shop-container"><h1 class="section-title">No products found</h1></div></section>';
         return;
@@ -2282,6 +2303,8 @@ function renderCategoryProducts(page, category, missingAssets) {
     var productGrid = document.getElementById('categoryProducts');
     if (!productGrid) return;
 
+    console.log('Rendering products for category:', category.name, 'with', (category.products || []).length, 'products');
+
     productGrid.innerHTML = (category.products || []).map(function(product) {
         var enriched = Object.assign({}, product, {
             pageTitle: page.title,
@@ -2289,6 +2312,7 @@ function renderCategoryProducts(page, category, missingAssets) {
             categoryId: category.id
         });
         var image = getPrimaryImage(enriched);
+        console.log('Product:', product.name, 'image:', image, 'thumbnail:', product.thumbnail);
         if (!product.thumbnail) {
             missingAssets.push('Missing Thumbnail image in ' + product.dir);
         }
