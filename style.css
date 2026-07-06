@@ -163,12 +163,15 @@ a {
   position: relative;
 }
 
+.nav-item.dropdown {
+  position: static;
+}
+
 .dropdown-menu {
   display: none;
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -178,10 +181,6 @@ a {
   box-shadow: var(--shadow-md);
   z-index: 1001;
   margin-top: 4px;
-}
-
-.nav-item.dropdown {
-  position: relative;
 }
 
 .nav-item.dropdown > .nav-link {

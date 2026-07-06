@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Render collection pages for bottles, lunch boxes, dustbins, and combos
     var pageKey = document.body.getAttribute('data-page');
-    if (pageKey && PAGE_DATA[pageKey]) {
+    if (pageKey && getCatalogPage(pageKey)) {
         renderCollectionPage(pageKey);
     } else {
         var productKey = document.body.getAttribute('data-product');
@@ -2203,7 +2203,27 @@ function renderCollectionPage(pageKey) {
     var root = document.getElementById('pageRoot');
     if (!page || !root) return;
 
+    var pageLinks = {
+        bottles: 'bottles.html',
+        lunchboxes: 'lunchbox.html',
+        dustbins: 'dustbin.html',
+        combos: 'combo.html'
+    };
+
+    // Map hash fragments to category IDs for backward compatibility
+    var categoryMapping = {
+        'fridge': 'fridge-bottles',
+        'gym': 'gym-bottles',
+        'hot-and-cold': 'hot-and-cold-bottles',
+        'sipper': 'sipper-bottles',
+        'travel': 'travel-bottles',
+        'all': 'all'
+    };
+
     var requestedCategory = decodeURIComponent(window.location.hash ? window.location.hash.substring(1) : '');
+    // Apply mapping if exists
+    requestedCategory = categoryMapping[requestedCategory] || requestedCategory;
+    
     var selectedCategory = (page.categories || []).find(function(category) {
         return category.id === requestedCategory;
     }) || page.categories[0];
@@ -2220,7 +2240,7 @@ function renderCollectionPage(pageKey) {
             '<div class="product-hero-gradient"></div>' +
             '<div class="product-hero-grid"></div>' +
             '<div class="product-hero-inner">' +
-                '<nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">' + escapeHtml(page.title) + '</span></nav>' +
+                '<nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="' + escapeHtml(pageLinks[page.key]) + '">' + escapeHtml(page.title) + '</a><span>/</span><span class="current">' + escapeHtml(selectedCategory.name) + '</span></nav>' +
                 '<span class="section-badge">Collection</span>' +
                 '<h1 class="product-hero-title">' + escapeHtml(selectedCategory.name) + '</h1>' +
                 '<p class="product-hero-tagline">Choose a product to view its image gallery, features, and description.</p>' +
@@ -2245,9 +2265,17 @@ function buildCategoryTabsFromManifest(page, selectedCategoryId) {
     var tabs = document.getElementById('categoryTabs');
     if (!tabs) return;
     tabs.innerHTML = (page.categories || []).map(function(category) {
-        return '<a class="category-tab' + (category.id === selectedCategoryId ? ' active' : '') + '" href="' +
-            escapeHtml(getCategoryUrl(page.key, category.id)) + '">' + escapeHtml(category.name) + '</a>';
+        return '<button type="button" class="category-tab' + (category.id === selectedCategoryId ? ' active' : '') + '" data-category-id="' + escapeHtml(category.id) + '">' + escapeHtml(category.name) + '</button>';
     }).join('');
+
+    // Add click handlers to tabs
+    tabs.querySelectorAll('.category-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var categoryId = this.getAttribute('data-category-id');
+            window.location.hash = categoryId;
+            renderCollectionPage(page.key);
+        });
+    });
 }
 
 function renderCategoryProducts(page, category, missingAssets) {
