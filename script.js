@@ -1,1935 +1,454 @@
-// script.js - Interactive functionality for Norwell website
+// script.js — Norwell futuristic catalog experience
+// Everything product-related is driven by window.CATALOG (see catalog.js),
+// which is auto-generated from the real images/ folder so paths never break.
 
-// Slideshow functionality
-let slideIndex = 1;
-let slideTimer;
+'use strict';
 
-// Slideshow removed for modern site experience
+/* ─────────────────────────── Boot ─────────────────────────── */
+document.addEventListener('DOMContentLoaded', function () {
+  buildNav();
+  initNavbarScroll();
+  initFAQ();
+  handleQuoteForm();
+  buildLightbox();
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize navigation
-    initNavigation();
-    
-    // Initialize FAQ toggle functionality
-    initFAQ();
-
-    // Navbar scroll effect
-    initNavbarScroll();
-
-    // Product card reveal animations
-    initProductCards();
-
-    // Render collection pages for bottles, lunch boxes, dustbins, and combos
-    var pageKey = document.body.getAttribute('data-page');
-    if (pageKey && PAGE_DATA[pageKey]) {
-        renderCollectionPage(pageKey);
-    } else {
-        var productKey = document.body.getAttribute('data-product');
-        if (productKey && PRODUCT_REGISTRY[productKey]) {
-            window.productConfig = PRODUCT_REGISTRY[productKey];
-            renderProductPage(window.productConfig);
-        } else if (window.productConfig) {
-            renderProductPage(window.productConfig);
-        } else {
-            enhanceProductDetailPages();
-        }
-    }
+  var shopRoot = document.getElementById('shopRoot');
+  if (shopRoot) {
+    initShop(shopRoot);
+    window.addEventListener('hashchange', function () { syncShopFromHash(); });
+  }
 });
 
-// Navbar shrink on scroll
+/* ─────────────────────── Catalog helpers ──────────────────── */
+function catalog() { return window.CATALOG || []; }
+
+function findCategory(id) {
+  return catalog().find(function (c) { return c.id === id; }) || null;
+}
+function findSubcategory(cat, id) {
+  if (!cat) return null;
+  return cat.subcategories.find(function (s) { return s.id === id; }) || cat.subcategories[0] || null;
+}
+function findProduct(sub, id) {
+  if (!sub) return null;
+  return sub.products.find(function (p) { return p.id === id; }) || null;
+}
+function hasRealSubcats(cat) {
+  return !(cat.subcategories.length === 1 && cat.subcategories[0].id === '');
+}
+
+/* ─────────────────────── Navigation bar ───────────────────── */
+function buildNav() {
+  var menu = document.querySelector('.nav-menu');
+  if (!menu) return;
+
+  var items = [
+    { label: 'Home', href: 'index.html#home' },
+    { label: 'About', href: 'index.html#about' },
+    { label: 'Contact', href: 'index.html#contact' },
+    { label: 'FAQ', href: 'index.html#faq' }
+  ];
+
+  var html = '';
+  html += '<li class="nav-item"><a href="' + items[0].href + '" class="nav-link">Home</a></li>';
+  html += '<li class="nav-item"><a href="' + items[1].href + '" class="nav-link">About</a></li>';
+
+  // Products mega dropdown
+  html += '<li class="nav-item has-mega" id="navProducts">'
+        + '<a href="index.html#shop" class="nav-link">Products <span class="caret">▾</span></a>'
+        + '<div class="mega-panel"><div class="mega-inner">' + buildMegaColumns() + '</div></div>'
+        + '</li>';
+
+  html += '<li class="nav-item"><a href="' + items[2].href + '" class="nav-link">Contact</a></li>';
+  html += '<li class="nav-item"><a href="' + items[3].href + '" class="nav-link">FAQ</a></li>';
+
+  menu.innerHTML = html;
+
+  // Toggle mega on click (mobile) — desktop uses hover via CSS
+  var trigger = document.querySelector('#navProducts > .nav-link');
+  if (trigger) {
+    trigger.addEventListener('click', function (e) {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        document.getElementById('navProducts').classList.toggle('open');
+      }
+    });
+  }
+
+  // Close mobile menu when any real link is clicked
+  menu.querySelectorAll('a[href]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (a.closest('.has-mega') && a.getAttribute('href') === 'index.html#shop') return;
+      closeMobileMenu();
+    });
+  });
+}
+
+function buildMegaColumns() {
+  return catalog().map(function (cat) {
+    var links;
+    if (hasRealSubcats(cat)) {
+      links = cat.subcategories.map(function (sub) {
+        return '<a href="index.html#shop=' + cat.id + '/' + sub.id + '">' + sub.name + '</a>';
+      }).join('');
+    } else {
+      links = cat.subcategories[0].products.map(function (p) {
+        return '<a href="index.html#shop=' + cat.id + '//' + p.id + '">' + p.name + '</a>';
+      }).join('');
+    }
+    return '<div class="mega-col">'
+      + '<a class="mega-head" href="index.html#shop=' + cat.id + '">' + cat.name + '</a>'
+      + '<div class="mega-links">' + links + '</div>'
+      + '</div>';
+  }).join('');
+}
+
 function initNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    if (!navbar) return;
-
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 40) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }, { passive: true });
+  var navbar = document.querySelector('.navbar');
+  if (!navbar) return;
+  window.addEventListener('scroll', function () {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
 }
 
-// Animate product cards on scroll
-function initProductCards() {
-    const cards = document.querySelectorAll('.product-card');
-    if (!cards.length) return;
+/* ─────────────────────────── Shop ─────────────────────────── */
+var shopState = { root: null, locked: null, catId: null, subId: null };
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry, i) {
-            if (entry.isIntersecting) {
-                setTimeout(function() {
-                    entry.target.classList.add('visible');
-                }, i * 80);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+function initShop(root) {
+  shopState.root = root;
+  shopState.locked = root.getAttribute('data-category') || null;
+  syncShopFromHash(true);
+}
 
-    cards.forEach(function(card) {
-        observer.observe(card);
+// Parse "#shop=cat/sub/prod" (sub or prod may be empty)
+function parseShopHash() {
+  var h = window.location.hash || '';
+  var m = h.match(/^#shop(?:=([^]*))?$/);
+  if (!m) return null;
+  var parts = (m[1] || '').split('/');
+  return { cat: parts[0] || '', sub: parts[1] || '', prod: parts[2] || '' };
+}
+
+function syncShopFromHash(initial) {
+  var root = shopState.root;
+  if (!root) return;
+
+  var parsed = parseShopHash();
+  var catId = shopState.locked || (parsed && parsed.cat) || (catalog()[0] && catalog()[0].id);
+  var cat = findCategory(catId) || catalog()[0];
+  if (!cat) { root.innerHTML = '<p class="shop-empty">Catalog unavailable.</p>'; return; }
+
+  var subId = (parsed && parsed.sub) || cat.subcategories[0].id;
+  var sub = findSubcategory(cat, subId);
+
+  shopState.catId = cat.id;
+  shopState.subId = sub.id;
+  renderShop();
+
+  if (parsed && parsed.prod) {
+    var p = findProduct(sub, parsed.prod);
+    if (p) openLightbox(p, 0);
+  }
+  if (!initial && parsed) {
+    var section = document.getElementById('shop');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function setShopCategory(catId) {
+  var cat = findCategory(catId);
+  if (!cat) return;
+  shopState.catId = catId;
+  shopState.subId = cat.subcategories[0].id;
+  updateHash();
+  renderShop();
+  var section = document.getElementById('shop');
+  if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function setShopSubcategory(subId) {
+  shopState.subId = subId;
+  updateHash();
+  renderShop();
+}
+
+function updateHash() {
+  if (shopState.locked) return; // locked category pages keep their own URL
+  var h = 'shop=' + shopState.catId + '/' + shopState.subId;
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', '#' + h);
+  }
+}
+
+function renderShop() {
+  var root = shopState.root;
+  var cat = findCategory(shopState.catId);
+  if (!root || !cat) return;
+  var sub = findSubcategory(cat, shopState.subId);
+
+  var showCats = !shopState.locked && catalog().length > 1;
+  var showSubs = hasRealSubcats(cat);
+
+  var html = '<div class="shop-head">'
+    + '<span class="section-badge">Catalogue</span>'
+    + '<h2 class="shop-title">' + cat.name + '</h2>'
+    + '<p class="shop-subtitle">Browse the collection, then click any product to open a full-screen gallery with zoom.</p>'
+    + '</div>';
+
+  html += '<div class="shop-toolbar">';
+  if (showCats) {
+    html += '<div class="shop-cats" role="tablist">' + catalog().map(function (c) {
+      return '<button class="shop-pill' + (c.id === cat.id ? ' active' : '') + '" onclick="setShopCategory(\'' + c.id + '\')">' + c.name + '</button>';
+    }).join('') + '</div>';
+  }
+  if (showSubs) {
+    html += buildDropdown(cat, sub);
+  }
+  html += '</div>';
+
+  html += '<div class="shop-grid">' + sub.products.map(function (p, i) {
+    return productCard(cat.id, sub.id, p, i);
+  }).join('') + '</div>';
+
+  root.innerHTML = html;
+
+  if (showSubs) wireDropdown();
+}
+
+function buildDropdown(cat, sub) {
+  var options = cat.subcategories.map(function (s) {
+    return '<li role="option" data-val="' + s.id + '"' + (s.id === sub.id ? ' aria-selected="true"' : '') + '>'
+      + s.name + '<span class="opt-count">' + s.products.length + '</span></li>';
+  }).join('');
+  return '<div class="nw-dropdown" id="subDropdown">'
+    + '<span class="nw-dropdown-label">Subcategory</span>'
+    + '<button type="button" class="nw-dropdown-btn" aria-haspopup="listbox" aria-expanded="false">'
+    + '<span class="nw-dropdown-value">' + sub.name + '</span><span class="nw-dropdown-caret">▾</span></button>'
+    + '<ul class="nw-dropdown-menu" role="listbox">' + options + '</ul>'
+    + '</div>';
+}
+
+function wireDropdown() {
+  var dd = document.getElementById('subDropdown');
+  if (!dd) return;
+  var btn = dd.querySelector('.nw-dropdown-btn');
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = dd.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  dd.querySelectorAll('li[data-val]').forEach(function (li) {
+    li.addEventListener('click', function () {
+      setShopSubcategory(li.getAttribute('data-val'));
     });
+  });
+  document.addEventListener('click', function () { dd.classList.remove('open'); });
 }
 
-// Build thumbnail strip for product galleries
-function buildThumbnailStrip(containerId, images, onSelect) {
-    const container = document.getElementById(containerId);
-    if (!container || !images || !images.length) return;
+function productCard(catId, subId, p, i) {
+  var count = p.images.length;
+  var countBadge = count > 1 ? '<span class="card-count">' + count + ' photos</span>' : '';
+  return '<article class="shop-card" style="--i:' + i + '" onclick="openProduct(\'' + catId + '\',\'' + subId + '\',\'' + p.id + '\')">'
+    + '<div class="shop-card-media">'
+    + '<img src="' + encodeURI(p.image) + '" alt="' + escapeAttr(p.name) + '" loading="lazy" />'
+    + '<span class="shop-card-zoom" aria-hidden="true">⤢</span>'
+    + countBadge
+    + '</div>'
+    + '<div class="shop-card-body"><h3>' + p.name + '</h3><span class="shop-card-cta">View gallery</span></div>'
+    + '</article>';
+}
 
-    container.innerHTML = '';
-    images.forEach(function(src, index) {
-        const btn = document.createElement('button');
-        btn.className = 'thumbnail-btn' + (index === 0 ? ' active' : '');
-        btn.type = 'button';
-        btn.setAttribute('aria-label', 'View image ' + (index + 1));
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = '';
-        btn.appendChild(img);
-        btn.addEventListener('click', function() {
-            onSelect(index);
-        });
-        container.appendChild(btn);
+function openProduct(catId, subId, prodId) {
+  var cat = findCategory(catId);
+  var sub = findSubcategory(cat, subId);
+  var p = findProduct(sub, prodId);
+  if (p) openLightbox(p, 0);
+}
+
+/* ───────────────────── Lightbox + zoom ────────────────────── */
+var lb = { el: null, product: null, index: 0, zoom: 1 };
+
+function buildLightbox() {
+  if (document.getElementById('lightbox')) return;
+  var el = document.createElement('div');
+  el.id = 'lightbox';
+  el.className = 'lightbox';
+  el.innerHTML =
+    '<div class="lightbox-backdrop"></div>'
+    + '<div class="lightbox-frame" role="dialog" aria-modal="true">'
+    + '<button class="lightbox-close" aria-label="Close">&times;</button>'
+    + '<div class="lightbox-main">'
+    + '<button class="lightbox-arrow prev" aria-label="Previous">‹</button>'
+    + '<div class="lightbox-stage" id="lbStage"><img class="lightbox-img" id="lbImg" alt="" /></div>'
+    + '<button class="lightbox-arrow next" aria-label="Next">›</button>'
+    + '</div>'
+    + '<div class="lightbox-bar">'
+    + '<div class="lightbox-meta"><h3 id="lbTitle"></h3><span id="lbCounter" class="lightbox-counter"></span></div>'
+    + '<div class="lightbox-zoom">'
+    + '<button data-z="out" aria-label="Zoom out">−</button>'
+    + '<span id="lbZoomLevel">100%</span>'
+    + '<button data-z="in" aria-label="Zoom in">+</button>'
+    + '<button data-z="reset" aria-label="Reset zoom">Reset</button>'
+    + '</div>'
+    + '</div>'
+    + '<div class="lightbox-thumbs" id="lbThumbs"></div>'
+    + '<p class="lightbox-hint">Scroll or click the image to zoom · move the mouse to pan</p>'
+    + '</div>';
+  document.body.appendChild(el);
+
+  el.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+  el.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
+  el.querySelector('.lightbox-arrow.prev').addEventListener('click', function () { stepLightbox(-1); });
+  el.querySelector('.lightbox-arrow.next').addEventListener('click', function () { stepLightbox(1); });
+
+  el.querySelectorAll('.lightbox-zoom button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var z = b.getAttribute('data-z');
+      if (z === 'in') setZoom(lb.zoom + 0.3);
+      else if (z === 'out') setZoom(lb.zoom - 0.3);
+      else setZoom(1);
     });
+  });
+
+  var stage = el.querySelector('#lbStage');
+  stage.addEventListener('click', function () { setZoom(lb.zoom > 1 ? 1 : 2.2); });
+  stage.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    setZoom(lb.zoom + (e.deltaY < 0 ? 0.25 : -0.25));
+  }, { passive: false });
+  stage.addEventListener('mousemove', function (e) {
+    if (lb.zoom <= 1) return;
+    var r = stage.getBoundingClientRect();
+    var x = ((e.clientX - r.left) / r.width) * 100;
+    var y = ((e.clientY - r.top) / r.height) * 100;
+    var img = document.getElementById('lbImg');
+    img.style.transformOrigin = x + '% ' + y + '%';
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!el.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') stepLightbox(-1);
+    else if (e.key === 'ArrowRight') stepLightbox(1);
+  });
+
+  lb.el = el;
 }
 
-function updateThumbnailActive(containerId, activeIndex) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    const buttons = container.querySelectorAll('.thumbnail-btn');
-    buttons.forEach(function(btn, i) {
-        btn.classList.toggle('active', i === activeIndex);
-    });
+function openLightbox(product, index) {
+  if (!lb.el) buildLightbox();
+  lb.product = product;
+  lb.index = index || 0;
+  document.getElementById('lbTitle').textContent = product.name;
+
+  var thumbs = document.getElementById('lbThumbs');
+  thumbs.innerHTML = product.images.map(function (src, i) {
+    return '<button class="lb-thumb" data-i="' + i + '"><img src="' + encodeURI(src) + '" alt="" loading="lazy" /></button>';
+  }).join('');
+  thumbs.querySelectorAll('.lb-thumb').forEach(function (b) {
+    b.addEventListener('click', function () { showLightboxImage(parseInt(b.getAttribute('data-i'), 10)); });
+  });
+
+  var arrows = product.images.length > 1;
+  lb.el.querySelector('.lightbox-arrow.prev').style.display = arrows ? '' : 'none';
+  lb.el.querySelector('.lightbox-arrow.next').style.display = arrows ? '' : 'none';
+
+  showLightboxImage(lb.index);
+  lb.el.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-// ─── Product Registry ───
-var PRODUCT_REGISTRY = {
-    classic: {
-        shortName: 'Classic',
-        name: 'Classic Stainless Steel Bottle',
-        tagline: 'The timeless Norwell Classic — food-grade steel for everyday hydration at the office, gym, or on the road.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        badge: 'Popular',
-        accent: 'splash-blue',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Fridge Bottles/Classic/Drinking Man.png',
-        images: [
-            'images/Bottles/Fridge Bottles/Classic/Main.jpg',
-            'images/Bottles/Fridge Bottles/Classic/Classic-1.jpg',
-            'images/Bottles/Fridge Bottles/Classic/Classic-3.jpg',
-            'images/Bottles/Fridge Bottles/Classic/Classic-4.jpg',
-            'images/Bottles/Fridge Bottles/Classic/Classic-5.jpg',
-            'images/Bottles/Fridge Bottles/Classic/Drinking Man.png',
-            'images/Bottles/Fridge Bottles/Classic/HoldinhinHand.png',
-            'images/Bottles/Fridge Bottles/Classic/OfficeBottle.png'
-        ]
-    },
-    curvy: {
-        shortName: 'Curvy',
-        name: 'Curvy Stainless Steel Bottle',
-        tagline: 'Ergonomic curvy silhouette with a sleek grip — designed for gym, travel, and daily hydration.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        accent: 'splash-teal',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Fridge Bottles/Curvy/Curvy-4.jpg',
-        images: [
-            'images/Bottles/Fridge Bottles/Curvy/Main.jpg',
-            'images/Bottles/Fridge Bottles/Curvy/Curvy-1.jpg',
-            'images/Bottles/Fridge Bottles/Curvy/Curvy-3.jpg',
-            'images/Bottles/Fridge Bottles/Curvy/Curvy-4.jpg',
-            'images/Bottles/Fridge Bottles/Curvy/Curvy-5.jpg',
-            'images/Bottles/Fridge Bottles/Curvy/Box.jpg'
-        ]
-    },
-    curvyblack: {
-        shortName: 'Curvy Black',
-        name: 'Curvy Black Stainless Steel Bottle',
-        tagline: 'Bold matte-black finish on premium food-grade steel — style meets durability.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        badge: 'Premium',
-        accent: 'splash-dark',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Gym Bottles/CurvyB/CV Bl GymGirl.png',
-        images: [
-            'images/Bottles/Gym Bottles/CurvyB/Main.png',
-            'images/Bottles/Gym Bottles/CurvyB/Curvy-4-Dimension.png',
-            'images/Bottles/Gym Bottles/CurvyB/CV Bl GymGirl.png',
-            'images/Bottles/Gym Bottles/CurvyB/In Gym.png',
-            'images/Bottles/Gym Bottles/CurvyB/Package.png'
-        ]
-    },
-    curvybsc: {
-        shortName: 'Curvy BSC',
-        name: 'Curvy BSC Sports Cap Bottle',
-        tagline: 'Premium curvy bottle with sports cap — engineered for active lifestyles and all-day hydration.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        badge: 'New',
-        accent: 'splash-teal',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
-        images: [
-            'images/Bottles/Fridge Bottles/CurvyBSC/Main.jpeg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/Features.jpg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/FeaturesFamily.jpg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/Dimension.jpg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/In hand curvy bottle.jpeg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/Office CurvyBottle.jpeg',
-            'images/Bottles/Fridge Bottles/CurvyBSC/Package.png',
-            'images/Bottles/Fridge Bottles/CurvyBSC/PackageImage.jpg'
-        ]
-    },
-    flora: {
-        shortName: 'Flora',
-        name: 'Flora Stainless Steel Bottle',
-        tagline: 'Elegant floral design on food-grade steel — for the style-conscious professional.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        accent: 'splash-pink',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Fridge Bottles/Flora/Office.png',
-        images: [
-            'images/Bottles/Fridge Bottles/Flora/Main.jpg',
-            'images/Bottles/Fridge Bottles/Flora/Flora-1.jpg',
-            'images/Bottles/Fridge Bottles/Flora/Flora-3.jpg',
-            'images/Bottles/Fridge Bottles/Flora/Flora-4.jpg',
-            'images/Bottles/Fridge Bottles/Flora/Flora-5.jpg',
-            'images/Bottles/Fridge Bottles/Flora/Box.png',
-            'images/Bottles/Fridge Bottles/Flora/Office.png'
-        ]
-    },
-    sports: {
-        shortName: 'Sports',
-        name: 'Sports Stainless Steel Bottle',
-        tagline: 'Built for workouts with an easy-sip cap — leak-proof steel hydration for the gym and field.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        badge: 'Gym',
-        accent: 'splash-aqua',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Fridge Bottles/Sports/SportBottleBox.jpeg',
-        images: [
-            'images/Bottles/Fridge Bottles/Sports/Main.jpg',
-            'images/Bottles/Fridge Bottles/Sports/Sports-1.jpg',
-            'images/Bottles/Fridge Bottles/Sports/Sports-3.jpg',
-            'images/Bottles/Fridge Bottles/Sports/Sports-4.jpg',
-            'images/Bottles/Fridge Bottles/Sports/Sports-5.jpg',
-            'images/Bottles/Fridge Bottles/Sports/SportBottleBox.jpeg'
-        ]
-    },
-    sportsblack: {
-        shortName: 'Sports Pro',
-        name: 'Sports Pro Black Cap Bottle',
-        tagline: 'Pro-grade sports bottle with black cap — rugged steel for intense training sessions.',
-        category: 'Water Bottles',
-        categoryLink: 'bottles.html',
-        parentLabel: 'Bottles',
-        accent: 'splash-indigo',
-        interest: 'bottles',
-        heroImage: 'images/Bottles/Sipper Bottles/SportsBlackCap/Gym.png',
-        images: [
-            'images/Bottles/Sipper Bottles/SportsBlackCap/Main.png',
-            'images/Bottles/Sipper Bottles/SportsBlackCap/Gym.png',
-            'images/Bottles/Sipper Bottles/SportsBlackCap/Hometable.png',
-            'images/Bottles/Sipper Bottles/SportsBlackCap/InHand.png',
-            'images/Bottles/Sipper Bottles/SportsBlackCap/Office.png',
-            'images/Bottles/Sipper Bottles/SportsBlackCap/Package.png',
-            'images/Bottles/Sipper Bottles/SportsBlackCap/SportsBlackCapDimen.png'
-        ]
-    },
-    'dustbin-perforated': {
-        shortName: 'Perforated',
-        name: 'Perforated Stainless Steel Dustbin',
-        tagline: 'Ventilated perforated design for kitchens, offices, and living spaces.',
-        category: 'Dustbins',
-        categoryLink: 'dustbin.html',
-        parentLabel: 'Dustbins',
-        interest: 'dustbins',
-        heroImage: 'images/Dustbin/DustbinPerforated/Kitchen.png',
-        features: [
-            'High-quality stainless steel construction',
-            'Perforated body with circular holes for ventilation',
-            'Rust-resistant and durable finish',
-            'Ideal for kitchen, office, and room use',
-            'Easy to clean and maintain',
-            'Modern minimalist design',
-            'Hygienic waste disposal',
-            'Compact footprint for any space'
-        ],
-        images: [
-            'images/Dustbin/DustbinPerforated/Main.png',
-            'images/Dustbin/DustbinPerforated/Dustbin-Perforated-2 BL.png',
-            'images/Dustbin/DustbinPerforated/Dustbin-Perforated-3-BL.png',
-            'images/Dustbin/DustbinPerforated/Kitchen.png',
-            'images/Dustbin/DustbinPerforated/Office.png',
-            'images/Dustbin/DustbinPerforated/Room.png'
-        ]
-    },
-    'dustbin-perfpedal': {
-        shortName: 'Perforated Pedal',
-        name: 'Perforated Pedal Dustbin',
-        tagline: 'Hands-free foot-pedal operation with ventilated perforated steel body.',
-        category: 'Dustbins',
-        categoryLink: 'dustbin.html',
-        parentLabel: 'Dustbins',
-        badge: 'Hands-Free',
-        interest: 'dustbins',
-        heroImage: 'images/Dustbin/DustbinPerfWithPeddal/Main1.jpg',
-        features: [
-            'High-quality stainless steel',
-            'Perforated body with circular holes for a modern, ventilated look',
-            'Foot-pedal mechanism for touch-free operation',
-            'Rust-resistant and durable',
-            'Ideal for kitchen and bathroom',
-            'Easy liner replacement',
-            'Hygienic hands-free disposal',
-            'Premium pedal mechanism'
-        ],
-        images: [
-            'images/Dustbin/DustbinPerfWithPeddal/Main.png',
-            'images/Dustbin/DustbinPerfWithPeddal/Main1.jpg',
-            'images/Dustbin/DustbinPerfWithPeddal/Dustbin-Perforated with lid-2.jpg',
-            'images/Dustbin/DustbinPerfWithPeddal/Dustbin-Perforated with lid-3.jpg',
-            'images/Dustbin/DustbinPerfWithPeddal/Dustbin-Perforated with lid-4.jpg'
-        ]
-    },
-    'dustbin-smoothpedal': {
-        shortName: 'Smooth Pedal',
-        name: 'Smooth Finish Pedal Dustbin',
-        tagline: 'Sleek smooth-finish steel bin with reliable foot-pedal mechanism.',
-        category: 'Dustbins',
-        categoryLink: 'dustbin.html',
-        parentLabel: 'Dustbins',
-        interest: 'dustbins',
-        heroImage: 'images/Dustbin/DustbinSmoothwithpeddal/Dustbin-Smooth finish- 3.jpg',
-        features: [
-            'High-quality stainless steel',
-            'Smooth premium finish',
-            'Foot-pedal for hands-free operation',
-            'Rust-resistant and durable',
-            'Perfect for modern kitchens',
-            'Easy to clean surface',
-            'Soft-close pedal mechanism',
-            'Compact and elegant design'
-        ],
-        images: [
-            'images/Dustbin/DustbinSmoothwithpeddal/Main.jpg',
-            'images/Dustbin/DustbinSmoothwithpeddal/Dustbin-Smooth finish- 2.jpg',
-            'images/Dustbin/DustbinSmoothwithpeddal/Dustbin-Smooth finish- 3.jpg',
-            'images/Dustbin/DustbinSmoothwithpeddal/Dustbin-Smooth finish- 4.jpg'
-        ]
-    },
-    'dustbin-swing': {
-        shortName: 'Swing Lid',
-        name: 'Swing Lid Stainless Steel Dustbin',
-        tagline: 'Classic swing-top lid for quick, hygienic waste disposal anywhere.',
-        category: 'Dustbins',
-        categoryLink: 'dustbin.html',
-        parentLabel: 'Dustbins',
-        interest: 'dustbins',
-        heroImage: 'images/Dustbin/Swing/Main.png',
-        features: [
-            'High-quality stainless steel',
-            'Rust-resistant and durable',
-            'Swing-top lid for easy access',
-            'Ideal for bathroom and office',
-            'Easy to clean',
-            'Compact design',
-            'Silent swing mechanism',
-            'Long-lasting build quality'
-        ],
-        images: [
-            'images/Dustbin/Swing/Main.png'
-        ]
-    },
-    'lunchbox-tiffin30': {
-        shortName: 'Tiffin 30',
-        name: 'Tiffin 30 Lunch Box',
-        tagline: 'Classic multi-tier stainless steel tiffin for everyday office and school meals.',
-        category: 'Lunch Boxes',
-        categoryLink: 'lunchbox.html',
-        parentLabel: 'Lunch Boxes',
-        badge: 'Best Seller',
-        interest: 'lunchboxes',
-        heroImage: 'images/LunchBox/Tiffini30/Tiffin-3.jpg',
-        features: [
-            'Food-grade stainless steel construction',
-            'Multi-tier compartments for complete meals',
-            'Leak-proof seal between tiers',
-            'Rust-resistant and durable',
-            'Easy to clean and maintain',
-            'Perfect for office and school',
-            'Lightweight and portable',
-            'Keeps food fresh for hours'
-        ],
-        images: [
-            'images/LunchBox/Tiffini30/Main.jpg',
-            'images/LunchBox/Tiffini30/Tiffin-2.jpg',
-            'images/LunchBox/Tiffini30/Tiffin-3.jpg',
-            'images/LunchBox/Tiffini30/Tiffin-4.jpg'
-        ]
-    },
-    'lunchbox-steellidblack': {
-        shortName: 'Steel Lid Black',
-        name: 'Steel Lid Black Tiffin Box',
-        tagline: 'Premium black steel lid tiffin with leak-proof seal — sophisticated and durable.',
-        category: 'Lunch Boxes',
-        categoryLink: 'lunchbox.html',
-        parentLabel: 'Lunch Boxes',
-        interest: 'lunchboxes',
-        heroImage: 'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-3.jpg',
-        features: [
-            'Food-grade stainless steel construction',
-            'Sophisticated black steel lid',
-            'Leak-proof seal design',
-            'Rust-resistant and durable',
-            'Multi-compartment storage',
-            'Perfect for office lunches',
-            'Easy to clean',
-            'Premium finish'
-        ],
-        images: [
-            'images/LunchBox/TiffinSteellidBlack/Main.jpg',
-            'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-2.jpg',
-            'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-3.jpg',
-            'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-4.jpg'
-        ]
-    },
-    'lunchbox-steellidblue': {
-        shortName: 'Steel Lid Blue',
-        name: 'Steel Lid Blue Tiffin Box',
-        tagline: 'Vibrant blue steel lid with leak-proof seal — fresh style for daily meals.',
-        category: 'Lunch Boxes',
-        categoryLink: 'lunchbox.html',
-        parentLabel: 'Lunch Boxes',
-        interest: 'lunchboxes',
-        heroImage: 'images/LunchBox/TiffinSteellidBlue/Tiffin (Steel lid) Blue-3.jpg',
-        features: [
-            'Food-grade stainless steel construction',
-            'Elegant blue steel lid',
-            'Leak-proof seal design',
-            'Rust-resistant and durable',
-            'Multi-compartment storage',
-            'Perfect for school and office',
-            'Easy to clean',
-            'Vibrant premium finish'
-        ],
-        images: [
-            'images/LunchBox/TiffinSteellidBlue/Main.jpg',
-            'images/LunchBox/TiffinSteellidBlue/Tiffin (Steel lid) Blue-2.jpg',
-            'images/LunchBox/TiffinSteellidBlue/Tiffin (Steel lid) Blue-3.jpg',
-            'images/LunchBox/TiffinSteellidBlue/Tiffin (Steel lid) Blue-4.jpg'
-        ]
-    },
-    combo: {
-        shortName: 'Combo Sets',
-        name: 'Premium Steel Combo Sets',
-        tagline: 'Curated bundles combining our best-selling bottles and lunch boxes — perfect for families, corporate gifting, and wholesale orders.',
-        category: 'Combo Sets',
-        categoryLink: 'combo.html',
-        parentLabel: 'Combos',
-        badge: 'Bundle Offer',
-        accent: 'splash-teal',
-        interest: 'combos',
-        heroImage: 'images/Combo/Main.jpg',
-        features: [
-            'Bottle + lunch box combinations at bundle pricing',
-            'Food-grade stainless steel across all items',
-            'Ideal for offices, schools, and home kitchens',
-            'Custom combo options for bulk orders',
-            'Premium packaging for gifting',
-            'Wholesale pricing available',
-            'Rust-resistant and durable',
-            'Eco-friendly and sustainable'
-        ],
-        images: [
-            'images/Combo/Main.jpg',
-            'images/Combo/Combo-Classic.jpg',
-            'images/Combo/Combo-Curvy.jpg',
-            'images/Combo/Combo-Flora.jpg',
-            'images/Combo/Combo-Sports.jpg',
-            'images/Combo/Length.jpg'
-        ]
-    }
-};
-
-var PAGE_DATA = {
-    bottles: {
-        heroImage: 'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
-        heroTitle: 'Modern Stainless Steel Bottles',
-        heroSubtitle: 'Browse fridge, gym, hot & cold, sipper and travel bottles in a futuristic premium layout.',
-        heroDescription: 'Select a category and explore each bottle with responsive zoom visuals, thumbnails, and fast quote tools.',
-        categories: [
-            {
-                id: 'fridge',
-                label: 'Fridge Bottles',
-                description: 'Chilled hydration for home and office with sleek stainless steel finishes.',
-                products: [
-                    {
-                        id: 'classic',
-                        title: 'Classic Stainless Bottle',
-                        subtitle: 'Timeless fridge-ready hydration.',
-                        description: 'A clean, polished steel bottle built for chilled storage and everyday use. Ideal for work desks, school bags, and pantry shelves.',
-                        usage: 'Perfect for chilled water, juices, and quick refreshment during long days indoors.',
-                        features: [
-                            'Food-grade stainless steel',
-                            'Rust-resistant finish',
-                            'Wide-mouth design for easy filling',
-                            'Fits fridge racks and car holders',
-                            'Lightweight yet durable',
-                            'Easy to clean and maintain'
-                        ],
-                        thumbnail: 'images/Bottles/Fridge Bottles/Classic/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Fridge Bottles/Classic/Main.jpg',
-                            'images/Bottles/Fridge Bottles/Classic/Drinking Man.png',
-                            'images/Bottles/Fridge Bottles/Classic/HoldinhinHand.png'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'curvy',
-                        title: 'Curvy Stainless Bottle',
-                        subtitle: 'Ergonomic bottle for chilled and active days.',
-                        description: 'Curvy design gives a premium grip and stylish silhouette, while premium steel preserves temperature and taste.',
-                        usage: 'Great for chilled beverages, gym sessions, and everyday carrying with style.',
-                        features: [
-                            'Ergonomic lightweight body',
-                            'Premium stainless finish',
-                            'Secure twist cap',
-                            'Travel-friendly shape',
-                            'Food-safe and odor resistant'
-                        ],
-                        thumbnail: 'images/Bottles/Fridge Bottles/Curvy/Thumbnail.jpg',
-                        images: [
-                            'images/Bottles/Fridge Bottles/Curvy/Main.jpg',
-                            'images/Bottles/Fridge Bottles/Curvy/Curvy-4.jpg',
-                            'images/Bottles/Fridge Bottles/Curvy/Curvy-5.jpg'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'curvybsc',
-                        title: 'CurvyBSC Sports Bottle',
-                        subtitle: 'Premium bottle for active chilled hydration.',
-                        description: 'A dynamic curvy bottle built for performance and fridge-friendly storage with premium steel durability.',
-                        usage: 'Great for gym bags, travel, and chilled daily use.',
-                        features: [
-                            'Premium stainless construction',
-                            'Sports-cap ready',
-                            'Sleek curved body',
-                            'Easy to carry',
-                            'Temperature-stable steel'
-                        ],
-                        thumbnail: 'images/Bottles/Fridge Bottles/CurvyBSC/Thumbnail.jpg',
-                        images: [
-                            'images/Bottles/Fridge Bottles/CurvyBSC/Main.jpeg',
-                            'images/Bottles/Fridge Bottles/CurvyBSC/Open .jpg',
-                            'images/Bottles/Fridge Bottles/CurvyBSC/Features.jpg'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'flora',
-                        title: 'Flora Pattern Bottle',
-                        subtitle: 'Stylish gloss for fridge and daily carry.',
-                        description: 'A floral-inspired steel bottle designed for those who want modern style and safe chilled hydration together.',
-                        usage: 'Perfect for office desks, travel bags, and everyday modern lifestyle use.',
-                        features: [
-                            'Food-grade steel with floral accents',
-                            'Leak-resistant cap',
-                            'Attractive matte finish',
-                            'Easy to clean',
-                            'Everyday durability'
-                        ],
-                        thumbnail: 'images/Bottles/Fridge Bottles/Flora/Thumbnail.jpg',
-                        images: [
-                            'images/Bottles/Fridge Bottles/Flora/Main.jpg',
-                            'images/Bottles/Fridge Bottles/Flora/Office.png',
-                            'images/Bottles/Fridge Bottles/Flora/Flora-4.jpg'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'sports',
-                        title: 'Sports Stainless Bottle',
-                        subtitle: 'Performance-ready hydration for workouts.',
-                        description: 'Rugged bottle with a functional cap designed to keep your drink secure during training and outdoor activity.',
-                        usage: 'Best suited for gym bags, outdoor training, and sweat sessions.',
-                        features: [
-                            'Durable sports cap',
-                            'Leak-resistant seal',
-                            'Easy grip texture',
-                            'Food-grade stainless steel',
-                            'Quick refill access'
-                        ],
-                        thumbnail: 'images/Bottles/Fridge Bottles/Sports/Thumbnail.jpg',
-                        images: [
-                            'images/Bottles/Fridge Bottles/Sports/Main.jpg',
-                            'images/Bottles/Fridge Bottles/Sports/Sports-4.jpg',
-                            'images/Bottles/Fridge Bottles/Sports/Sports-5.jpg'
-                        ],
-                        interest: 'bottles'
-                    }
-                ]
-            },
-            {
-                id: 'gym',
-                label: 'Gym Bottles',
-                description: 'Sporty steel bottles engineered for intense training and quick hydration.',
-                products: [
-                    {
-                        id: 'sports',
-                        title: 'Sports Black Cap Bottle',
-                        subtitle: 'Performance bottle with a solid cap.',
-                        description: 'Built for active days, this bottle combines a robust cap and sleek steel body for dependable hydration.',
-                        usage: 'Best suited for gym bags, outdoor training, and sweat sessions.',
-                        features: [
-                            'Durable sports cap',
-                            'Leak-resistant seal',
-                            'Easy grip texture',
-                            'Food-grade stainless steel',
-                            'Quick refill access'
-                        ],
-                        thumbnail: 'images/Bottles/Gym Bottles/SportsBlackCap/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Gym Bottles/SportsBlackCap/Main.png',
-                            'images/Bottles/Gym Bottles/SportsBlackCap/Gym.png',
-                            'images/Bottles/Gym Bottles/SportsBlackCap/Hometable.png',
-                            'images/Bottles/Gym Bottles/SportsBlackCap/InHand.png',
-                            'images/Bottles/Gym Bottles/SportsBlackCap/Package.png'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'curvyblack',
-                        title: 'Curvy Black Sports Bottle',
-                        subtitle: 'Matte black finish meets sport-ready design.',
-                        description: 'Bold, athletic bottle built for performance and style with a premium matte steel body.',
-                        usage: 'Ideal for gym routines, cycling, and daily active lifestyles.',
-                        features: [
-                            'Matte black premium finish',
-                            'Ergonomic shape',
-                            'Sporty spout cap',
-                            'Rust-free steel',
-                            'Easy to hold'
-                        ],
-                        thumbnail: 'images/Bottles/Gym Bottles/CurvyB/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Gym Bottles/CurvyB/Main.png',
-                            'images/Bottles/Gym Bottles/CurvyB/CV Bl GymGirl.png',
-                            'images/Bottles/Gym Bottles/CurvyB/Man Holding.png'
-                        ],
-                        interest: 'bottles'
-                    }
-                ]
-            },
-            {
-                id: 'hotcold',
-                label: 'Hot and Cold Bottles',
-                description: 'Insulated bottles built to hold hot or cold beverages with premium corrosion resistance.',
-                products: [
-                    {
-                        id: 'climatepro',
-                        title: 'ClimatePro Matt Steel',
-                        subtitle: 'High-performance hot and cold thermos.',
-                        description: 'Twin-layer insulation keeps beverages hot or cold for hours, with a matte steel body that feels modern and sturdy.',
-                        usage: 'Best for travel, office, and outdoor use where temperature retention matters.',
-                        features: [
-                            'Twin-wall insulation',
-                            'Temperature-lock cap',
-                            'Premium matte finish',
-                            'Food-grade stainless steel',
-                            'Durable design'
-                        ],
-                        thumbnail: 'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_30_33 PM.png',
-                        images: [
-                            'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_30_33 PM.png',
-                            'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_43_49 PM.png',
-                            'images/Bottles/Hot and Cold Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_50_52 PM.png'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'dualcore',
-                        title: 'DualCore Military Bottle',
-                        subtitle: 'All-weather bottle built for rugged travel.',
-                        description: 'A tough travel bottle with premium steel and insulated performance for hot and cold beverages on the move.',
-                        usage: 'Perfect for adventure travel, hikes, and long commutes.',
-                        features: [
-                            'Insulated thermal core',
-                            'Durable exterior',
-                            'Comfort grip design',
-                            'Rust-resistant steel',
-                            'Ideal for beverages on the go'
-                        ],
-                        thumbnail: 'images/Bottles/Travel Bottles/DualCore-Green/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Travel Bottles/DualCore-Green/Thumbnail.png',
-                            'images/Bottles/Travel Bottles/DualCore-Black/Thumbnail.png',
-                            'images/Bottles/Travel Bottles/DualCore-NavyBlue/DualCOre-NavyBlue.png'
-                        ],
-                        interest: 'bottles'
-                    }
-                ]
-            },
-            {
-                id: 'sipper',
-                label: 'Sipper Bottles',
-                description: 'Easy-sip designs with spill-resistant caps and ergonomic handles.',
-                products: [
-                    {
-                        id: 'curvyb',
-                        title: 'Curvy Sipper Bottle',
-                        subtitle: 'Comfort grip with quick-sip cap.',
-                        description: 'A versatile sipper bottle built for travel, workout breaks, and everyday refreshment.',
-                        usage: 'Great for short trips, workouts, and daily hydration at a glance.',
-                        features: [
-                            'Sipper sports cap',
-                            'Ergonomic body',
-                            'Food-grade steel',
-                            'Leak-resistant design',
-                            'Modern finish'
-                        ],
-                        thumbnail: 'images/Bottles/Sipper Bottles/CurvyB/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Sipper Bottles/CurvyB/Main.png',
-                            'images/Bottles/Sipper Bottles/CurvyB/Curvy-4-Dimension.png',
-                            'images/Bottles/Sipper Bottles/CurvyB/Package.png'
-                        ],
-                        interest: 'bottles'
-                    },
-                    {
-                        id: 'sportsblackcap',
-                        title: 'Sports Black Cap Bottle',
-                        subtitle: 'Performance bottle with a solid sipper cap.',
-                        description: 'Built for active days, this bottle combines a robust cap and sleek steel body for dependable hydration.',
-                        usage: 'Ideal for the gym, outdoor training, and daily commute.',
-                        features: [
-                            'Sports cap mouthpiece',
-                            'Premium steel body',
-                            'Leak-resistant performance',
-                            'Comfort grip',
-                            'Easy to clean'
-                        ],
-                        thumbnail: 'images/Bottles/Sipper Bottles/SportsBlackCap/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Sipper Bottles/SportsBlackCap/Main.png',
-                            'images/Bottles/Sipper Bottles/SportsBlackCap/Gym.png',
-                            'images/Bottles/Sipper Bottles/SportsBlackCap/Office.png'
-                        ],
-                        interest: 'bottles'
-                    }
-                ]
-            },
-            {
-                id: 'travel',
-                label: 'Travel Bottles',
-                description: 'Robust travel bottles that look premium and keep hydration reliable on the move.',
-                products: [
-                    {
-                        id: 'travelfront',
-                        title: 'Travel ClimatePro Black',
-                        subtitle: 'Bold travel bottle with insulated core.',
-                        description: 'A strong, travel-grade bottle with an insulated interior and long-lasting steel finish.',
-                        usage: 'Best for flights, road trips, and long journeys.',
-                        features: [
-                            'Insulated core',
-                            'Strong steel shell',
-                            'Travel-ready design',
-                            'Leak-resistant cap',
-                            'Comfort grip'
-                        ],
-                        thumbnail: 'images/Bottles/Travel Bottles/ClimatePro-Black/Thumbnail.png',
-                        images: [
-                            'images/Bottles/Travel Bottles/ClimatePro-Black/Thumbnail.png',
-                            'images/Bottles/Travel Bottles/ClimatePro-CrocodilePattern/Thumbnail.png',
-                            'images/Bottles/Travel Bottles/ClimatePro-MattSteel/ChatGPT Image Jul 1, 2026, 10_59_11 PM.png'
-                        ],
-                        interest: 'bottles'
-                    }
-                ]
-            }
-        ]
-    },
-    lunchboxes: {
-        heroImage: 'images/LunchBox/Tiffini30/Tiffin-3.jpg',
-        heroTitle: 'Stainless Steel Lunch Boxes',
-        heroSubtitle: 'Explore modern lunch box collections with premium steel construction and organized meal storage.',
-        heroDescription: 'Choose the right lunch box for office, school, and travel with a clean navigation experience and product gallery.',
-        categories: [
-            {
-                id: 'classic',
-                label: 'Classic Tiered',
-                description: 'Multi-tier steel tiffins built for everyday meals.',
-                products: [
-                    {
-                        id: 'tiffin30',
-                        title: 'Tiffin 30',
-                        subtitle: 'Classic multi-tier lunch box.',
-                        description: 'A reliable stainless steel lunch box with multiple compartments for complete meals on the go.',
-                        usage: 'Perfect for office meals, school lunches, and outdoor picnics.',
-                        features: [
-                            'Multi-tier stainless steel design',
-                            'Food-grade construction',
-                            'Secure stacking mechanism',
-                            'Easy to clean',
-                            'Durable and reusable'
-                        ],
-                        images: [
-                            'images/LunchBox/Tiffini30/Main.jpg',
-                            'images/LunchBox/Tiffini30/Tiffin-3.jpg',
-                            'images/LunchBox/Tiffini30/Tiffin-4.jpg'
-                        ],
-                        interest: 'lunchboxes'
-                    }
-                ]
-            },
-            {
-                id: 'blacklid',
-                label: 'Black Lid',
-                description: 'Sleek lunch boxes with a bold black steel lid.',
-                products: [
-                    {
-                        id: 'steellidblack',
-                        title: 'Steel Lid Black',
-                        subtitle: 'Premium black lid lunch box.',
-                        description: 'A stylish lunch box with a black steel lid, designed for premium presentation and food safety.',
-                        usage: 'Ideal for office lunches, business meals, and refined daily dining.',
-                        features: [
-                            'Premium steel lid',
-                            'Leak-resistant seal',
-                            'Easy to carry',
-                            'Food-grade interior',
-                            'Stylish appearance'
-                        ],
-                        images: [
-                            'images/LunchBox/TiffinSteellidBlack/Main.jpg',
-                            'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-3.jpg',
-                            'images/LunchBox/TiffinSteellidBlack/Tiffin (Steel lid) Black-4.jpg'
-                        ],
-                        interest: 'lunchboxes'
-                    }
-                ]
-            },
-            {
-                id: 'bluelid',
-                label: 'Blue Lid',
-                description: 'Vibrant lunch boxes with steel lids for fresh style.',
-                products: [
-                    {
-                        id: 'steellidblue',
-                        title: 'Steel Lid Blue',
-                        subtitle: 'Fresh blue lunch companion.',
-                        description: 'A color-rich stainless steel lunch box with strong seal and modern design for daily meals.',
-                        usage: 'Great for school, travel, and office meal prep.',
-                        features: [
-                            'Food-grade stainless steel',
-                            'Leak-resistant lid',
-                            'Durable blue finish',
-                            'Compact stackable layers',
-                            'Easy to wash'
-                        ],
-                        images: [
-                            'images/LunchBox/TiffinSteellidBlue/Main.jpg',
-                            'images/LunchBox/TiffinSteellidBlue/Tiffin (Steel lid) Blue-3.jpg',
-                            'images/LunchBox/TiffinSteellidBlue/Tiffin (Steel lid) Blue-4.jpg'
-                        ],
-                        interest: 'lunchboxes'
-                    }
-                ]
-            }
-        ]
-    },
-    dustbins: {
-        heroImage: 'images/Dustbin/DustbinPerforated/Kitchen.png',
-        heroTitle: 'Stainless Steel Dustbins',
-        heroSubtitle: 'Shop premium dustbins with perforated, pedal, smooth and swing lid designs.',
-        heroDescription: 'Find the right bin for kitchen, office, bathroom, or lounge with an immersive product experience.',
-        categories: [
-            {
-                id: 'perforated',
-                label: 'Perforated',
-                description: 'Stylish ventilated bins for kitchens and living spaces.',
-                products: [
-                    {
-                        id: 'perforated-bin',
-                        title: 'Perforated Dustbin',
-                        subtitle: 'Airy, hygienic bin option.',
-                        description: 'A ventilated steel dustbin that combines a premium look with practical kitchen hygiene.',
-                        usage: 'Perfect for kitchen waste, office trash, and common spaces.',
-                        features: [
-                            'Perforated stainless steel body',
-                            'Rust-resistant finish',
-                            'Easy to clean',
-                            'Modern kitchen styling',
-                            'Lightweight yet sturdy'
-                        ],
-                        images: [
-                            'images/Dustbin/DustbinPerforated/Main.png',
-                            'images/Dustbin/DustbinPerforated/Kitchen.png',
-                            'images/Dustbin/DustbinPerforated/Office.png'
-                        ],
-                        interest: 'dustbins'
-                    }
-                ]
-            },
-            {
-                id: 'pedal',
-                label: 'Pedal',
-                description: 'Foot-controlled bins for hygienic and hands-free disposal.',
-                products: [
-                    {
-                        id: 'pedal-bin',
-                        title: 'Perforated Pedal Bin',
-                        subtitle: 'Hands-free disposal with premium styling.',
-                        description: 'A perforated steel bin with a foot pedal for clean disposal and easy operation.',
-                        usage: 'Ideal for kitchens, offices, and bathrooms where hygiene matters.',
-                        features: [
-                            'Foot-pedal operation',
-                            'Perforated steel body',
-                            'Rust-resistant',
-                            'Easy maintenance',
-                            'Stable base'
-                        ],
-                        images: [
-                            'images/Dustbin/DustbinPerfWithPeddal/Main.png',
-                            'images/Dustbin/DustbinPerfWithPeddal/Dustbin-Perforated-3-BL.png',
-                            'images/Dustbin/DustbinPerfWithPeddal/Kitchen.png'
-                        ],
-                        interest: 'dustbins'
-                    }
-                ]
-            },
-            {
-                id: 'smoothpedal',
-                label: 'Smooth Pedal',
-                description: 'Premium smooth bins with silent pedal operation.',
-                products: [
-                    {
-                        id: 'smooth-pedal-bin',
-                        title: 'Smooth Pedal Dustbin',
-                        subtitle: 'Sleek, quiet, and modern.',
-                        description: 'A soft-close steel bin designed for high-end kitchens and offices with a quiet pedal mechanism.',
-                        usage: 'Great in upscale kitchens, hotel suites, and professional reception areas.',
-                        features: [
-                            'Soft-close pedal',
-                            'Smooth steel finish',
-                            'Rust-resistant',
-                            'Easy to clean',
-                            'Elegant design'
-                        ],
-                        images: [
-                            'images/Dustbin/DustbinSmoothwithpeddal/Main.jpg',
-                            'images/Dustbin/DustbinSmoothwithpeddal/Dustbin-Smooth finish- 2.jpg',
-                            'images/Dustbin/DustbinSmoothwithpeddal/Dustbin-Smooth finish- 3.jpg'
-                        ],
-                        interest: 'dustbins'
-                    }
-                ]
-            },
-            {
-                id: 'swing',
-                label: 'Swing Lid',
-                description: 'Classic swing-top bins for easy access and simple use.',
-                products: [
-                    {
-                        id: 'swing-bin',
-                        title: 'Swing Lid Dustbin',
-                        subtitle: 'Convenient access with a smooth swing lid.',
-                        description: 'A timeless steel bin with swing-top lid that blends into bathrooms, kitchens, and shared spaces.',
-                        usage: 'Perfect for bathrooms, utility rooms, and casual use areas.',
-                        features: [
-                            'Swing-top lid',
-                            'Durable steel body',
-                            'Easy disposal',
-                            'Rust-resistant finish',
-                            'Compact footprint'
-                        ],
-                        images: [
-                            'images/Dustbin/Swing/Main.png'
-                        ],
-                        interest: 'dustbins'
-                    }
-                ]
-            }
-        ]
-    },
-    combos: {
-        heroImage: 'images/Combo/Main.jpg',
-        heroTitle: 'Premium Combo Sets',
-        heroSubtitle: 'Select curated bottle and lunch box bundles with premium packaging and practical features.',
-        heroDescription: 'Choose from gift-ready bundles and office combo sets with a futuristic product selector.',
-        categories: [
-            {
-                id: 'family',
-                label: 'Family Bundles',
-                description: 'Bundles designed for families and group use.',
-                products: [
-                    {
-                        id: 'combo-classic',
-                        title: 'Classic Combo Set',
-                        subtitle: 'Bottle and lunch box bundle for everyday family use.',
-                        description: 'A practical combo with a classic bottle and tiered lunch box for balanced meals and hydration.',
-                        usage: 'Great for family meal prep, travel packs, and weekday lunches.',
-                        features: [
-                            'Bottle + lunch box bundle',
-                            'Food-grade steel components',
-                            'Ideal for everyday use',
-                            'Wide compatibility and durability'
-                        ],
-                        images: [
-                            'images/Combo/Combo-Classic.jpg',
-                            'images/Combo/Main.jpg'
-                        ],
-                        interest: 'combos'
-                    }
-                ]
-            },
-            {
-                id: 'office',
-                label: 'Office Sets',
-                description: 'Smart combo sets for desk lunches and business gifting.',
-                products: [
-                    {
-                        id: 'combo-curvy',
-                        title: 'Curvy Office Combo',
-                        subtitle: 'Professional bundle for office hydration and meals.',
-                        description: 'A sleek combo pairing a modern bottle with a premium lunch box suited for corporate use.',
-                        usage: 'Ideal for daily office lunches, meetings, and gifting teams.',
-                        features: [
-                            'Corporate-ready styling',
-                            'Premium steel build',
-                            'Complete hydration and meal storage',
-                            'Gifting-friendly bundle'
-                        ],
-                        images: [
-                            'images/Combo/Combo-Curvy.jpg',
-                            'images/Combo/Main.jpg'
-                        ],
-                        interest: 'combos'
-                    }
-                ]
-            },
-            {
-                id: 'gift',
-                label: 'Gift Sets',
-                description: 'Premium curated combos ideal for gifting and special occasions.',
-                products: [
-                    {
-                        id: 'combo-flora',
-                        title: 'Flora Gift Combo',
-                        subtitle: 'Elegant combo set with a floral-inspired bottle and lunch box.',
-                        description: 'A stylish gift set crafted for refined presentations and memorable giving.',
-                        usage: 'Perfect for gifts, celebrations, and premium corporate bundles.',
-                        features: [
-                            'Gift-ready bundle',
-                            'Premium steel items',
-                            'Stylish design',
-                            'Perfect for special occasions'
-                        ],
-                        images: [
-                            'images/Combo/Combo-Flora.jpg',
-                            'images/Combo/Main.jpg'
-                        ],
-                        interest: 'combos'
-                    }
-                ]
-            }
-        ]
-    }
-};
-
-function findPageData(pageKey) {
-    return PAGE_DATA[pageKey] || null;
+function showLightboxImage(i) {
+  var imgs = lb.product.images;
+  lb.index = (i + imgs.length) % imgs.length;
+  var img = document.getElementById('lbImg');
+  img.src = encodeURI(imgs[lb.index]);
+  img.alt = lb.product.name + ' image ' + (lb.index + 1);
+  setZoom(1);
+  document.getElementById('lbCounter').textContent = (lb.index + 1) + ' / ' + imgs.length;
+  lb.el.querySelectorAll('.lb-thumb').forEach(function (b, idx) {
+    b.classList.toggle('active', idx === lb.index);
+  });
 }
 
-function normalizeImagePath(src) {
-    if (!src || typeof src !== 'string') return src;
-    return src
-        .replace(/^images\/Bottles\/Classic\//, 'images/Bottles/Fridge Bottles/Classic/')
-        .replace(/^images\/Bottles\/Curvy\//, 'images/Bottles/Fridge Bottles/Curvy/')
-        .replace(/^images\/Bottles\/CurvyBSC\//, 'images/Bottles/Fridge Bottles/CurvyBSC/')
-        .replace(/^images\/Bottles\/FloraBlackLogo\//, 'images/Bottles/Fridge Bottles/Flora/')
-        .replace(/^images\/Bottles\/Sports\//, 'images/Bottles/Fridge Bottles/Sports/');
+function stepLightbox(dir) { showLightboxImage(lb.index + dir); }
+
+function setZoom(z) {
+  lb.zoom = Math.min(4, Math.max(1, Math.round(z * 100) / 100));
+  var img = document.getElementById('lbImg');
+  if (img) {
+    img.style.transform = 'scale(' + lb.zoom + ')';
+    img.classList.toggle('zoomed', lb.zoom > 1);
+    if (lb.zoom === 1) img.style.transformOrigin = 'center center';
+  }
+  var lvl = document.getElementById('lbZoomLevel');
+  if (lvl) lvl.textContent = Math.round(lb.zoom * 100) + '%';
 }
 
-function renderCollectionPage(pageKey) {
-    var page = findPageData(pageKey);
-    var root = document.getElementById('pageRoot');
-    if (!page || !root) return;
-
-    window.currentPageState = {
-        pageKey: pageKey,
-        categoryId: page.categories[0].id,
-        productId: page.categories[0].products[0].id
-    };
-
-    var requestedCategory = window.location.hash ? window.location.hash.substring(1) : '';
-    if (requestedCategory && page.categories.some(function(category) { return category.id === requestedCategory; })) {
-        window.currentPageState.categoryId = requestedCategory;
-    }
-
-    root.innerHTML =
-        '<section class="product-hero-banner" style="background-image:url(\'' + normalizeImagePath(page.heroImage) + '\')">' +
-            '<div class="product-hero-gradient"></div>' +
-            '<div class="product-hero-grid"></div>' +
-            '<div class="product-hero-inner">' +
-                '<nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">' + page.heroTitle + '</span></nav>' +
-                '<span class="section-badge">Collection</span>' +
-                '<h1 class="product-hero-title">' + page.heroTitle + '</h1>' +
-                '<p class="product-hero-tagline">' + page.heroSubtitle + '</p>' +
-            '</div>' +
-        '</section>' +
-        '<section class="product-category-section">' +
-            '<div class="section-content">' +
-                '<div class="section-header">' +
-                    '<span class="section-badge">Categories</span>' +
-                    '<h2 class="section-title">Choose a Category</h2>' +
-                    '<p class="section-subtitle">' + page.heroDescription + '</p>' +
-                '</div>' +
-                '<div class="category-tabs" id="categoryTabs"></div>' +
-                '<div class="product-grid" id="categoryProducts"></div>' +
-            '</div>' +
-        '</section>' +
-        '<section class="product-showcase-section">' +
-            '<div class="product-showcase">' +
-                '<div class="product-gallery-panel">' +
-                    '<div class="futuristic-display">' +
-                        '<div class="display-ring"></div>' +
-                        '<div class="display-glow"></div>' +
-                        '<img id="productMainImage" src="" alt="Product image" />' +
-                    '</div>' +
-                    '<div class="thumbnail-strip" id="productThumbnails"></div>' +
-                    '<div class="gallery-nav-row">' +
-                        '<button type="button" class="nav-arrow left" onclick="changeProductImage(-1)" aria-label="Previous">‹</button>' +
-                        '<span class="img-counter" id="imgCounter">0 / 0</span>' +
-                        '<button type="button" class="nav-arrow right" onclick="changeProductImage(1)" aria-label="Next">›</button>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="product-info-panel">' +
-                    '<div class="info-glass-card">' +
-                        '<span class="product-detail-badge">' + page.heroTitle + '</span>' +
-                        '<h2 id="productTitle" class="product-info-title"></h2>' +
-                        '<p id="productDescription" class="info-desc"></p>' +
-                        '<ul id="productFeatureList" class="feature-list"></ul>' +
-                        '<div id="productUsage" class="info-desc"></div>' +
-                        '<div class="product-tags"><span>Food-Grade</span><span>Rust-Free</span><span>Eco-Friendly</span></div>' +
-                        '<div class="product-detail-actions">' +
-                            '<button type="button" class="btn-primary" onclick="openQuery()">Get Quote</button>' +
-                            '<a id="btnWhatsApp" class="btn-outline" href="https://wa.me/919999809260" target="_blank">WhatsApp Us</a>' +
-                            '<a class="btn-outline" href="tel:+919999809260">Call Now</a>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-        '</section>';
-
-    buildCategoryTabs(page);
-    setCollectionCategory(window.currentPageState.categoryId);
+function closeLightbox() {
+  if (!lb.el) return;
+  lb.el.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-function buildCategoryTabs(page) {
-    var tabs = document.getElementById('categoryTabs');
-    if (!tabs) return;
-    tabs.innerHTML = page.categories.map(function(category, index) {
-        return '<button type="button" class="category-tab' + (index === 0 ? ' active' : '') + '" onclick="setCollectionCategory(\'' + category.id + '\')">' + category.label + '</button>';
-    }).join('');
-}
-
-function setCollectionCategory(categoryId) {
-    var page = findPageData(window.currentPageState.pageKey);
-    if (!page) return;
-    var category = page.categories.find(function(item) { return item.id === categoryId; });
-    if (!category) return;
-
-    window.currentPageState.categoryId = categoryId;
-    window.currentPageState.productId = category.products[0].id;
-
-    document.querySelectorAll('.category-tab').forEach(function(tab) {
-        tab.classList.toggle('active', tab.textContent === category.label);
-    });
-
-    var productGrid = document.getElementById('categoryProducts');
-    if (!productGrid) return;
-    productGrid.innerHTML = category.products.map(function(product, index) {
-        var thumb = normalizeImagePath(product.thumbnail || product.images[0]);
-        return '<article class="product-card' + (index === 0 ? ' active' : '') + '" onclick="selectProduct(\'' + product.id + '\')">' +
-            '<div class="product-card-image">' +
-                '<img src="' + thumb + '" alt="' + product.title + '" />' +
-            '</div>' +
-            '<div class="product-card-body">' +
-                '<h3>' + product.title + '</h3>' +
-                '<p>' + product.subtitle + '</p>' +
-            '</div>' +
-        '</article>';
-    }).join('');
-
-    selectProduct(window.currentPageState.productId);
-    if (window.history && typeof window.history.replaceState === 'function') {
-        window.history.replaceState(null, '', 'bottles.html#' + categoryId);
-    }
-}
-
-function selectProduct(productId) {
-    var page = findPageData(window.currentPageState.pageKey);
-    if (!page) return;
-    var category = page.categories.find(function(item) { return item.id === window.currentPageState.categoryId; });
-    if (!category) return;
-    var product = category.products.find(function(item) { return item.id === productId; });
-    if (!product) return;
-
-    window.currentPageState.productId = productId;
-    document.querySelectorAll('.product-card').forEach(function(card) {
-        card.classList.toggle('active', card.getAttribute('onclick').includes('\'' + productId + '\''));
-    });
-
-    var normalizedImages = product.images.map(normalizeImagePath);
-    window.bottleImages = normalizedImages.slice();
-    window.currentImageIndex = 0;
-
-    var title = document.getElementById('productTitle');
-    var description = document.getElementById('productDescription');
-    var usage = document.getElementById('productUsage');
-    var features = document.getElementById('productFeatureList');
-    var whatsappLink = document.getElementById('btnWhatsApp');
-
-    if (title) title.textContent = product.title;
-    if (description) description.textContent = product.description;
-    if (usage) usage.textContent = 'General Usage: ' + product.usage;
-    if (features) {
-        features.innerHTML = product.features.map(function(feature) {
-            return '<li>' + feature + '</li>';
-        }).join('');
-    }
-    if (whatsappLink) {
-        whatsappLink.href = 'https://wa.me/919999809260?text=' + encodeURIComponent('Hello Norwell, I am interested in the ' + product.title + ' (' + page.heroTitle + '). Please share a quote.');
-    }
-
-    window.bottleImages = normalizedImages.slice();
-    window.currentImageIndex = 0;
-    setProductImage(0);
-    setQuoteInterest(product.interest || window.currentPageState.pageKey);
-}
-
-function setQuoteInterest(interest) {
-    var interestInput = document.getElementById('productInterest');
-    if (interestInput) {
-        interestInput.value = interest;
-    }
-}
-
-// ─── Futuristic Product Page Renderer ───
-var DEFAULT_BOTTLE_FEATURES = [
-    'Food-grade stainless steel construction',
-    'Rust-resistant and durable',
-    'Leak-proof cap design',
-    'Ergonomic and sleek design',
-    'Perfect for gym, travel, office, or outdoor use',
-    'Easy to clean and maintain',
-    'Eco-friendly and sustainable',
-    'Fits in most bags and car holders'
-];
-
-function renderProductPage(config) {
-    var root = document.getElementById('productPageRoot');
-    if (!root || !config) return;
-
-    var images = (config.images || []).map(normalizeImagePath);
-    var features = config.features || DEFAULT_BOTTLE_FEATURES;
-    var hero = normalizeImagePath(config.heroImage || (images.length ? images[0] : ''));
-    var parentLink = config.categoryLink || 'index.html';
-    var parentLabel = config.parentLabel || 'Products';
-    var badgeHtml = config.badge ? '<span class="product-hero-badge">' + config.badge + '</span>' : '';
-    var accent = config.accent ? ' ' + config.accent : '';
-
-    root.innerHTML =
-        '<section class="product-hero-banner" style="background-image:url(\'' + hero + '\')">' +
-            '<div class="product-hero-gradient"></div>' +
-            '<div class="product-hero-grid"></div>' +
-            '<div class="product-hero-inner">' +
-                '<nav class="breadcrumb">' +
-                    '<a href="index.html">Home</a><span>/</span>' +
-                    '<a href="' + parentLink + '">' + parentLabel + '</a><span>/</span>' +
-                    '<span class="current">' + config.shortName + '</span>' +
-                '</nav>' +
-                badgeHtml +
-                '<h1 class="product-hero-title">' + config.name + '</h1>' +
-                '<p class="product-hero-tagline">' + (config.tagline || '') + '</p>' +
-            '</div>' +
-        '</section>' +
-        '<section class="product-showcase-section">' +
-            '<div class="product-showcase">' +
-                '<div class="product-gallery-panel">' +
-                    '<div class="futuristic-display' + accent + '">' +
-                        '<div class="display-ring"></div>' +
-                        '<div class="display-glow"></div>' +
-                        '<img id="mainBottleImage" src="' + images[0] + '" alt="' + config.name + '" />' +
-                    '</div>' +
-                    '<div class="thumbnail-strip" id="productThumbnails"></div>' +
-                    '<div class="gallery-nav-row">' +
-                        '<button type="button" class="nav-arrow left" id="prevImg" aria-label="Previous">‹</button>' +
-                        '<span class="img-counter" id="imgCounter">1 / ' + images.length + '</span>' +
-                        '<button type="button" class="nav-arrow right" id="nextImg" aria-label="Next">›</button>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="product-info-panel">' +
-                    '<div class="info-glass-card">' +
-                        '<span class="product-detail-badge">' + config.category + '</span>' +
-                        '<h2 class="product-info-title">' + config.name + '</h2>' +
-                        '<p class="info-desc">' + (config.tagline || '') + '</p>' +
-                        '<ul class="feature-list">' + features.map(function(f) { return '<li>' + f + '</li>'; }).join('') + '</ul>' +
-                        '<div class="product-tags">' +
-                            '<span>Food-Grade</span><span>Rust-Free</span><span>Eco-Friendly</span>' +
-                        '</div>' +
-                        '<div class="product-detail-actions">' +
-                            '<button type="button" class="btn-primary" onclick="openQuery()">Request Quote</button>' +
-                            '<a href="https://wa.me/919999809260" class="btn-outline" target="_blank">WhatsApp Us</a>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-        '</section>' +
-        '<section class="product-lifestyle-section">' +
-            '<div class="lifestyle-header">' +
-                '<span class="section-badge">Gallery</span>' +
-                '<h2>See It In Action</h2>' +
-                '<p class="section-subtitle">Swipe through high-resolution product & lifestyle shots</p>' +
-            '</div>' +
-            '<div class="lifestyle-scroll" id="lifestyleGallery"></div>' +
-        '</section>';
-
-    window.bottleImages = images;
-    window.currentImageIndex = 0;
-
-    buildThumbnailStrip('productThumbnails', images, function(i) {
-        setProductImage(i);
-    });
-
-    document.getElementById('prevImg').addEventListener('click', function() { changeProductImage(-1); });
-    document.getElementById('nextImg').addEventListener('click', function() { changeProductImage(1); });
-
-    var lifestyle = document.getElementById('lifestyleGallery');
-    images.forEach(function(src, i) {
-        var item = document.createElement('button');
-        item.className = 'lifestyle-card';
-        item.type = 'button';
-        item.innerHTML = '<img src="' + src + '" alt="Gallery image ' + (i + 1) + '" loading="lazy" />';
-        item.addEventListener('click', function() { setProductImage(i); });
-        lifestyle.appendChild(item);
-    });
-
-    var interest = document.getElementById('productInterest');
-    if (interest && config.interest) interest.value = config.interest;
-}
-
-function setProductImage(index) {
-    if (!window.bottleImages || !window.bottleImages.length) return;
-    window.currentImageIndex = index;
-    var main = document.getElementById('mainBottleImage');
-    if (main) main.src = window.bottleImages[index];
-    updateThumbnailActive('productThumbnails', index);
-    updateImgCounter(index, window.bottleImages.length);
-}
-
-function changeProductImage(direction) {
-    if (!window.bottleImages) return;
-    var next = window.currentImageIndex + direction;
-    if (next < 0) next = window.bottleImages.length - 1;
-    if (next >= window.bottleImages.length) next = 0;
-    setProductImage(next);
-}
-
-function changeBottleImage(direction) {
-    changeProductImage(direction);
-}
-
-function updateImgCounter(i, total) {
-    var el = document.getElementById('imgCounter');
-    if (el) el.textContent = (i + 1) + ' / ' + total;
-}
-
-// Add quote CTAs to legacy product detail pages
-function enhanceProductDetailPages() {
-    if (document.getElementById('productPageRoot')) return;
-    const messageSide = document.querySelector('.bottle-detail-section .bottle-message-side');
-    if (!messageSide || messageSide.querySelector('.product-detail-actions')) return;
-
-    const actions = document.createElement('div');
-    actions.className = 'product-detail-actions';
-    actions.innerHTML = '<button class="btn-primary" onclick="openQuery()">Request Quote</button>' +
-        '<a href="https://wa.me/919999809260" class="btn-outline" target="_blank">WhatsApp Us</a>';
-    messageSide.appendChild(actions);
-
-    const detailSection = document.querySelector('.bottle-detail-section');
-    if (detailSection && !detailSection.querySelector('.breadcrumb')) {
-        const container = document.createElement('div');
-        container.className = 'shop-container';
-        container.style.marginBottom = '40px';
-        const nav = document.createElement('nav');
-        nav.className = 'breadcrumb';
-        nav.innerHTML = '<a href="index.html">Home</a><span>/</span><span class="current">' +
-            document.title.split('|')[0].trim().split('-')[0].trim() + '</span>';
-        container.appendChild(nav);
-        detailSection.insertBefore(container, detailSection.firstChild);
-    }
-}
-
-// Change slide by n
-function changeSlide(n) {
-    clearInterval(slideTimer);
-    showSlides(slideIndex += n);
-    // Restart auto-advance
-    slideTimer = setInterval(function() {
-        changeSlide(1);
-    }, 4000);
-}
-
-// Show specific slide
-function currentSlide(n) {
-    clearInterval(slideTimer);
-    showSlides(slideIndex = n);
-    // Restart auto-advance
-    slideTimer = setInterval(function() {
-        changeSlide(1);
-    }, 4000);
-}
-
-// Display slides
-function showSlides(n) {
-    let slides = document.getElementsByClassName("slide");
-    let dots = document.getElementsByClassName("dot");
-    
-    if (!slides || slides.length === 0) {
-        console.log("No slides found, retrying...");
-        setTimeout(function() {
-            showSlides(n);
-        }, 100);
-        return;
-    }
-    
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    
-    // Hide all slides
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].classList.remove("active");
-        slides[i].style.display = "none";
-    }
-    
-    // Remove active class from all dots
-    if (dots) {
-        for (let i = 0; i < dots.length; i++) {
-            dots[i].classList.remove("active");
-        }
-    }
-    
-    // Show current slide
-    if (slides[slideIndex-1]) {
-        slides[slideIndex-1].style.display = "flex";
-        slides[slideIndex-1].classList.add("active");
-    }
-    
-    if (dots && dots[slideIndex-1]) {
-        dots[slideIndex-1].classList.add("active");
-    }
-}
-
-// Toggle dropdown on click
-function toggleDropdown(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const dropdown = event.target.closest('.dropdown');
-    dropdown.classList.toggle('active');
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        if (!dropdown.contains(event.target)) {
-            dropdown.classList.remove('active');
-        }
-    });
-});
-
-// Scroll gallery function
-function scrollGallery(galleryId, direction) {
-    const gallery = document.getElementById(galleryId + '-gallery');
-    if (gallery) {
-        const scrollAmount = 300;
-        gallery.scrollBy({
-            left: direction * scrollAmount,
-            behavior: 'smooth'
-        });
-    }
-}
-
-// Scroll to Products Section
-function scrollToProducts() {
-    const productsSection = document.getElementById('products');
-    if (productsSection) {
-        productsSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
-
-// Navigation functionality
-function initNavigation() {
-    initTopCategoryDropdown();
-
-    // Smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Close mobile menu when a link is clicked
-            const navMenu = document.querySelector('.nav-menu');
-            const backdrop = document.querySelector('.mobile-menu-backdrop');
-            
-            if (navMenu && navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-                // Also remove backdrop and restore body scroll
-                if (backdrop) {
-                    backdrop.classList.remove('active');
-                }
-                document.body.style.overflow = 'auto';
-            }
-            
-            // Only handle smooth scrolling for hash links
-            const href = this.getAttribute('href');
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                
-                // Remove active class from all links
-                navLinks.forEach(l => l.classList.remove('active'));
-                
-                // Add active class to clicked link
-                this.classList.add('active');
-                
-                // Get the target section
-                const targetId = href;
-                const targetSection = document.querySelector(targetId);
-                
-                if (targetSection) {
-                    // Smooth scroll to section
-                    targetSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }
-        });
-    });
-    
-    // Update active link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    
-    window.addEventListener('scroll', function() {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (window.pageYOffset >= sectionTop - 100) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
-    });
-}
-
-function initTopCategoryDropdown() {
-    const navMenu = document.querySelector('.nav-menu');
-    if (!navMenu) return;
-
-    const bottleAnchor = navMenu.querySelector('a[href^="bottles.html"]');
-    if (!bottleAnchor) return;
-
-    const bottleItem = bottleAnchor.closest('li');
-    if (!bottleItem) return;
-
-    if (!bottleItem.classList.contains('dropdown')) {
-        bottleItem.classList.add('dropdown');
-        bottleAnchor.href = 'bottles.html#fridge';
-        bottleAnchor.addEventListener('click', function(event) {
-            event.preventDefault();
-            bottleItem.classList.toggle('active');
-        });
-
-        const categories = [
-            { label: 'Fridge Bottles', hash: 'fridge' },
-            { label: 'Gym Bottles', hash: 'gym' },
-            { label: 'Hot and Cold Bottles', hash: 'hotcold' },
-            { label: 'Sipper Bottles', hash: 'sipper' },
-            { label: 'Travel Bottles', hash: 'travel' }
-        ];
-
-        const dropdownMenu = document.createElement('ul');
-        dropdownMenu.className = 'dropdown-menu';
-        dropdownMenu.innerHTML = categories.map(function(category) {
-            return '<li><a href="bottles.html#' + category.hash + '">' + category.label + '</a></li>';
-        }).join('');
-
-        bottleItem.appendChild(dropdownMenu);
-    }
-}
-
-// FAQ toggle functionality
-function initFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Toggle active class
-            this.classList.toggle('active');
-        });
-    });
-}
-
-// Mobile menu toggle functionality
-function toggleMobileMenu() {
-    const navMenu = document.querySelector('.nav-menu');
-    const backdrop = document.querySelector('.mobile-menu-backdrop');
-    
-    if (navMenu) {
-        navMenu.classList.toggle('active');
-    }
-    
-    if (backdrop) {
-        backdrop.classList.toggle('active');
-    }
-    
-    // Prevent body scroll when menu is open
-    if (navMenu && navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Close mobile menu when clicking on the X button (::before pseudo-element)
-document.addEventListener('click', function(e) {
-    const navMenu = document.querySelector('.nav-menu');
-    if (navMenu && navMenu.classList.contains('active')) {
-        const rect = navMenu.getBoundingClientRect();
-        // Check if click is in the top-right area where X button is
-        if (e.clientX > rect.right - 60 && e.clientX < rect.right - 10 && 
-            e.clientY > rect.top + 10 && e.clientY < rect.top + 60) {
-            toggleMobileMenu();
-        }
-    }
-});
-
-// Modal functionality
+/* ───────────────────── Quote modal + FAQ ──────────────────── */
 function openQuery() {
-    const modal = document.getElementById('queryModal');
-    if (modal) {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    }
+  var modal = document.getElementById('queryModal');
+  if (modal) { modal.style.display = 'block'; document.body.style.overflow = 'hidden'; }
 }
-
 function closeQuery() {
-    const modal = document.getElementById('queryModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restore scrolling
-    }
+  var modal = document.getElementById('queryModal');
+  if (modal) { modal.style.display = 'none'; document.body.style.overflow = ''; }
 }
 
-// Subcategory navigation functions
-function showSubcategoryDetails(categoryId) {
-    // Hide the selection grid
-    const selectionSection = document.querySelector('.subcategory-selection');
-    if (selectionSection) {
-        selectionSection.style.display = 'none';
-    }
-    
-    // Show the specific category details
-    const detailsSection = document.getElementById(categoryId + '-details');
-    if (detailsSection) {
-        detailsSection.style.display = 'block';
-        // Smooth scroll to the details section
-        detailsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
-function hideSubcategoryDetails() {
-    // Hide all detail sections
-    const detailSections = document.querySelectorAll('.subcategory-details');
-    detailSections.forEach(section => {
-        section.style.display = 'none';
-    });
-    
-    // Show the selection grid
-    const selectionSection = document.querySelector('.subcategory-selection');
-    if (selectionSection) {
-        selectionSection.style.display = 'block';
-        // Smooth scroll to the selection section
-        selectionSection.scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
-// Image enlargement functions
-function enlargeImage(img) {
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    
-    if (modal && modalImg) {
-        modal.style.display = 'block';
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    }
-}
-
-function closeImageModal() {
-    const modal = document.getElementById('imageModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restore scrolling
-    }
-}
-
-// Quote form handling
 function handleQuoteForm() {
-    const form = document.getElementById('quoteForm');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
-            
-            // Create WhatsApp message
-            const message = `Hello Norwell,\n\nI'm interested in getting a quote for your products.\n\nContact Details:\nName: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nCompany: ${data.company || 'N/A'}\n\nProduct Interest: ${data.productInterest}\nQuantity: ${data.quantity || 'Not specified'}\n\nMessage: ${data.message || 'No additional message'}\n\nPlease provide me with a detailed quote.\n\nThank you!`;
-            
-            // Open WhatsApp with pre-filled message
-            const whatsappUrl = `https://wa.me/919999809260?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-            
-            // Close modal
-            closeQuery();
-            
-            // Show success message
-            alert('Thank you! Your quote request has been prepared. You will now be redirected to WhatsApp to send the message.');
-        });
-    }
+  var form = document.getElementById('quoteForm');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = Object.fromEntries(new FormData(form));
+    var message = 'Hello Norwell,\n\nI would like a quote.\n\n'
+      + 'Name: ' + (data.fullName || '') + '\n'
+      + 'Email: ' + (data.email || '') + '\n'
+      + 'Phone: ' + (data.phone || '') + '\n'
+      + 'Company: ' + (data.company || 'N/A') + '\n'
+      + 'Product Interest: ' + (data.productInterest || 'N/A') + '\n'
+      + 'Quantity: ' + (data.quantity || 'Not specified') + '\n'
+      + 'Message: ' + (data.message || 'No additional message');
+    window.open('https://wa.me/919999809260?text=' + encodeURIComponent(message), '_blank');
+    closeQuery();
+  });
 }
 
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    const modal = document.getElementById('queryModal');
-    const imageModal = document.getElementById('imageModal');
-    
-    if (event.target === modal) {
-        closeQuery();
-    }
-    
-    if (event.target === imageModal) {
-        closeImageModal();
-    }
+function initFAQ() {
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    item.addEventListener('click', function () { item.classList.toggle('active'); });
+  });
 }
 
-// Close modal with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeQuery();
-        hideSubcategoryDetails();
-        closeImageModal();
-    }
+/* ───────────────────── Mobile menu ────────────────────────── */
+function toggleMobileMenu() {
+  var menu = document.querySelector('.nav-menu');
+  var backdrop = document.querySelector('.mobile-menu-backdrop');
+  if (menu) menu.classList.toggle('active');
+  if (backdrop) backdrop.classList.toggle('active');
+  document.body.style.overflow = (menu && menu.classList.contains('active')) ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  var menu = document.querySelector('.nav-menu');
+  var backdrop = document.querySelector('.mobile-menu-backdrop');
+  if (menu) menu.classList.remove('active');
+  if (backdrop) backdrop.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+/* ───────────────────── Misc close handlers ────────────────── */
+window.addEventListener('click', function (e) {
+  var modal = document.getElementById('queryModal');
+  if (e.target === modal) closeQuery();
 });
 
-// Smooth scrolling for image galleries
-function initializeImageGalleries() {
-    const galleries = document.querySelectorAll('.image-gallery');
-    
-    galleries.forEach(gallery => {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        gallery.addEventListener('mousedown', (e) => {
-            isDown = true;
-            gallery.classList.add('active');
-            startX = e.pageX - gallery.offsetLeft;
-            scrollLeft = gallery.scrollLeft;
-        });
-
-        gallery.addEventListener('mouseleave', () => {
-            isDown = false;
-            gallery.classList.remove('active');
-        });
-
-        gallery.addEventListener('mouseup', () => {
-            isDown = false;
-            gallery.classList.remove('active');
-        });
-
-        gallery.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - gallery.offsetLeft;
-            const walk = (x - startX) * 2;
-            gallery.scrollLeft = scrollLeft - walk;
-        });
-
-        // Touch events for mobile
-        gallery.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX - gallery.offsetLeft;
-            scrollLeft = gallery.scrollLeft;
-        });
-
-        gallery.addEventListener('touchmove', (e) => {
-            const x = e.touches[0].pageX - gallery.offsetLeft;
-            const walk = (x - startX) * 2;
-            gallery.scrollLeft = scrollLeft - walk;
-        });
-    });
+/* ───────────────────────── utils ──────────────────────────── */
+function escapeAttr(s) {
+  return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
-
-// Image lazy loading
-function initializeLazyLoading() {
-    const images = document.querySelectorAll('img[data-src]');
-    
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-
-    images.forEach(img => imageObserver.observe(img));
-}
-
-// Add loading state to images (skip product card images for instant display)
-function addImageLoadingStates() {
-    const images = document.querySelectorAll('.image-item img, .subcategory-image img, .category-image img');
-    
-    images.forEach(img => {
-        img.addEventListener('load', function() {
-            this.style.opacity = '1';
-            this.classList.add('loaded');
-        });
-        
-        img.addEventListener('error', function() {
-            this.style.opacity = '0.5';
-            this.alt = 'Image not available';
-        });
-        
-        // Set initial opacity to 0
-        img.style.opacity = '0';
-    });
-}
-
-// Animate elements on scroll
-function initializeScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
-    const animatedElements = document.querySelectorAll(
-        '.category-card, .subcategory-card, .feature, .subcategory, .product-item, .stat-circle'
-    );
-    
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
-}
-
-// Mobile navigation toggle
-function initializeMobileNav() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-    }
-}
-
-// Category card hover effects
-function initializeCategoryEffects() {
-    const categoryCards = document.querySelectorAll('.category-card, .subcategory-card');
-    
-    categoryCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}
-
-// Initialize all functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeImageGalleries();
-    initializeLazyLoading();
-    addImageLoadingStates();
-    initializeScrollAnimations();
-    initializeMobileNav();
-    initializeCategoryEffects();
-    handleQuoteForm();
-    
-    console.log('Norwell website initialized successfully!');
-});
-
-// Handle page visibility changes
-document.addEventListener('visibilitychange', function() {
-    if (document.hidden) {
-        console.log('Page hidden');
-    } else {
-        console.log('Page visible');
-    }
-});
-
-// Handle online/offline status
-window.addEventListener('online', function() {
-    console.log('Connection restored');
-});
-
-window.addEventListener('offline', function() {
-    console.log('Connection lost');
-});
-
-// Performance monitoring
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-        console.log('Page load time:', loadTime + 'ms');
-    }, 0);
-});
